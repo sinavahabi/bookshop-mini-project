@@ -1,0 +1,15 @@
+@import "./main";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    font-family: $font-vazir;
+    font-size: 1rem;
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+  }
+}

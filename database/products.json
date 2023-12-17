@@ -1,0 +1,14 @@
+{
+  "products": [
+    {
+      "productId": 1,
+      "title": "پدر پولدار پدر بی‌پول",
+      "author": "رابرت کیوساکی",
+      "genre": "مالی",
+      "publishedDate": "2019/04/24",
+      "pages": 221,
+      "price": 67000,
+      "image": "images/rich-dad-poor-dad-img.jpg"
+    }
+  ]
+}

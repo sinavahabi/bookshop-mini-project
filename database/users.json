@@ -1,0 +1,19 @@
+{
+  "users": [
+    {
+      "userId": 1,
+      "name": "سینا",
+      "lastName": "وهبی ذاتی",
+      "email": "sina@gmail.com",
+      "password": "Sina2024",
+      "phone": 9128999480,
+      "loggedIn": false,
+      "cartItems": [
+        {
+          "bookName": "پدرپولدار پدر بی‌پول",
+          "price": 67000
+        }
+      ]
+    }
+  ]
+}
