@@ -1,10 +1,9 @@
 import './Home.scss';
+import ProductList from '../../components/ProductList/ProductList';
 
 function Home() {
   return (
-    <div>
-      <h1 className='title'>به اپلیکشین دیجی کتاب خوش آمدید!</h1>
-    </div>
+    <ProductList />
   );
 }
 
