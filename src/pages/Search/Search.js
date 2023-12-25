@@ -1,8 +1,15 @@
 import './Search.scss';
+import Header from '../../components/Header/Header';
+import Footer from '../../components/Footer/Footer';
 
 function Search() {
   return (
-    <div>Search</div>
+    <>
+      <Header />
+      <main>Search</main>
+      <Footer />
+    </>
+
   );
 }
 

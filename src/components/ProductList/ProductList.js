@@ -45,7 +45,7 @@ function ProductList() {
                       <FontAwesomeIcon className='ml-1 text-slate-600' icon={faCalendarTimes} />
                       <p className='smaller'>تاریخ انتشار: {product.publishedDate}</p>
                     </div>
-                    <NavLink to={`products/${product.id}`} className='btn btn-primary small' >خرید</NavLink>
+                    <NavLink to={`products/${product.id}`} className='btn btn-primary small' >نمایش بیشتر</NavLink>
                   </div>
                 </div>
               </div>
