@@ -1,6 +1,6 @@
 import './App.scss';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-
+import SharedLayout from './pages/SharedLayout/SharedLayout';
 import NotFound from './pages/404/404';
 import AboutUs from './pages/AboutUs/AboutUs';
 import Cart from './pages/Cart/Cart';
@@ -17,15 +17,17 @@ function App() {
     <div className='app'>
       <BrowserRouter>
         <Routes>
-          <Route path='/' element={<Home />} />
-          <Route path='/dashboard' element={<Dashboard />} />
-          <Route path='/search' element={<Search />} />
+          <Route path='/' element={<SharedLayout />}>
+            <Route index element={<Home />} />
+            <Route path='/dashboard' element={<Dashboard />} />
+            <Route path='/search' element={<Search />} />
+            <Route path='/products/:productId' element={<Product />} />
+            <Route path='/about-us' element={<AboutUs />} />
+            <Route path='/cart' element={<Cart />} />
+          </Route>
           <Route path='/sign-up' element={<SignUp />} />
           <Route path='/sign-in' element={<SignIn />} />
           <Route path='/change-password' element={<ChangePassword />} />
-          <Route path='/products/:productId' element={<Product />} />
-          <Route path='/about-us' element={<AboutUs />} />
-          <Route path='/cart' element={<Cart />} />
           <Route path='*' element={<NotFound />} />
         </Routes>
       </BrowserRouter>

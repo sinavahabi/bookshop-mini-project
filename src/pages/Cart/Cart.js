@@ -2,7 +2,7 @@ import './Cart.scss';
 
 function Cart() {
   return (
-    <div>Cart</div>
+    <main className='main'>Cart</main>
   );
 }
 

@@ -2,7 +2,7 @@ import './Dashboard.scss';
 
 function Dashboard() {
   return (
-    <div>Dashboard</div>
+    <main className='main'>Dashboard</main>
   );
 }
 

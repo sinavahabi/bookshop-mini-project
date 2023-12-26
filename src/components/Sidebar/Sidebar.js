@@ -5,7 +5,7 @@ import { faHome, faFilter, faUserFriends, faUserCheck, faSignIn, faSignOut, faBa
 
 function Sidebar() {
   return (
-    <div className='sidebar lg:hidden py-6 flex justify-start items-start fixed z-1 top-10 md:top-11 h-screen w-1/2 min-w-250 shadow-2xl shadow-zinc-400 bg-slate-50'>
+    <div className='sidebar lg:hidden py-6 flex justify-start items-start fixed z-10 top-10 md:top-11 h-screen w-1/2 min-w-250 shadow-2xl shadow-zinc-400 bg-slate-50'>
       <ul>
         <li className='mb-3'>
           <NavLink to='/' className='btn hover:btn-dark focus:ring-0 focus:ring-offset-0 rounded-none'>
@@ -26,7 +26,7 @@ function Sidebar() {
             <button type='button' className='btn hover:btn-dark focus:ring-0 focus:ring-offset-0 rounded-none dropdown-btn'>
               دسته‌بندی‌ها<FontAwesomeIcon className='mr-1 smaller' icon={faFilter} />
             </button>
-            <ul className='dropdown-list absolute z-1 right-28 top-0 md:right-32 hidden bg-slate-50 shadow-2xl shadow-zinc-400 rounded-l-md rounded-b-md lg:rounded-l-none'>
+            <ul className='dropdown-list absolute z-10 right-28 top-0 md:right-32 hidden bg-slate-50 shadow-2xl shadow-zinc-400 rounded-l-md rounded-b-md lg:rounded-l-none'>
               <li className='dropdown-item flex justify-start items-center'>
                 <label className='cursor-pointer small ml-1' htmlFor="financial">مالی</label>
                 <input type="checkbox" name="financial-filter" id="financial" className='cursor-pointer w-4 h-4 accent-teal-600 hover:accent-teal-500 rounded' />

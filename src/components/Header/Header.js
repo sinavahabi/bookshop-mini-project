@@ -13,7 +13,7 @@ function Header() {
   const showSidebar = () => show ? setShow(false) : setShow(true);
 
   return (
-    <header className='mb-6 shadow-2xl shadow-zinc-400 sticky bg-slate-50 top-0'>
+    <header className='mb-6 shadow-2xl shadow-zinc-400 sticky bg-slate-50 top-0 z-10'>
       <nav className='navbar flex justify-between items-center medium'>
         <button type="button" className='expand-navbar btn rounded-none focus:ring-0 focus:ring-offset-0 lg:hidden block relative' onClick={showSidebar}>
           <FontAwesomeIcon icon={faBars} className={show ? 'rotate-90' : 'rotate-0'} />
@@ -39,7 +39,7 @@ function Header() {
               <button type='button' className='btn hover:btn-dark focus:ring-0 focus:ring-offset-0 rounded-none dropdown-btn'>
                 دسته‌بندی‌ها<FontAwesomeIcon className='mr-1 smaller' icon={faFilter} />
               </button>
-              <ul className='dropdown-list absolute z-1 hidden bg-slate-50 shadow-2xl shadow-zinc-400 rounded-b-md'>
+              <ul className='dropdown-list absolute z-10 hidden bg-slate-50 shadow-2xl shadow-zinc-400 rounded-b-md'>
                 <li className='dropdown-item flex justify-start items-center'>
                   <label className='cursor-pointer small ml-1' htmlFor="financial">مالی</label>
                   <input type="checkbox" name="financial-filter" id="financial" className='cursor-pointer w-4 h-4 accent-teal-600 hover:accent-teal-500 rounded' />

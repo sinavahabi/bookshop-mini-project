@@ -5,15 +5,12 @@ import { useParams } from 'react-router-dom';
 import { useFetch } from '../../hooks/useFetch';
 import Preview from '../../components/Preview/Preview';
 import Error from '../../components/Error/Error';
-import Header from '../../components/Header/Header';
-import Footer from '../../components/Footer/Footer';
 
 function Product() {
   const { productId } = useParams();
   const { data: product, loading, error } = useFetch(`http://localhost:5000/products/${productId}`);
   return (
     <>
-      <Header />
       {/* Show "Error" component if an error occurred during API requests */}
       {error && <Error message={error} />}
       {!error && <main className="main flex flex-col justify-center items-center">
@@ -52,7 +49,6 @@ function Product() {
             </div>
           </div>}
       </main>}
-      <Footer />
     </>
   );
 }

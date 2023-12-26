@@ -24,6 +24,6 @@ $font-raleway: Raleway, Arial, sans-serif;
   font-weight: normal;
 }
 
-.active {
+.active:not(.footer-about-us-link, .footer-products-link, .footer-home-link) {
   @apply bg-blue-500 text-white;
 }
