@@ -28,20 +28,20 @@ function Sidebar() {
             </button>
             <ul className='dropdown-list absolute z-10 right-28 top-0 md:right-32 hidden bg-slate-50 shadow-2xl shadow-zinc-400 rounded-l-md rounded-b-md lg:rounded-l-none'>
               <li className='dropdown-item flex justify-start items-center'>
-                <label className='cursor-pointer small ml-1' htmlFor="financial">مالی</label>
-                <input type="checkbox" name="financial-filter" id="financial" className='cursor-pointer w-4 h-4 accent-teal-600 hover:accent-teal-500 rounded' />
+                <label className='cursor-pointer small ml-1' htmlFor="sidebar-financial">مالی</label>
+                <input type="checkbox" name="financial-filter" id="sidebar-financial" className='cursor-pointer w-4 h-4 accent-teal-600 hover:accent-teal-500 rounded' />
               </li>
               <li className='dropdown-item flex justify-start items-center'>
-                <label className='cursor-pointer small ml-1' htmlFor="philosophy">فلسفه</label>
-                <input type="checkbox" name="philosophy-filter" id="philosophy" className='cursor-pointer w-4 h-4 accent-teal-600 hover:accent-teal-500 rounded' />
+                <label className='cursor-pointer small ml-1' htmlFor="sidebar-philosophy">فلسفه</label>
+                <input type="checkbox" name="philosophy-filter" id="sidebar-philosophy" className='cursor-pointer w-4 h-4 accent-teal-600 hover:accent-teal-500 rounded' />
               </li>
               <li className='dropdown-item flex justify-start items-center'>
-                <label className='cursor-pointer small ml-1' htmlFor="psychology">روانشناسی</label>
-                <input type="checkbox" name="psychology-filter" id="psychology" className='cursor-pointer w-4 h-4 accent-teal-600 hover:accent-teal-500 rounded' />
+                <label className='cursor-pointer small ml-1' htmlFor="sidebar-psychology">روانشناسی</label>
+                <input type="checkbox" name="psychology-filter" id="sidebar-psychology" className='cursor-pointer w-4 h-4 accent-teal-600 hover:accent-teal-500 rounded' />
               </li>
               <li className='dropdown-item flex justify-start items-center'>
-                <label className='cursor-pointer small ml-1' htmlFor="self-development">خودسازی</label>
-                <input type="checkbox" name="self-development-filter" id="self-development" className='cursor-pointer w-4 h-4 accent-teal-600 hover:accent-teal-500 rounded' />
+                <label className='cursor-pointer small ml-1' htmlFor="sidebar-self-development">خودسازی</label>
+                <input type="checkbox" name="self-development-filter" id="sidebar-self-development" className='cursor-pointer w-4 h-4 accent-teal-600 hover:accent-teal-500 rounded' />
               </li>
             </ul>
           </div>

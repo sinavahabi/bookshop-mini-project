@@ -11,19 +11,22 @@ import Product from './pages/Product/Product';
 import Search from './pages/Search/Search';
 import SignIn from './pages/SignIn/SignIn';
 import SignUp from './pages/SignUp/SignUp';
+import { useSelector } from 'react-redux';
 
 function App() {
+  const isBlur = useSelector(state => state.blur.isBlur);
+  
   return (
     <div className='app'>
       <BrowserRouter>
         <Routes>
           <Route path='/' element={<SharedLayout />}>
-            <Route index element={<Home />} />
-            <Route path='/dashboard' element={<Dashboard />} />
-            <Route path='/search' element={<Search />} />
-            <Route path='/products/:productId' element={<Product />} />
-            <Route path='/about-us' element={<AboutUs />} />
-            <Route path='/cart' element={<Cart />} />
+            <Route index element={<Home isBlur={isBlur} />} />
+            <Route path='/dashboard' element={<Dashboard isBlur={isBlur} />} />
+            <Route path='/search' element={<Search isBlur={isBlur} />} />
+            <Route path='/products/:productId' element={<Product isBlur={isBlur} />} />
+            <Route path='/about-us' element={<AboutUs isBlur={isBlur} />} />
+            <Route path='/cart' element={<Cart isBlur={isBlur} />} />
           </Route>
           <Route path='/sign-up' element={<SignUp />} />
           <Route path='/sign-in' element={<SignIn />} />

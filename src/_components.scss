@@ -27,6 +27,10 @@
     &-dark {
       @apply bg-slate-700 text-white;
     }
+
+    &-error {
+      @apply bg-red-500 text-white hover:bg-red-400 focus:ring-red-600;
+    }
   }
 
   // Input components

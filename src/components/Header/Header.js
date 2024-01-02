@@ -3,14 +3,24 @@ import Searchbar from '../Searchbar/Searchbar';
 import { NavLink } from 'react-router-dom';
 import { useState } from 'react';
 import Sidebar from '../Sidebar/Sidebar';
+import { useDispatch } from 'react-redux';
+import { blurActions } from '../../store/blur-slice';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHome, faFilter, faUserFriends, faUserCheck, faSignIn, faSignOut, faBars } from '@fortawesome/free-solid-svg-icons';
 
 function Header() {
   const [show, setShow] = useState(false);
-
+  const dispatch = useDispatch();
   // Create a function to handle sidebar view on small screen sizes: "(min-width: 1024px)"
-  const showSidebar = () => show ? setShow(false) : setShow(true);
+  const showSidebar = () => {
+    if (show) {
+      setShow(false);
+      dispatch(blurActions.blurOut());
+    } else {
+      setShow(true);
+      dispatch(blurActions.blurOn());
+    }
+  };
 
   return (
     <header className='mb-6 shadow-2xl shadow-zinc-400 sticky bg-slate-50 top-0 z-10'>
@@ -18,7 +28,7 @@ function Header() {
         <button type="button" className='expand-navbar btn rounded-none focus:ring-0 focus:ring-offset-0 lg:hidden block relative' onClick={showSidebar}>
           <FontAwesomeIcon icon={faBars} className={show ? 'rotate-90' : 'rotate-0'} />
         </button>
-        {/* Larger screen sizes navbar view */} 
+        {/* Larger screen sizes navbar view */}
         <ul className='lg:flex justify-center items-center hidden'>
           <li>
             <NavLink to='/' className='btn hover:btn-dark focus:ring-0 focus:ring-offset-0 rounded-none'>
