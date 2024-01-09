@@ -1,7 +1,9 @@
+// Imports
 @import url("https://v1.fontapi.ir/css/Vazir");
 @import url("https://v1.fontapi.ir/css/Sahel");
 @import url("https://fonts.googleapis.com/css?family=Raleway");
 
+// Fonts
 $font-vazir: Vazir, Tahoma, sans-serif;
 $font-sahel: Sahel, Tahoma, sans-serif;
 $font-raleway: Raleway, Arial, sans-serif;
@@ -23,6 +25,13 @@ $font-raleway: Raleway, Arial, sans-serif;
   src: url("../src/assets/fonts/Raleway-Regular.ttf") format("ttf");
   font-weight: normal;
 }
+
+// Colors
+$color-primary: #2563eb;
+$color-success: #22c55e;
+$color-dark: #334155;
+$color-error: #ef4444;
+$color-warning: #f97316;
 
 .active:not(.footer-about-us-link, .footer-products-link, .footer-home-link) {
   @apply bg-blue-500 text-white;

@@ -1,16 +1,31 @@
 import './Header.scss';
 import Searchbar from '../Searchbar/Searchbar';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import Sidebar from '../Sidebar/Sidebar';
 import { useDispatch } from 'react-redux';
 import { blurActions } from '../../store/blur-slice';
+import { filterActions } from '../../store/filter-slice';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHome, faFilter, faUserFriends, faUserCheck, faSignIn, faSignOut, faBars } from '@fortawesome/free-solid-svg-icons';
 
 function Header() {
   const [show, setShow] = useState(false);
+  const [selectedFilter, setSelectedFilter] = useState(null);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const handleFilterChange = (filter) => {
+    setSelectedFilter(filter === selectedFilter ? null : filter); // Toggle the selected filter
+  };
+
+  const filters = [
+    { label: 'مالی', action: filterActions.financial },
+    { label: 'فلسفه', action: filterActions.philosophy },
+    { label: 'روانشناسی', action: filterActions.psychology },
+    { label: 'خودسازی', action: filterActions.selfDevelopment },
+  ];
+
   // Create a function to handle sidebar view on small screen sizes: "(min-width: 1024px)"
   const showSidebar = () => {
     if (show) {
@@ -50,22 +65,25 @@ function Header() {
                 دسته‌بندی‌ها<FontAwesomeIcon className='mr-1 smaller' icon={faFilter} />
               </button>
               <ul className='dropdown-list absolute z-10 hidden bg-slate-50 shadow-2xl shadow-zinc-400 rounded-b-md'>
-                <li className='dropdown-item flex justify-start items-center'>
-                  <label className='cursor-pointer small ml-1' htmlFor="financial">مالی</label>
-                  <input type="checkbox" name="financial-filter" id="financial" className='cursor-pointer w-4 h-4 accent-teal-600 hover:accent-teal-500 rounded' />
-                </li>
-                <li className='dropdown-item flex justify-start items-center'>
-                  <label className='cursor-pointer small ml-1' htmlFor="philosophy">فلسفه</label>
-                  <input type="checkbox" name="philosophy-filter" id="philosophy" className='cursor-pointer w-4 h-4 accent-teal-600 hover:accent-teal-500 rounded' />
-                </li>
-                <li className='dropdown-item flex justify-start items-center'>
-                  <label className='cursor-pointer small ml-1' htmlFor="psychology">روانشناسی</label>
-                  <input type="checkbox" name="psychology-filter" id="psychology" className='cursor-pointer w-4 h-4 accent-teal-600 hover:accent-teal-500 rounded' />
-                </li>
-                <li className='dropdown-item flex justify-start items-center'>
-                  <label className='cursor-pointer small ml-1' htmlFor="self-development">خودسازی</label>
-                  <input type="checkbox" name="self-development-filter" id="self-development" className='cursor-pointer w-4 h-4 accent-teal-600 hover:accent-teal-500 rounded' />
-                </li>
+                {filters.map((filter, index) => (
+                  <li key={index} className='dropdown-item flex justify-start items-center'>
+                    <label className='cursor-pointer small ml-1' htmlFor={filter.label}>
+                      {filter.label}
+                    </label>
+                    <input
+                      onClick={() => {
+                        navigate('/filters');
+                        dispatch(filter.action());
+                      }}
+                      onChange={() => handleFilterChange(filter.label)}
+                      type="checkbox"
+                      name={`فیلتر-${filter.label}`}
+                      id={filter.label}
+                      checked={selectedFilter === filter.label}
+                      className='cursor-pointer w-4 h-4 accent-teal-600 hover:accent-teal-500 rounded'
+                    />
+                  </li>
+                ))}
               </ul>
             </div>
           </li>

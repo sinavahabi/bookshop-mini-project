@@ -9,12 +9,14 @@ import Dashboard from './pages/Dashboard/Dashboard';
 import Home from './pages/Home/Home';
 import Product from './pages/Product/Product';
 import Search from './pages/Search/Search';
+import Filters from './pages/Filters/Filters';
 import SignIn from './pages/SignIn/SignIn';
 import SignUp from './pages/SignUp/SignUp';
 import { useSelector } from 'react-redux';
 
 function App() {
   const isBlur = useSelector(state => state.blur.isBlur);
+  const filterType = useSelector(state => state.filter.filterType);
   
   return (
     <div className='app'>
@@ -24,6 +26,7 @@ function App() {
             <Route index element={<Home isBlur={isBlur} />} />
             <Route path='/dashboard' element={<Dashboard isBlur={isBlur} />} />
             <Route path='/search' element={<Search isBlur={isBlur} />} />
+            <Route path='/filters' element={<Filters isBlur={isBlur} filterType={filterType} />} />
             <Route path='/products/:productId' element={<Product isBlur={isBlur} />} />
             <Route path='/about-us' element={<AboutUs isBlur={isBlur} />} />
             <Route path='/cart' element={<Cart isBlur={isBlur} />} />
