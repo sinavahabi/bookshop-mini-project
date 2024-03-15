@@ -9,7 +9,7 @@ function Filters({ isBlur, filterType }) {
 
   return (
     <>
-      <Message type={'primary'} text={`دسته بندی: "${filterType}"`} />
+      <Message type={'primary'} text={`دسته بندی: "${filterType}"`} size={'large'} />
       <ProductList isProducts={false} products={filteredProducts} loading={loading} error={error} isBlur={isBlur} />
     </>
   );

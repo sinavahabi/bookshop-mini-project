@@ -1,12 +1,12 @@
 import './Message.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCheckCircle } from '@fortawesome/free-solid-svg-icons';
+import { faCheckCircle, faWarning, faExclamationCircle, faCheck, faBullhorn } from '@fortawesome/free-solid-svg-icons';
 
-function Message({ type, text }) {
+function Message({ type, text, size }) {
   return (
-    <div className='message relative -top-6'>
+    <section className={`message m-auto ${size === 'large' ? 'relative -top-6 w-full' : size === 'medium' ? 'w-1/2 ' : 'w-1/6'}`}>
       <div
-        className='flex justify-between items-center text-white p-3'
+        className={`flex justify-between items-center text-white p-3 ${size === 'large' ? 'rounded-none' : size === 'medium' ? 'rounded-xl' : 'rounded-2xl'}`}
         style={
           type === 'success'
             ? { backgroundColor: '#22c55e' }
@@ -19,10 +19,27 @@ function Message({ type, text }) {
                   : { backgroundColor: '#334155' }
         }
       >
-        <p className='large'>{text}</p>
-        <FontAwesomeIcon icon={faCheckCircle} className='larger' />
+        <p className={`${size === 'large' ? 'large' : size === 'medium' ? 'medium' : 'small'}`}>{text}</p>
+        <FontAwesomeIcon
+          icon={
+            type === 'success'
+              ? faCheckCircle
+              : type === 'warning'
+                ? faWarning
+                : type === 'error'
+                  ? faExclamationCircle
+                  : type === 'primary'
+                    ? faCheck
+                    : faBullhorn
+          }
+          className={`${size === 'large'
+            ? 'larger'
+            : size === 'medium'
+              ? 'large'
+              : 'medium'
+            }`} />
       </div>
-    </div>
+    </section>
   );
 }
 
