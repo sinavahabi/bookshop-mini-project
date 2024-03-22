@@ -7,21 +7,21 @@ function ProgressBar({ duration }) {
   useEffect(() => {
     const interval = setInterval(() => {
       setProgress(prevProgress => {
-        if (prevProgress < 100) {
+        if (prevProgress < 200) {
           return prevProgress + 1;
         } else {
           clearInterval(interval);
-          return 100;
+          return 200;
         }
       });
-    }, duration / 100);
+    }, duration / 200);
 
     return () => clearInterval(interval);
   }, [duration]);
 
   return (
     <div className='w-full h-2 bg-red-200 overflow-hidden'>
-      <div className='h-full bg-red-500 transition-width duration-100 linear' style={{ width: `${progress}%` }}></div>
+      <div className='h-full bg-red-500 transition-width duration-200 linear' style={{ width: `${progress}%` }}></div>
     </div>
   );
 }

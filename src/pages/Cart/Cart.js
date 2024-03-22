@@ -2,7 +2,7 @@ import './Cart.scss';
 
 function Cart() {
   return (
-    <main className='main'>Cart</main>
+    <main className='main larger'>این بخش به زودی در دسترس قرار می‌گیرد...</main>
   );
 }
 

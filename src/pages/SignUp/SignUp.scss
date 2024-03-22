@@ -1,0 +1,146 @@
+// Styles for dynamic elements (labels and icons) 
+label.labels {
+  right: 40px;
+  top: 10px;
+  transition: all .3s;
+}
+
+svg.phone-icon,
+svg.lock-icon {
+  transition: all .3s;
+}
+
+svg.phone-icon {
+  right: 124px;
+  top: 12px;
+}
+
+svg.lock-icon {
+  right: 96px;
+  top: 12px;
+}
+
+svg.eye-icon {
+  left: 36px;
+  bottom: 17px;
+}
+
+label.focused {
+  top: -16px;
+}
+
+svg.focused {
+  top: -12px;
+}
+
+@media screen and (max-width: 1024px) {
+  label.labels {
+    right: 32px;
+    top: 10px;
+  }
+
+  svg.phone-icon {
+    right: 100px;
+    top: 8px;
+  }
+
+  svg.lock-icon {
+    right: 75px;
+    top: 8px;
+  }
+
+  svg.eye-icon {
+    left: 28px;
+    bottom: 12px;
+  }
+
+  label.focused {
+    top: -11px;
+  }
+
+  svg.focused {
+    top: -14px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  label.labels {
+    right: 30px;
+    top: 12px;
+  }
+
+  svg.phone-icon {
+    right: 89px;
+    top: 8px;
+  }
+
+  svg.lock-icon {
+    right: 67px;
+    top: 8px;
+  }
+
+  svg.eye-icon {
+    left: 26px;
+    bottom: 11px;
+  }
+
+  label.focused {
+    top: -10px;
+  }
+
+  svg.focused {
+    top: -12px;
+  }
+}
+
+@media screen and (max-width: 640px) {
+  label.labels {
+    right: 28px;
+    top: 6px;
+  }
+
+  svg.phone-icon {
+    right: 87px;
+    top: 2px;
+  }
+
+  svg.lock-icon {
+    right: 65px;
+    top: 2px;
+  }
+
+  svg.eye-icon {
+    left: 23px;
+    bottom: 7px;
+  }
+
+  label.focused {
+    top: -10px;
+  }
+
+  svg.focused {
+    top: -16px;
+  }
+}
+
+.submit-success {
+  opacity: 1;
+  transform: translateY(-50px);
+}
+
+.submit-err {
+  opacity: 1;
+  transform: translateY(-50px);
+}
+
+.submit-success.show {
+  transform: translateY(-12px);
+  opacity: 0;
+  transition: transform .4s ease-in-out, opacity .8s ease-in-out 1.8s;
+}
+
+.submit-err.show {
+  transform: translateY(-12px);
+  opacity: 0;
+  transition: transform .4s ease-in-out, opacity .8s ease-in-out 1.8s;
+}

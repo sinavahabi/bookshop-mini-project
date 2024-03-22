@@ -4,7 +4,7 @@ import { faCheckCircle, faWarning, faExclamationCircle, faCheck, faBullhorn } fr
 
 function Message({ type, text, size }) {
   return (
-    <section className={`message m-auto ${size === 'large' ? 'relative -top-6 w-full' : size === 'medium' ? 'w-1/2 ' : 'w-1/6'}`}>
+    <section className={`message m-auto ${size === 'large' ? 'relative -top-6 w-full' : size === 'medium' ? 'md:w-1/2 w-5/6' : 'w-1/5 min-w-260'}`}>
       <div
         className={`flex justify-between items-center text-white p-3 ${size === 'large' ? 'rounded-none' : size === 'medium' ? 'rounded-xl' : 'rounded-2xl'}`}
         style={
@@ -19,7 +19,7 @@ function Message({ type, text, size }) {
                   : { backgroundColor: '#334155' }
         }
       >
-        <p className={`${size === 'large' ? 'large' : size === 'medium' ? 'medium' : 'small'}`}>{text}</p>
+        <p className={`text-center ${size === 'large' ? 'medium' : size === 'medium' ? 'small' : 'smaller'}`}>{text}</p>
         <FontAwesomeIcon
           icon={
             type === 'success'

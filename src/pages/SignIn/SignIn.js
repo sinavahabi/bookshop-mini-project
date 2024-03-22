@@ -2,7 +2,7 @@ import './SignIn.scss';
 
 function SignIn() {
   return (
-    <div>SignIn</div>
+    <section className='larger'>این بخش به زودی در دسترس قرار می‌گیرد...</section>
   );
 }
 

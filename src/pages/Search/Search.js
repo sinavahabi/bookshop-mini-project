@@ -14,7 +14,7 @@ function Search({ isBlur }) {
 
   return (
     <>
-      <h3>نتایج جستجو برای: "{query}"</h3>
+      <h3 className='large'>نتایج جستجو برای: "{query}"</h3>
       <ProductList isProducts={false} products={searchedProducts} loading={loading} error={error} isBlur={isBlur} />
     </>
   );

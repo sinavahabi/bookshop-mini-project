@@ -41,7 +41,7 @@ function Header() {
     <header className='mb-6 shadow-2xl shadow-zinc-400 sticky bg-slate-50 top-0 z-10'>
       <nav className='navbar flex justify-between items-center medium'>
         <button type="button" className='expand-navbar btn rounded-none focus:ring-0 focus:ring-offset-0 lg:hidden block relative' onClick={showSidebar}>
-          <FontAwesomeIcon icon={faBars} className={show ? 'rotate-90' : 'rotate-0'} />
+          <FontAwesomeIcon icon={faBars} className={`${show ? 'rotate-90' : 'rotate-0'} transition-all duration-300`} />
         </button>
         {/* Larger screen sizes navbar view */}
         <ul className='lg:flex justify-center items-center hidden'>
