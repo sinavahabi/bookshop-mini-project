@@ -33,6 +33,11 @@ svg.focused {
   top: -12px;
 }
 
+span.pre-number {
+  left: 32px;
+  top: 0px;
+}
+
 @media screen and (max-width: 1024px) {
   label.labels {
     right: 32px;
@@ -60,6 +65,11 @@ svg.focused {
 
   svg.focused {
     top: -14px;
+  }
+
+  span.pre-number {
+    left: 26px;
+    top: 0px;
   }
 }
 
@@ -91,6 +101,11 @@ svg.focused {
   svg.focused {
     top: -12px;
   }
+
+  span.pre-number {
+    left: 24px;
+    top: 0px;
+  }
 }
 
 @media screen and (max-width: 640px) {
@@ -121,6 +136,11 @@ svg.focused {
   svg.focused {
     top: -16px;
   }
+
+  span.pre-number {
+    left: 22px;
+    top: 4.5px;
+  }
 }
 
 .submit-success {
@@ -143,4 +163,41 @@ svg.focused {
   transform: translateY(-12px);
   opacity: 0;
   transition: transform .4s ease-in-out, opacity .8s ease-in-out 1.8s;
+}
+
+// Loading animation
+.spinner {
+  animation: rotate 2s linear infinite;
+  width: 30px;
+  height: 30px;
+
+  & .path {
+    stroke: white;
+    stroke-linecap: round;
+    animation: dash 1.5s ease-in-out infinite;
+  }
+
+}
+
+@keyframes rotate {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes dash {
+  0% {
+    stroke-dasharray: 1, 150;
+    stroke-dashoffset: 0;
+  }
+
+  50% {
+    stroke-dasharray: 90, 150;
+    stroke-dashoffset: -35;
+  }
+
+  100% {
+    stroke-dasharray: 90, 150;
+    stroke-dashoffset: -124;
+  }
 }

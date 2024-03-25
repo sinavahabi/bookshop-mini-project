@@ -2,11 +2,13 @@
 @import url("https://v1.fontapi.ir/css/Vazir");
 @import url("https://v1.fontapi.ir/css/Sahel");
 @import url("https://fonts.googleapis.com/css?family=Raleway");
+@import url("https://fonts.googleapis.com/css2?family=Fira+Code:wght@500");
 
 // Fonts
 $font-vazir: Vazir, Tahoma, sans-serif;
 $font-sahel: Sahel, Tahoma, sans-serif;
 $font-raleway: Raleway, Arial, sans-serif;
+$font-fira: 'fira code', Arial, sans-serif;
 
 @font-face {
   font-family: Vazir;
@@ -23,6 +25,12 @@ $font-raleway: Raleway, Arial, sans-serif;
 @font-face {
   font-family: Raleway;
   src: url("../src/assets/fonts/Raleway-Regular.ttf") format("ttf");
+  font-weight: normal;
+}
+
+@font-face {
+  font-family: 'fira code';
+  src: url("../src/assets/fonts/FiraCode-Regular.otf") format("otf");
   font-weight: normal;
 }
 

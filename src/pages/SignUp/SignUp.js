@@ -4,6 +4,8 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import { faEye, faEyeSlash, faLock, faPhoneAlt } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Message from '../../components/Message/Message';
+import { useForm } from '../../hooks/useForm';
+import { useFetch } from '../../hooks/useFetch';
 
 function SignUp() {
   const navigate = useNavigate();
@@ -25,40 +27,8 @@ function SignUp() {
     password: false
   });
 
-  const [form, setForm] = useState([
-    {
-      id: 1,
-      name: 'fName',
-      errorMessage: 'نام باید تنها شامل حروف فارسی بین 3 تا 20 حرف باشد!',
-      errStatus: false,
-      validation: /^[\u0600-\u06FF\s]{3,20}$/,
-      isDone: false
-    },
-    {
-      id: 2,
-      name: 'lName',
-      errorMessage: 'نام خانوادگی باید تنها شامل حروف فارسی بین 3 تا 30 حرف باشد!',
-      errStatus: false,
-      validation: /^[\u0600-\u06FF\s]{3,30}$/,
-      isDone: false
-    },
-    {
-      id: 3,
-      name: 'phone',
-      errorMessage: 'الگوی شماره تماس وارد شده صحیح نیست!',
-      errStatus: false,
-      validation: /^\d{10}$/,
-      isDone: false
-    },
-    {
-      id: 4,
-      name: 'pass',
-      errorMessage: 'رمز کاربر باید بین 8 تا 16 حرف شامل حروف انگلیسی بزرگ و کوچک و عدد باشد!',
-      errStatus: false,
-      validation: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,16}$/,
-      isDone: false
-    }
-  ]);
+  const { form, formValidation } = useForm();
+  const { loading, error, saveInfo } = useFetch('http://localhost:5001/users', 'POST');
 
   // Create a function to move each label related to its relevant input smoothly when the input element is focused in
   const inputFocusIn = (inputName) => {
@@ -83,19 +53,7 @@ function SignUp() {
     setPasswordView(prevPasswordView => !prevPasswordView);
   };
 
-  const formValidation = (inputRef) => {
-    const inputIndex = form.findIndex((item) => item.name === inputRef.current.name);
-    const updatedForm = [...form];
-
-    if (form[inputIndex].validation.test(inputRef.current.value)) {
-      updatedForm[inputIndex] = { ...form[inputIndex], errStatus: false, isDone: true };
-    } else {
-      updatedForm[inputIndex] = { ...form[inputIndex], errStatus: true, isDone: false };
-    }
-
-    setForm(updatedForm);
-  };
-
+  // Create a function to automatically focus on empty input elements when the "sign-up" page is rendered
   const inputAutoFocus = (firstNameInput, lastNameInput, phoneInput, passwordInput) => {
     if (!passwordInput.current.value) {
       passwordInput.current.focus();
@@ -118,7 +76,7 @@ function SignUp() {
     inputAutoFocus(firstNameInput, lastNameInput, phoneInput, passwordInput);
   }, [firstNameInput, lastNameInput, phoneInput, passwordInput]);
 
-
+  // Create a function to handle form submit process
   const handleSubmit = (event, firstNameInput, lastNameInput, phoneInput, passwordInput) => {
     event.preventDefault();
     inputAutoFocus(firstNameInput, lastNameInput, phoneInput, passwordInput);
@@ -128,8 +86,20 @@ function SignUp() {
         ...prevState,
         successMessage: true
       }));
+      const userId = Date.now().toString();
+
+      saveInfo({
+        id: userId,
+        name: firstNameInput.current.value,
+        lastName: lastNameInput.current.value,
+        phone: phoneInput.current.value,
+        password: passwordInput.current.value,
+        loggedIn: false,
+        cartItems: [{}]
+      });
+
       // Redirect to sign-in page after one second delay in successful submission
-      setTimeout(() => navigate("/sign-in"), 3000);
+      !loading && !error && setTimeout(() => navigate("/sign-in"), 2000)
     } else {
       setSubmitMessage(prevState => ({
         ...prevState,
@@ -144,7 +114,7 @@ function SignUp() {
         {submitMessage.successMessage && <Message type={'success'} text={'ثبت نام موفقیت آمیز بود!'} size={'small'} />}
       </div>
       <div className={`submit-err ${submitMessage.errorMessage ? 'show' : ''}`}>
-        {submitMessage.errorMessage && <Message type={'error'} text={'خطا در ثبت نام!'} size={'small'} />}
+        {submitMessage.errorMessage ? <Message type={'error'} text={'فرم را به شکل صحیح پر نمایید!'} size={'small'} /> : error ? <Message type={'error'} text={'در ثبت نام شما خطایی رخ داده است!'} size={'small'} /> : null}
       </div>
       <section className='h-screen lg:w-96 md:w-80 sm:w-72 w-64 mx-auto flex flex-col justify-center items-center flex-wrap'>
         <div className='sign-up w-full'>
@@ -185,9 +155,11 @@ function SignUp() {
                 <div className='relative'>
                   <label htmlFor='phone' className={`labels text-slate-600 absolute smaller bg-white lg:p-1 p-0 ${isFocused.phone ? 'focused' : ''}`}>شماره تماس</label>
                   <FontAwesomeIcon className={`phone-icon text-slate-600 absolute small bg-white p-1 ${isFocused.phone ? 'focused' : ''}`} icon={faPhoneAlt} />
+                  <span className='absolute text-slate-400 lg:py-3 md:py-2 sm:py-2 pr-1 border-r-gray-400 border-r-2 pre-number small phone-elem'>98+</span>
                 </div>
                 <input
-                  className={`input block m-auto lg:p-3 md:p-2 sm:p-2 p-1 w-5/6 smaller ${form[2].errStatus ? 'border-red-400 focus:border-red-400' : ''}`}
+                  className={`input phone-elem block m-auto lg:py-3 lg:pr-3 lg:pl-10 md:py-2 md:pr-2 md:pl-9 sm:py-2 sm:pr-2 sm:pl-9 py-1 pr-1 pl-9 w-5/6 smaller ${form[2].errStatus ? 'border-red-400 focus:border-red-400' : ''}`}
+                  dir='ltr'
                   type='text'
                   name='phone'
                   id='phone'
@@ -203,7 +175,8 @@ function SignUp() {
                   <FontAwesomeIcon className={`lock-icon text-slate-600 absolute small bg-white p-1 ${isFocused.password ? 'focused' : ''}`} icon={faLock} />
                 </div>
                 <input
-                  className={`input block m-auto lg:py-3 lg:pr:3 lg:pl-7 md:py-2 md:pr-2 md:pl-5 sm:py-2 sm:pr-2 sm:pl-5 py-1 pr-1 pl-5 w-5/6 smaller ${form[3].errStatus ? 'border-red-400 focus:border-red-400' : ''}`}
+                  className={`input block m-auto lg:py-3 lg:pr:3 lg:pl-8 md:py-2 md:pr-2 md:pl-7 sm:py-2 sm:pr-2 sm:pl-6 py-1 pr-1 pl-6 w-5/6 smaller ${form[3].errStatus ? 'border-red-400 focus:border-red-400' : ''}`}
+                  dir='ltr' 
                   type={passwordView ? 'text' : 'password'}
                   name='pass'
                   id='password' ref={passwordInput}
@@ -216,7 +189,13 @@ function SignUp() {
                 {form[3].errStatus ? <div className='text-red-400 mt-3 text-center smaller flex justify-center items-center flex-wrap'>{form[3].errorMessage}</div> : null}
               </div>
               <div className='sign-up-btn-container flex justify-center items-center flex-wrap'>
-                <button type='submit' className='btn btn-success w-2/5'>ثبت نام</button>
+                <button type='submit' className='btn btn-success w-2/5 flex justify-center items-center'>
+                  {loading ?
+                    <svg className="spinner" viewBox="0 0 50 50">
+                      <circle className="path" cx="25" cy="25" r="20" fill="none" stroke-width="5"></circle>
+                    </svg> :
+                    'ثبت نام'}
+                </button>
               </div>
               <div className="redirection-btn-container flex flex-wrap justify-around items-center min-w-240">
                 <p className='smaller'>قبلا ثبت نام کردید؟</p>

@@ -6,7 +6,7 @@ import { useFetch } from '../../hooks/useFetch';
 
 function Filters({ isBlur, filterType }) {
   // Fetch the data using custom hook called "useFetch"
-  const { data: filteredProducts, loading, error } = useFetch(`http://localhost:5000/products?q=${filterType}`);
+  const { data: filteredProducts, loading, error } = useFetch(`http://localhost:5000/products?q=${filterType}`, 'GET');
 
   return (
     <>

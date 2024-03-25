@@ -10,7 +10,7 @@ function Search({ isBlur }) {
   const query = queryParams.get('q');
 
   // Fetch the data using custom hook called "useFetch"
-  const { data: searchedProducts, loading, error } = useFetch(`http://localhost:5000/products?q=${query}`);
+  const { data: searchedProducts, loading, error } = useFetch(`http://localhost:5000/products?q=${query}`, 'GET');
 
   return (
     <>

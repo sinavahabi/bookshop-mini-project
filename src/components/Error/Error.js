@@ -10,7 +10,7 @@ function Error({ message }) {
       <div dir='ltr' className='error w-4/5 mx-auto rounded-xl bg-red-400 h-800 flex flex-col items-center justify-center space-y-6'>
         <img src={errorImg} alt='error' className='w-4/5 mx-auto rounded-xl' />
         <div className="animate-bounce flex items-center flex-col sm:flex-row">
-          <FontAwesomeIcon className='mr-1 text-white large' icon={faExclamationCircle} />
+          <FontAwesomeIcon className='mr-1 mb-2 text-white large' icon={faExclamationCircle} />
           <p className='large text-white text-center'>{message}</p>
         </div>
       </div>

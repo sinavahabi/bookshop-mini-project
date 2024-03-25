@@ -8,7 +8,7 @@ import Error from '../../components/Error/Error';
 
 function Product({ isBlur }) {
   const { productId } = useParams();
-  const { data: product, loading, error } = useFetch(`http://localhost:5000/products/${productId}`);
+  const { data: product, loading, error } = useFetch(`http://localhost:5000/products/${productId}`, 'GET');
   return (
     <>
       {/* Show 'Error' component if an error occurred during API requests */}

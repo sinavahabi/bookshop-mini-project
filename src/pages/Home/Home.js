@@ -4,7 +4,7 @@ import { useFetch } from '../../hooks/useFetch';
 
 function Home({ isBlur }) {
   // Fetch the data using custom hook called "useFetch"
-  const { data: products, loading, error } = useFetch('http://localhost:5000/products');
+  const { data: products, loading, error } = useFetch('http://localhost:5000/products', 'GET');
 
   return (
     <ProductList isProducts={true} products={products} loading={loading} error={error} isBlur={isBlur} />
