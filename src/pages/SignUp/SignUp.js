@@ -13,11 +13,13 @@ function SignUp() {
   const lastNameInput = useRef(null);
   const phoneInput = useRef(null);
   const passwordInput = useRef(null);
+  const submitBtn = useRef(null);
   const [passwordView, setPasswordView] = useState(false);
 
   const [submitMessage, setSubmitMessage] = useState({
     successMessage: false,
-    errorMessage: false
+    errorMessage: false,
+    alreadyRegisteredMessage: false
   });
 
   const [isFocused, setIsFocused] = useState({
@@ -29,6 +31,7 @@ function SignUp() {
 
   const { form, formValidation } = useForm();
   const { loading, error, saveInfo } = useFetch('http://localhost:5001/users', 'POST');
+  const { data: usersData, error: userError } = useFetch('http://localhost:5001/users', 'GET');
 
   // Create a function to move each label related to its relevant input smoothly when the input element is focused in
   const inputFocusIn = (inputName) => {
@@ -82,39 +85,76 @@ function SignUp() {
     inputAutoFocus(firstNameInput, lastNameInput, phoneInput, passwordInput);
 
     if (form.every(item => item.isDone === true)) {
-      setSubmitMessage(prevState => ({
-        ...prevState,
-        successMessage: true
-      }));
-      const userId = Date.now().toString();
+      // When all form inputs values are valid! 
+      if (usersData && usersData.length > 0 && usersData.some(item => item.phone === Number(phoneInput.current.value))) {
+        // When phone number is already registered!
+        setSubmitMessage(prevState => ({
+          ...prevState,
+          alreadyRegisteredMessage: true
+        }));
+      } else {
+        // All good here!
+        setSubmitMessage(prevState => ({
+          ...prevState,
+          alreadyRegisteredMessage: false,
+          successMessage: true
+        }));
 
-      saveInfo({
-        id: userId,
-        name: firstNameInput.current.value,
-        lastName: lastNameInput.current.value,
-        phone: phoneInput.current.value,
-        password: passwordInput.current.value,
-        loggedIn: false,
-        cartItems: [{}]
-      });
+        const userId = Date.now().toString();
 
-      // Redirect to sign-in page after one second delay in successful submission
-      !loading && !error && setTimeout(() => navigate("/sign-in"), 2000)
+        saveInfo({
+          id: Number(userId),
+          name: firstNameInput.current.value,
+          lastName: lastNameInput.current.value,
+          phone: Number(phoneInput.current.value),
+          password: passwordInput.current.value,
+          loggedIn: false,
+          cartItems: [{}]
+        });
+
+        submitBtn.current.disabled = true;
+        // Redirect to sign-in page after one second delay in successful submission
+        !loading && !userError && setTimeout(() => navigate("/sign-in"), 2000);
+      }
     } else {
+      // When all form inputs values are not valid
       setSubmitMessage(prevState => ({
         ...prevState,
+        alreadyRegisteredMessage: false,
         errorMessage: true
       }));
+
+      submitBtn.current.disabled = true;
+
+      setTimeout(() => {
+        setSubmitMessage(prevState => ({
+          ...prevState,
+          alreadyRegisteredMessage: false,
+          errorMessage: false
+        }));
+
+        submitBtn.current.disabled = false;
+      }, 3000);
     }
   }
 
   return (
     <>
-      <div className={`submit-success ${submitMessage.successMessage ? 'show' : ''}`}>
-        {submitMessage.successMessage && <Message type={'success'} text={'ثبت نام موفقیت آمیز بود!'} size={'small'} />}
+      <div className="relative flex justify-center items-center flex-wrap">
+        <div className={`submit-success ${submitMessage.successMessage ? 'show' : ''}`}>
+          {(submitMessage.successMessage && !error && !userError) && <Message type={'success'} text={'ثبت نام موفقیت آمیز بود!'} size={'small'} />}
+        </div>
       </div>
-      <div className={`submit-err ${submitMessage.errorMessage ? 'show' : ''}`}>
-        {submitMessage.errorMessage ? <Message type={'error'} text={'فرم را به شکل صحیح پر نمایید!'} size={'small'} /> : error ? <Message type={'error'} text={'در ثبت نام شما خطایی رخ داده است!'} size={'small'} /> : null}
+      <div className="relative flex justify-center items-center flex-wrap">
+        <div className={`submit-err w-full ${submitMessage.errorMessage ? 'show' : submitMessage.alreadyRegisteredMessage ? 'show-alert' : error ? 'show-api-err' : ''}`}>
+          {submitMessage.errorMessage ?
+            <Message type={'error'} text={'فرم را به شکل صحیح پر نمایید!'} size={'small'} /> :
+            submitMessage.alreadyRegisteredMessage ?
+              <Message type={'error'} text={'این شماره تماس قبلا ثبت شده است!'} size={'medium'} /> :
+              error ?
+                <Message type={'error'} text={'در ثبت نام شما خطایی رخ داده است!'} size={'small'} /> :
+                null}
+        </div>
       </div>
       <section className='h-screen lg:w-96 md:w-80 sm:w-72 w-64 mx-auto flex flex-col justify-center items-center flex-wrap'>
         <div className='sign-up w-full'>
@@ -176,7 +216,7 @@ function SignUp() {
                 </div>
                 <input
                   className={`input block m-auto lg:py-3 lg:pr:3 lg:pl-8 md:py-2 md:pr-2 md:pl-7 sm:py-2 sm:pr-2 sm:pl-6 py-1 pr-1 pl-6 w-5/6 smaller ${form[3].errStatus ? 'border-red-400 focus:border-red-400' : ''}`}
-                  dir='ltr' 
+                  dir='ltr'
                   type={passwordView ? 'text' : 'password'}
                   name='pass'
                   id='password' ref={passwordInput}
@@ -189,21 +229,21 @@ function SignUp() {
                 {form[3].errStatus ? <div className='text-red-400 mt-3 text-center smaller flex justify-center items-center flex-wrap'>{form[3].errorMessage}</div> : null}
               </div>
               <div className='sign-up-btn-container flex justify-center items-center flex-wrap'>
-                <button type='submit' className='btn btn-success w-2/5 flex justify-center items-center'>
+                <button type='submit' ref={submitBtn} className='btn btn-success smaller w-2/5 flex justify-center items-center'>
                   {loading ?
                     <svg className="spinner" viewBox="0 0 50 50">
-                      <circle className="path" cx="25" cy="25" r="20" fill="none" stroke-width="5"></circle>
+                      <circle className="path" cx="25" cy="25" r="20" fill="none" strokeWidth="5"></circle>
                     </svg> :
                     'ثبت نام'}
                 </button>
               </div>
               <div className="redirection-btn-container flex flex-wrap justify-around items-center min-w-240">
                 <p className='smaller'>قبلا ثبت نام کردید؟</p>
-                <NavLink to='/sign-in' className='smaller btn text-blue-700 hover:text-blue-400 focus:ring-0  focus:ring-offset-0'>ورود</NavLink>
+                <NavLink to='/sign-in' className='smaller btn text-blue-700 hover:text-blue-400 focus:ring-0 focus:ring-offset-0'>ورود</NavLink>
               </div>
               <div className="redirection-btn-container flex flex-wrap justify-around items-center min-w-240">
                 <p className='smaller'>رمز عبور خود را فراموش کردم!</p>
-                <NavLink to='/change-password' className='smaller btn text-blue-700 hover:text-blue-400 focus:ring-0  focus:ring-offset-0'>بازیابی رمز عبور</NavLink>
+                <NavLink to='/change-password' className='smaller btn text-blue-700 hover:text-blue-400 focus:ring-0 focus:ring-offset-0'>بازیابی رمز عبور</NavLink>
               </div>
             </div>
           </form>

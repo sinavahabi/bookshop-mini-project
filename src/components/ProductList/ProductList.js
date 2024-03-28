@@ -20,7 +20,6 @@ function ProductList({ isProducts, products, loading, error, isBlur }) {
       {/* Show 'Error' component if an error occurred during API requests */}
       {error && <Error message={error} />}
       {!error && <main className={`main container mx-auto ${isBlur ? 'blur-sm' : 'blur-none'}`}>
-
         <div className={products.length === 0 && !loading ? '' : 'grid xl:grid-cols-4 lg:grid-cols-3 sm:grid-cols-2 gap-8 mt-2'}>
           {/* Show 'Preview' component for the time products are loading */}
           {loading

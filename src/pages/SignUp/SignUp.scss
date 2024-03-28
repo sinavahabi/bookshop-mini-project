@@ -143,26 +143,24 @@ span.pre-number {
   }
 }
 
-.submit-success {
-  opacity: 1;
-  transform: translateY(-50px);
-}
-
+.submit-success,
 .submit-err {
+  position: absolute;
   opacity: 1;
   transform: translateY(-50px);
 }
 
-.submit-success.show {
-  transform: translateY(-12px);
+.submit-success.show,
+.submit-err.show {
+  transform: translateY(12px);
   opacity: 0;
   transition: transform .4s ease-in-out, opacity .8s ease-in-out 1.8s;
 }
 
-.submit-err.show {
-  transform: translateY(-12px);
-  opacity: 0;
-  transition: transform .4s ease-in-out, opacity .8s ease-in-out 1.8s;
+.submit-err.show-alert,
+.show-api-err {
+  transform: translateY(50px);
+  transition: transform .4s ease-in-out;
 }
 
 // Loading animation
@@ -199,5 +197,26 @@ span.pre-number {
   100% {
     stroke-dasharray: 90, 150;
     stroke-dashoffset: -124;
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  .spinner {
+    width: 25px;
+    height: 25px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .spinner {
+    width: 20px;
+    height: 20px;
+  }
+}
+
+@media screen and (max-width: 640px) {
+  .spinner {
+    width: 15px;
+    height: 15px;
   }
 }

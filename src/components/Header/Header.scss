@@ -1,3 +1,19 @@
 .dropdown:hover .dropdown-list {
   display: block;
 }
+
+.user-profile:hover .user-profile-info {
+  display: block;
+}
+
+.logout-success {
+  position: absolute;
+  opacity: 1;
+  transform: translateY(-50px);
+}
+
+.logout-success.show {
+  transform: translateY(-10px);
+  opacity: 0;
+  transition: transform .4s ease-in-out, opacity .8s ease-in-out 1.8s;
+}

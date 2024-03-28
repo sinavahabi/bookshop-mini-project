@@ -1,0 +1,11 @@
+.mini-modal {
+  right: 135px;
+  top: -45px;
+}
+
+@media screen and (max-width: 768px) {
+  .mini-modal {
+    right: 123px;
+    top: -40px;
+  }
+}

@@ -13,30 +13,26 @@ export function useFetch(url, method) {
     setIsTriggered(true);
   };
 
-  const updateInfo = info => {
-    setSendData(info);
-    setIsTriggered(true);
-  };
-
   useEffect(() => {
     const fetchData = async (url, sendData) => {
       try {
         // Show loading... message
         setLoading(true);
 
+        let response;
         // Wait for the response
         switch (method) {
           case 'POST':
-            const postResponse = await axios.post(url, sendData);
-            setData(postResponse.data);
+            response = await axios.post(url, sendData);
+            setData(response.data);
             break;
           case 'PUT':
-            const putResponse = await axios.put(url, sendData);
-            setData(putResponse.data);
+            response = await axios.put(url, sendData);
+            setData(response.data);
             break;
           default:
-            const getResponse = await axios.get(url);
-            setData(getResponse.data);
+            response = await axios.get(url);
+            setData(response.data);
             break;
         }
 
@@ -58,5 +54,5 @@ export function useFetch(url, method) {
 
   }, [url, method, sendData, isTriggered]);
 
-  return { data, loading, error, saveInfo, updateInfo };
+  return { data, loading, error, saveInfo };
 }

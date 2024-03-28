@@ -5,7 +5,7 @@ import filterSlice from './filter-slice';
 const store = configureStore({
   reducer: {
     blur: blurSlice.reducer,
-    filter: filterSlice.reducer
+    filter: filterSlice.reducer,
   }
 });
 
