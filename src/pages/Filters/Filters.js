@@ -6,12 +6,12 @@ import { useFetch } from '../../hooks/useFetch';
 
 function Filters({ isBlur, filterType }) {
   // Fetch the data using custom hook called "useFetch"
-  const { data: filteredProducts, loading, error } = useFetch(`http://localhost:5000/products?q=${filterType}`, 'GET');
-
+  const { data: filteredProducts, loading, error } = useFetch(`http://localhost:5000/products?q=${filterType || localStorage.getItem('selectedFilter')}`, 'GET');
+  
   return (
     <>
-      <Message type={'primary'} text={`دسته بندی: "${filterType}"`} size={'large'} />
-      {filterType
+      <Message type={'primary'} text={`دسته بندی: "${filterType || localStorage.getItem('selectedFilter')}"`} size={'large'} />
+      {filterType || localStorage.getItem('selectedFilter')
         ? <ProductList isProducts={false} products={filteredProducts} loading={loading} error={error} isBlur={isBlur} />
         : <div className='main flex flex-col justify-center items-center space-y-4'>
           <p className='medium text-red-400'>دسته بندی مورد نظر خود را وارد کنید!</p>

@@ -1,7 +1,7 @@
 import './Header.scss';
 import Searchbar from '../Searchbar/Searchbar';
 import { NavLink, useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Sidebar from '../Sidebar/Sidebar';
 import Message from '../../components/Message/Message';
 import { useDispatch } from 'react-redux';
@@ -9,7 +9,7 @@ import { blurActions } from '../../store/blur-slice';
 import { filterActions } from '../../store/filter-slice';
 import { useFetch } from '../../hooks/useFetch';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHome, faFilter, faUserFriends, faUserCheck, faSignIn, faSignOut, faBars, faUser, faUserCircle, faShoppingCart } from '@fortawesome/free-solid-svg-icons';
+import { faHome, faFilter, faUserFriends, faUserCheck, faSignIn, faSignOut, faBars, faUser, faUserCircle, faShoppingCart, faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
 
 function Header() {
   const dispatch = useDispatch();
@@ -20,8 +20,21 @@ function Header() {
   const { data: userInfo, error: userError } = useFetch(localStorage.getItem('userId')?.length > 0 ? `http://localhost:5001/users/${localStorage.getItem('userId')}` : '', 'GET');
   const { loading, error, saveInfo } = useFetch(userInfo?.id ? `http://localhost:5001/users/${userInfo?.id}` : '', 'PUT');
 
+  useEffect(() => {
+    const handleCheckbox = () => {
+      setSelectedFilter(null);
+    };
+
+    window.addEventListener('popstate', handleCheckbox);
+
+    return () => {
+      window.removeEventListener('popstate', handleCheckbox);
+    };
+  }, []);
+
   const handleFilterChange = (filter) => {
-    setSelectedFilter(filter === selectedFilter ? null : filter);
+    setSelectedFilter(filter === selectedFilter ? navigate('/') : filter);
+    localStorage.setItem('selectedFilter', filter);
   };
 
   const filters = [
@@ -55,7 +68,9 @@ function Header() {
       setTimeout(() => {
         localStorage.setItem('userLoggedIn', JSON.stringify(false));
         localStorage.setItem('userId', '');
-      }, 3000);
+        localStorage.setItem('userPhone', '');
+        window.location.reload();
+      }, 2000);
     }
   };
 
@@ -66,8 +81,8 @@ function Header() {
           <button type="button" className='expand-navbar btn rounded-none focus:ring-0 focus:ring-offset-0 lg:hidden block relative' onClick={showSidebar}>
             <FontAwesomeIcon icon={faBars} className={`${show ? 'rotate-90' : 'rotate-0'} transition-all duration-300`} />
           </button>
-          {error && <div className="absolute z-20 top-14 left-3 small animate-bounce bg-red-200 text-red-500 p-3 rounded-md">خطایی در خروج شما از حساب کاربری رخ داده است!</div>}
-          {loading && <div className="absolute z-20 top-14 right-3 medium animate-bounce bg-white p-3 rounded-md shadow-2xl shadow-zinc-400">لطفا صبر نمایید...</div>}
+          {error && <div className="absolute z-20 top-16 left-3 small animate-bounce bg-red-200 text-red-500 p-3 rounded-md">خطایی در خروج شما از حساب کاربری رخ داده است!</div>}
+          {loading && <div className="absolute z-20 top-16 right-3 medium animate-bounce bg-white p-3 rounded-md shadow-2xl shadow-zinc-400">لطفا صبر نمایید...</div>}
           {/* Larger screen sizes navbar view */}
           <ul className='lg:flex justify-center items-center hidden'>
             <li>
@@ -112,7 +127,12 @@ function Header() {
           {localStorage.getItem('userLoggedIn')?.length === 4 ? <ul className='lg:flex justify-center items-center hidden'>
             <li className='user-profile'>
               <button className='btn hover:btn-dark focus:ring-0 focus:ring-offset-0 rounded-none'>
-                {`${userInfo?.name || 'کاربر'} ${userInfo?.lastName || 'نامشخص'}`}<FontAwesomeIcon className='mr-1 smaller' icon={faUser} />
+                {userInfo?.name && userInfo?.lastName ? (
+                  userInfo.name.length >= 11 ? `${userInfo.name.slice(0, 11)}...` :
+                    userInfo.name.length >= 10 ? `${userInfo.name} ${userInfo.lastName?.slice(0, 2)}...` :
+                      userInfo.name.length >= 9 ? `${userInfo.name} ${userInfo.lastName?.slice(0, 3)}...` :
+                        `${userInfo.name} ${userInfo.lastName?.slice(0, 6)}...`
+                ) : 'کاربر نامشخص'}{userInfo?.name && userInfo?.lastName ? <FontAwesomeIcon className='mr-1 smaller' icon={faUser} /> : <FontAwesomeIcon className='mr-1 smaller' icon={faExclamationTriangle} />}
               </button>
               <div className='user-profile-info hidden'>
                 <section className='relative'>
@@ -152,11 +172,11 @@ function Header() {
               </li>
             </ul>}
           {/* Smaller screen sizes sidebar view */}
-          {show && <Sidebar />}
+          {show && <Sidebar visibleSidebar={show} setVisibleSidebar={setShow} />}
           <Searchbar />
         </nav>
       </header>
-      <div className="relative z-10 flex justify-center items-center flex-wrap">
+      <div className="relative z-40 flex justify-center items-center flex-wrap">
         <div className={`logout-success ${successLogout ? 'show' : ''}`}>
           {successLogout && <Message type={'success'} text={'خروج موفقیت آمیز بود!'} size={'small'} />}
         </div>

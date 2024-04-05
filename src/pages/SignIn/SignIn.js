@@ -72,8 +72,11 @@ function SignIn() {
   useEffect(() => {
     phoneInputFocus(phoneInput);
     passwordInputFocus(passwordInput);
-    submitBtn.current.disabled = form[2].isDone ? false : true;
-  }, [phoneInput, passwordInput, form]);
+    if (!formStage) {
+      submitBtn.current.disabled = form[2].isDone ? false : true;
+    }
+
+  }, [phoneInput, passwordInput, form, formStage]);
 
   // Create a function to handle form first stage submit process
   const handleStageOne = (event, phoneInput) => {
@@ -85,7 +88,7 @@ function SignIn() {
 
     if (form[2].isDone && currentUser) {
       // When a user is found based on inserted phone number
-      localStorage.setItem('userPhone', JSON.stringify(phoneInput?.current?.value));
+      localStorage.setItem('userPhone', phoneInput?.current?.value);
       setFormStage(true);
 
       setSubmitMessage(prevState => ({
@@ -107,7 +110,7 @@ function SignIn() {
     passwordInputFocus(passwordInput);
 
     // Find current user data if the number existed (saved number in the local storage after stage one is completed)!
-    const currentUser = usersData?.find(item => item?.phone === parseInt(localStorage.getItem('userPhone').replace(/"/g, ''), 10));
+    const currentUser = usersData?.find(item => item?.phone === parseInt(localStorage.getItem('userPhone'), 10));
 
     if (form[3].isDone && currentUser?.password === passwordInput?.current?.value) {
       // When password matches with the inserted phone number
@@ -128,7 +131,6 @@ function SignIn() {
       }));
 
       if (!userError) {
-        localStorage.setItem('userPhone', '');
         localStorage.setItem('userLoggedIn', JSON.stringify(true));
         localStorage.setItem('userId', JSON.stringify(currentUser?.id));
       }
@@ -220,7 +222,7 @@ function SignIn() {
                 {form[3].errStatus ? <div className='text-red-400 mt-3 text-center smaller flex justify-center items-center flex-wrap'>{form[3].errorMessage}</div> : null}
               </div>}
               <div className='sign-up-btn-container flex justify-center items-center flex-wrap'>
-                <button type='submit' disabled={userError ? true : false} ref={submitBtn} className={`${form[2].isDone ? 'opacity-100' : 'opacity-60'} btn btn-primary smaller w-2/5 flex justify-center items-center`}>
+                <button type='submit' disabled={userError ? true : false} ref={submitBtn} className={`${form[2].isDone || localStorage.getItem('userPhone').length > 0 ? 'opacity-100' : 'opacity-60'} btn btn-primary smaller w-2/5 flex justify-center items-center`}>
                   {loading ?
                     <svg className="spinner" viewBox="0 0 50 50">
                       <circle className="path" cx="25" cy="25" r="20" fill="none" strokeWidth="5"></circle>

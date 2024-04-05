@@ -39,6 +39,28 @@
       "lastName": "مومنی مقدم",
       "phone": 9109275492,
       "password": "Pegah1403",
+      "loggedIn": true,
+      "cartItems": [
+        {}
+      ]
+    },
+    {
+      "id": 1712335964141,
+      "name": "علیرضا",
+      "lastName": "سارالکی موید",
+      "phone": 9205353263,
+      "password": "Abcd1234",
+      "loggedIn": false,
+      "cartItems": [
+        {}
+      ]
+    },
+    {
+      "id": 1712336569869,
+      "name": "سید حسین",
+      "lastName": "سید مجیدی",
+      "phone": 9365494422,
+      "password": "Dcba4321",
       "loggedIn": false,
       "cartItems": [
         {}
