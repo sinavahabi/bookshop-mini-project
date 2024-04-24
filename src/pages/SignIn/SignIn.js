@@ -6,9 +6,12 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Message from '../../components/Message/Message';
 import { useForm } from '../../hooks/useForm';
 import { useFetch } from '../../hooks/useFetch';
+import { useDispatch } from 'react-redux';
+import { userActions } from '../../store/user-slice';
 
 function SignIn() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const phoneInput = useRef(null);
   const passwordInput = useRef(null);
   const submitBtn = useRef(null);
@@ -121,7 +124,7 @@ function SignIn() {
 
       setUserId(currentUser?.id);
       submitBtn.current.disabled = true;
-      // Redirect to home page after one second delay in successful submission
+      // Redirect to home page after two second delay in successful submission
       !loading && !userError && setTimeout(() => navigate("/"), 2000);
 
       setSubmitMessage(prevState => ({
@@ -130,10 +133,15 @@ function SignIn() {
         UserNotFoundMessage: false
       }));
 
-      if (!userError) {
-        localStorage.setItem('userLoggedIn', JSON.stringify(true));
-        localStorage.setItem('userId', JSON.stringify(currentUser?.id));
-      }
+      setTimeout(() => {
+        if (!userError) {
+          localStorage.setItem('userLoggedIn', JSON.stringify(true));
+          localStorage.setItem('userId', JSON.stringify(currentUser?.id));
+
+          const { id, name, lastName, phone, password } = currentUser;
+          dispatch(userActions.loggedIn({ id, name, lastName, phone, password, loggedIn: true }));
+        }
+      }, 2000);
     } else {
       // When password doesn't match with the inserted phone number
       setSubmitMessage(prevState => ({
@@ -222,7 +230,7 @@ function SignIn() {
                 {form[3].errStatus ? <div className='text-red-400 mt-3 text-center smaller flex justify-center items-center flex-wrap'>{form[3].errorMessage}</div> : null}
               </div>}
               <div className='sign-up-btn-container flex justify-center items-center flex-wrap'>
-                <button type='submit' disabled={userError ? true : false} ref={submitBtn} className={`${form[2].isDone || localStorage.getItem('userPhone').length > 0 ? 'opacity-100' : 'opacity-60'} btn btn-primary smaller w-2/5 flex justify-center items-center`}>
+                <button type='submit' disabled={userError ? true : false} ref={submitBtn} className={`${form[2].isDone || localStorage.getItem('userPhone')?.length > 0 ? 'opacity-100' : 'opacity-60'} btn btn-primary smaller w-2/5 flex justify-center items-center`}>
                   {loading ?
                     <svg className="spinner" viewBox="0 0 50 50">
                       <circle className="path" cx="25" cy="25" r="20" fill="none" strokeWidth="5"></circle>

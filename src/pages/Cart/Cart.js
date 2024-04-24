@@ -1,8 +1,14 @@
 import './Cart.scss';
+import ProductList from '../../components/ProductList/ProductList';
+import { useSelector } from 'react-redux';
 
-function Cart() {
+function Cart({ isBlur }) {
+  const currentCartItems = useSelector(state => state.cart.cartItems);
+
   return (
-    <main className='main larger'>این بخش به زودی در دسترس قرار می‌گیرد...</main>
+    <section className='mt-3'>
+      <ProductList isProducts={false} products={currentCartItems} isBlur={isBlur} isCart={true} />
+    </section>
   );
 }
 

@@ -7,7 +7,7 @@ function Home({ isBlur }) {
   const { data: products, loading, error } = useFetch('http://localhost:5000/products', 'GET');
 
   return (
-    <ProductList isProducts={true} products={products} loading={loading} error={error} isBlur={isBlur} />
+    <ProductList isProducts={true} products={products} loading={loading} error={error} isBlur={isBlur} isCart={false} />
   );
 }
 

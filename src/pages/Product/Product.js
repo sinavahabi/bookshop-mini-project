@@ -1,7 +1,7 @@
 import './Product.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faUserEdit, faAddressBook, faMoneyBill, faStickyNote, faCalendarTimes, faPen } from '@fortawesome/free-solid-svg-icons';
-import { useParams } from 'react-router-dom';
+import { faUserEdit, faAddressBook, faMoneyBill, faStickyNote, faCalendarTimes, faPen, faArrowRight, faArrowLeft, faAngleDoubleLeft } from '@fortawesome/free-solid-svg-icons';
+import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { useFetch } from '../../hooks/useFetch';
 import Preview from '../../components/Preview/Preview';
 import Error from '../../components/Error/Error';
@@ -9,6 +9,10 @@ import Error from '../../components/Error/Error';
 function Product({ isBlur }) {
   const { productId } = useParams();
   const { data: product, loading, error } = useFetch(`http://localhost:5000/products/${productId}`, 'GET');
+  const { data: products } = useFetch('http://localhost:5000/products', 'GET');
+  const navigate = useNavigate();
+  const location = useLocation();
+
   return (
     <>
       {/* Show 'Error' component if an error occurred during API requests */}
@@ -21,9 +25,14 @@ function Product({ isBlur }) {
             <h2 className='larger font-medium text-center text-white bg-gray-500 py-2 rounded-t-lg'>{product.title}</h2>
             <img src={`http://localhost:3000/${product.image}`} className='h-48 md:h-64 lg:h-80 mx-auto mt-2' alt='book-cover' />
             <div className='details p-2 flex flex-col space-y-3 '>
-              <div className='flex items-center'>
-                <FontAwesomeIcon className='ml-1 text-slate-600' icon={faUserEdit} />
-                <h4 className='large'>نویسنده: {product.author}</h4>
+              <div className='flex justify-between items-center'>
+                <div className='flex items-center'>
+                  <FontAwesomeIcon className='ml-1 text-slate-600' icon={faUserEdit} />
+                  <h4 className='large'>نویسنده: {product.author}</h4>
+                </div>
+                <button type='button' className='btn btn-dark hover:bg-slate-500 focus:ring-0 focus:ring-offset-0 small w-1/6' onClick={() => navigate(-1)}>
+                  بازگشت<FontAwesomeIcon icon={faAngleDoubleLeft} className='mr-2' />
+                </button>
               </div>
               <div className='flex items-center'>
                 <FontAwesomeIcon className='ml-1 text-slate-600' icon={faAddressBook} />
@@ -45,7 +54,25 @@ function Product({ isBlur }) {
                 <FontAwesomeIcon className='ml-1 text-slate-600' icon={faPen} />
                 <p className='small'>درباره کتاب: {product.about}</p>
               </div>
-              <button className='btn btn-success large w-1/4 mx-auto'>خرید</button>
+              <div className="navigation-buttons flex justify-between items-center flex-wrap">
+                <button
+                  disabled={Number(productId) === 1 ? true : false}
+                  className={`btn hover:bg-slate-500 hover:text-white focus:ring-0 focus:ring-offset-0 medium w-1/12 ${Number(productId) === 1 ? 'opacity-60 cursor-not-allowed' : 'opacity-100 cursor-pointer'}`}
+                  onClick={() => navigate(`${location.pathname.match(/\/(.*?)\//g)}${Number(productId) - 1}`)}
+                >
+                  <FontAwesomeIcon icon={faArrowRight} />
+                </button>
+                <button
+                  className='btn btn-success medium w-1/4'
+                >خرید</button>
+                <button
+                  disabled={Number(productId) === products?.length ? true : false}
+                  className={`btn hover:bg-slate-500 hover:text-white focus:ring-0 focus:ring-offset-0 medium w-1/12 ${Number(productId) === products?.length ? 'opacity-60 cursor-not-allowed' : 'opacity-100 cursor-pointer'}`}
+                  onClick={() => navigate(`${location.pathname.match(/\/(.*?)\//g)}${Number(productId) + 1}`)}
+                >
+                  <FontAwesomeIcon icon={faArrowLeft} />
+                </button>
+              </div>
             </div>
           </div>}
       </main>}

@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { filterActions } from '../../store/filter-slice';
 import { blurActions } from '../../store/blur-slice';
+import { userActions } from '../../store/user-slice';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useFetch } from '../../hooks/useFetch';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -78,6 +79,7 @@ function Sidebar({ visibleSidebar, setVisibleSidebar }) {
                           ...userInfo,
                           loggedIn: false
                         });
+                        dispatch(userActions.loggedOut());
 
                         if (!userError) {
                           localStorage.setItem('userLoggedIn', JSON.stringify(false));

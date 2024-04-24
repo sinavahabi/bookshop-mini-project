@@ -7,6 +7,7 @@ import Message from '../../components/Message/Message';
 import { useDispatch } from 'react-redux';
 import { blurActions } from '../../store/blur-slice';
 import { filterActions } from '../../store/filter-slice';
+import { userActions } from '../../store/user-slice';
 import { useFetch } from '../../hooks/useFetch';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHome, faFilter, faUserFriends, faUserCheck, faSignIn, faSignOut, faBars, faUser, faUserCircle, faShoppingCart, faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
@@ -64,6 +65,7 @@ function Header() {
 
     if (!userError) {
       setSuccessLogout(true);
+      dispatch(userActions.loggedOut());
 
       setTimeout(() => {
         localStorage.setItem('userLoggedIn', JSON.stringify(false));

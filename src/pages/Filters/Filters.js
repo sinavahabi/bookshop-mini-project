@@ -12,7 +12,7 @@ function Filters({ isBlur, filterType }) {
     <>
       <Message type={'primary'} text={`دسته بندی: "${filterType || localStorage.getItem('selectedFilter')}"`} size={'large'} />
       {filterType || localStorage.getItem('selectedFilter')
-        ? <ProductList isProducts={false} products={filteredProducts} loading={loading} error={error} isBlur={isBlur} />
+        ? <ProductList isProducts={false} products={filteredProducts} loading={loading} error={error} isBlur={isBlur} isCart={false} />
         : <div className='main flex flex-col justify-center items-center space-y-4'>
           <p className='medium text-red-400'>دسته بندی مورد نظر خود را وارد کنید!</p>
           <NavLink to='/' className='btn btn-dark medium hover:bg-slate-600 focus:ring-slate-800 order-3 md:order-3'>بازگشت به خانه</NavLink>
