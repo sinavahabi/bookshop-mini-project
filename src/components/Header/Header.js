@@ -1,20 +1,23 @@
 import './Header.scss';
 import Searchbar from '../Searchbar/Searchbar';
 import { NavLink, useNavigate } from 'react-router-dom';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Sidebar from '../Sidebar/Sidebar';
 import Message from '../../components/Message/Message';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { blurActions } from '../../store/blur-slice';
 import { filterActions } from '../../store/filter-slice';
 import { userActions } from '../../store/user-slice';
 import { useFetch } from '../../hooks/useFetch';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHome, faFilter, faUserFriends, faUserCheck, faSignIn, faSignOut, faBars, faUser, faUserCircle, faShoppingCart, faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
+import { faHome, faFilter, faUserFriends, faUserCheck, faSignIn, faSignOut, faBars, faUserCircle, faShoppingCart, faShoppingBasket } from '@fortawesome/free-solid-svg-icons';
 
 function Header() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const currentCartItems = useSelector(state => state.cart.cartItems);
+  const userInfoRef = useRef(null);
+  const [userLabelWidth, setUserLabelWidth] = useState(144);
   const [show, setShow] = useState(false);
   const [successLogout, setSuccessLogout] = useState(false);
   const [selectedFilter, setSelectedFilter] = useState(null);
@@ -72,6 +75,7 @@ function Header() {
         localStorage.setItem('userId', '');
         localStorage.setItem('userPhone', '');
         window.location.reload();
+        navigate('/');
       }, 2000);
     }
   };
@@ -127,30 +131,42 @@ function Header() {
             </li>
           </ul>
           {localStorage.getItem('userLoggedIn')?.length === 4 ? <ul className='lg:flex justify-center items-center hidden'>
-            <li className='user-profile'>
-              <button className='btn hover:btn-dark focus:ring-0 focus:ring-offset-0 rounded-none'>
-                {userInfo?.name && userInfo?.lastName ? (
-                  userInfo.name.length >= 11 ? `${userInfo.name.slice(0, 11)}...` :
-                    userInfo.name.length >= 10 ? `${userInfo.name} ${userInfo.lastName?.slice(0, 2)}...` :
-                      userInfo.name.length >= 9 ? `${userInfo.name} ${userInfo.lastName?.slice(0, 3)}...` :
-                        `${userInfo.name} ${userInfo.lastName?.slice(0, 6)}...`
-                ) : 'کاربر نامشخص'}{userInfo?.name && userInfo?.lastName ? <FontAwesomeIcon className='mr-1 smaller' icon={faUser} /> : <FontAwesomeIcon className='mr-1 smaller' icon={faExclamationTriangle} />}
+            <li className='user-profile' ref={userInfoRef}>
+              <button
+                className='btn hover:btn-dark focus:ring-0 focus:ring-offset-0 rounded-none'
+                onMouseOver={() => setUserLabelWidth(userInfoRef.current?.clientWidth)}
+              >
+                {`${userInfo?.name || 'کاربر'} ${userInfo?.lastName || 'نامشخص'}`}
               </button>
               <div className='user-profile-info hidden'>
                 <section className='relative'>
-                  <div className='absolute top-0 -right-12 z-20 min-w-250 min-h-50 w-1/4 h-max bg-white shadow-2xl shadow-zinc-500 rounded-md'>
+                  <div
+                    className='absolute top-0 -right-12 z-20 min-w-250 min-h-100 w-1/4 h-max bg-white shadow-2xl shadow-zinc-500 rounded-md'
+                    style={{ width: userLabelWidth + 100 }}
+                  >
                     <ul className='flex justify-center items-center flex-wrap'>
-                      <li className='dropdown-item w-full text-center'>
+                      <li className='dropdown-item w-full text-center h-12'>
                         <NavLink to='/dashboard' className='profile-link btn focus:ring-0 focus:ring-offset-0'>
                           پروفایل کاربر<FontAwesomeIcon className='medium mr-1' icon={faUserCircle} />
                         </NavLink>
                       </li>
-                      <li className='dropdown-item w-full text-center'>
+                      <li className='dropdown-item w-full text-center h-12'>
                         <NavLink to='/cart' className='cart-link btn focus:ring-0 focus:ring-offset-0'>
-                          سبد خرید<FontAwesomeIcon className='small mr-1' icon={faShoppingCart} />
+                          سبد خرید<FontAwesomeIcon className='medium mr-1' icon={faShoppingCart} />
+                        </NavLink>
+                        {currentCartItems?.length === 0
+                          ? null
+                          : <span className="relative flex h-5 w-5 cart-ping">
+                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                            <span className="relative inline-flex rounded-full h-5 w-5 bg-red-500 text-white font-bold justify-center items-center cart-ping-font-size">{currentCartItems?.length}</span>
+                          </span>}
+                      </li>
+                      <li className='dropdown-item w-full text-center h-12'>
+                        <NavLink to='/bookshelf' className='cart-link btn focus:ring-0 focus:ring-offset-0'>
+                          قفسه کتاب<FontAwesomeIcon className='medium mr-1' icon={faShoppingBasket} />
                         </NavLink>
                       </li>
-                      <li className='dropdown-item w-full text-center'>
+                      <li className='dropdown-item w-full text-center h-14'>
                         <button type='button' className='btn focus:ring-0 focus:ring-offset-0' onClick={logOut}>
                           خروج از حساب<FontAwesomeIcon className='small mr-1' icon={faSignOut} />
                         </button>

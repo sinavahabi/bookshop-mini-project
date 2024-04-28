@@ -1,18 +1,20 @@
 import './Sidebar.scss';
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { filterActions } from '../../store/filter-slice';
 import { blurActions } from '../../store/blur-slice';
 import { userActions } from '../../store/user-slice';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useFetch } from '../../hooks/useFetch';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHome, faFilter, faUserFriends, faUserCheck, faSignIn, faSignOut, faUser, faUserCircle, faShoppingCart } from '@fortawesome/free-solid-svg-icons';
+import { faHome, faFilter, faUserFriends, faUserCheck, faSignIn, faSignOut, faAngleDown, faAngleUp, faUserCircle, faShoppingCart, faShoppingBasket } from '@fortawesome/free-solid-svg-icons';
 
 function Sidebar({ visibleSidebar, setVisibleSidebar }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const currentCartItems = useSelector(state => state.cart.cartItems);
   const [selectedFilter, setSelectedFilter] = useState(null);
+  const [showUserInfo, setShowUserInfo] = useState(false);
   const { data: userInfo, error: userError, loading } = useFetch(localStorage.getItem('userId')?.length > 0 ? `http://localhost:5001/users/${localStorage.getItem('userId')}` : '', 'GET');
   const { saveInfo } = useFetch(userInfo?.id ? `http://localhost:5001/users/${userInfo?.id}` : '', 'PUT');
 
@@ -49,52 +51,6 @@ function Sidebar({ visibleSidebar, setVisibleSidebar }) {
               درباره ما<FontAwesomeIcon className='mr-1 smaller' icon={faUserFriends} />
             </NavLink>
           </li>
-          {localStorage.getItem('userLoggedIn')?.length === 4 && <li className='user-profile'>
-            <button className='btn hover:btn-dark focus:ring-0 focus:ring-offset-0 rounded-none'>
-              {userInfo?.name && userInfo?.lastName ? (
-                userInfo.name.length >= 11 ? `${userInfo.name.slice(0, 11)}...` :
-                  userInfo.name.length >= 10 ? `${userInfo.name} ${userInfo.lastName?.slice(0, 2)}...` :
-                    userInfo.name.length >= 9 ? `${userInfo.name} ${userInfo.lastName?.slice(0, 3)}...` :
-                      `${userInfo.name} ${userInfo.lastName?.slice(0, 8)}...`
-              ) : 'کاربر نامشخص'}
-            </button>
-            <div className='user-profile-info hidden'>
-              <section className='relative'>
-                <div className='mini-modal absolute z-20 min-w-250 min-h-50 w-1/4 h-max bg-white shadow-2xl shadow-zinc-500 rounded-md'>
-                  <ul className='flex justify-center items-center flex-wrap'>
-                    <li className='dropdown-item w-full md:text-center text-right'>
-                      <NavLink to='/dashboard' onClick={handleNavLinkClick} className='profile-link btn focus:ring-0 focus:ring-offset-0'>
-                        پروفایل کاربر<FontAwesomeIcon className='medium mr-1' icon={faUserCircle} />
-                      </NavLink>
-                    </li>
-                    <li className='dropdown-item w-full md:text-center text-right'>
-                      <NavLink to='/cart' onClick={handleNavLinkClick} className='cart-link btn focus:ring-0 focus:ring-offset-0'>
-                        سبد خرید<FontAwesomeIcon className='small mr-1' icon={faShoppingCart} />
-                      </NavLink>
-                    </li>
-                    <li className='dropdown-item w-full md:text-center text-right'>
-                      <button type='button' className='btn focus:ring-0 focus:ring-offset-0' onClick={async () => {
-                        // handle user logout process
-                        saveInfo({
-                          ...userInfo,
-                          loggedIn: false
-                        });
-                        dispatch(userActions.loggedOut());
-
-                        if (!userError) {
-                          localStorage.setItem('userLoggedIn', JSON.stringify(false));
-                          localStorage.setItem('userId', '');
-                          localStorage.setItem('userPhone', '');
-                        }
-                      }}>
-                        خروج از حساب<FontAwesomeIcon className='small mr-1' icon={faSignOut} />
-                      </button>
-                    </li>
-                  </ul>
-                </div>
-              </section>
-            </div>
-          </li>}
           <li>
             <div className='dropdown relative inline-block'>
               <button type='button' className='btn hover:btn-dark focus:ring-0 focus:ring-offset-0 rounded-none block w-full dropdown-btn'>
@@ -126,6 +82,60 @@ function Sidebar({ visibleSidebar, setVisibleSidebar }) {
               </ul>
             </div>
           </li>
+          {localStorage.getItem('userLoggedIn')?.length === 4 && <li className='user-profile'>
+            <div className="flex items-center">
+              <button
+                className='text-right btn hover:btn-dark focus:ring-0 focus:ring-offset-0 rounded-none block w-full'
+                onClick={() => setShowUserInfo(prevState => !prevState)}
+              >
+                {`${userInfo?.name || 'کاربر'} ${userInfo?.lastName || 'نامشخص'}`}<FontAwesomeIcon className='navigate-icon' icon={showUserInfo ? faAngleUp : faAngleDown} />
+              </button>
+            </div>
+            {showUserInfo && <section>
+              <ul>
+                <li>
+                  <NavLink to='/dashboard' onClick={handleNavLinkClick} className='btn hover:btn-dark focus:ring-0 focus:ring-offset-0 rounded-none block w-full'>
+                    پروفایل کاربر<FontAwesomeIcon className='medium mr-1' icon={faUserCircle} />
+                  </NavLink>
+                </li>
+                <li>
+                  <button type='button' className='text-right btn hover:btn-dark focus:ring-0 focus:ring-offset-0 rounded-none block w-full' onClick={async () => {
+                    // handle user logout process
+                    saveInfo({
+                      ...userInfo,
+                      loggedIn: false
+                    });
+                    dispatch(userActions.loggedOut());
+
+                    if (!userError) {
+                      localStorage.setItem('userLoggedIn', JSON.stringify(false));
+                      localStorage.setItem('userId', '');
+                      localStorage.setItem('userPhone', '');
+                      navigate('/');
+                    }
+                  }}>
+                    خروج از حساب<FontAwesomeIcon className='small mr-1' icon={faSignOut} />
+                  </button>
+                </li>
+                <li>
+                  <NavLink to='/bookshelf' className='btn hover:btn-dark focus:ring-0 focus:ring-offset-0 rounded-none block w-full'>
+                    قفسه کتاب<FontAwesomeIcon className='medium mr-1' icon={faShoppingBasket} />
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink to='/cart' onClick={handleNavLinkClick} className='btn hover:btn-dark focus:ring-0 focus:ring-offset-0 rounded-none block w-full'>
+                    سبد خرید<FontAwesomeIcon className='small mr-1' icon={faShoppingCart} />
+                  </NavLink>
+                  {currentCartItems?.length === 0
+                    ? null
+                    : <span className="relative flex h-5 w-5 cart-ping-sidebar">
+                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                      <span className="relative inline-flex rounded-full h-5 w-5 bg-red-500 text-white font-bold justify-center items-center cart-ping-sidebar-font-size">{currentCartItems?.length}</span>
+                    </span>}
+                </li>
+              </ul>
+            </section>}
+          </li>}
           <hr className='h-1 bg-slate-600 w-full' />
           {localStorage.getItem('userLoggedIn')?.length !== 4 && <ul className='w-full flex flex-col flex-wrap'>
             <li>

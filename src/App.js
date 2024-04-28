@@ -4,6 +4,7 @@ import SharedLayout from './pages/SharedLayout/SharedLayout';
 import NotFound from './pages/404/404';
 import AboutUs from './pages/AboutUs/AboutUs';
 import Cart from './pages/Cart/Cart';
+import Bookshelf from './pages/Bookshelf/Bookshelf';
 import ChangePassword from './pages/ChangePassword/ChangePassword';
 import Dashboard from './pages/Dashboard/Dashboard';
 import Home from './pages/Home/Home';
@@ -33,17 +34,18 @@ function App() {
           <Routes>
             <Route path='/' element={<SharedLayout />}>
               <Route index element={<Home isBlur={isBlur} />} />
-              <Route path='/dashboard' element={isUserLoggedIn ? <Dashboard isBlur={isBlur} /> : <NotFound />} />
+              <Route path='/dashboard' element={isUserLoggedIn ? <Dashboard isBlur={isBlur} /> : <NotFound isBlur={isBlur} />} />
               <Route path='/search' element={<Search isBlur={isBlur} />} />
               <Route path='/filters' element={<Filters isBlur={isBlur} filterType={filterType} />} />
               <Route path='/products/:productId' element={<Product isBlur={isBlur} />} />
               <Route path='/about-us' element={<AboutUs isBlur={isBlur} />} />
-              <Route path='/cart' element={isUserLoggedIn ? <Cart isBlur={isBlur} /> : <NotFound />} />
+              <Route path='/cart' element={isUserLoggedIn ? <Cart isBlur={isBlur} /> : <NotFound isBlur={isBlur} />} />
+              <Route path='/bookshelf' element={isUserLoggedIn ? <Bookshelf isBlur={isBlur} /> : <NotFound isBlur={isBlur} />} />
             </Route>
-            <Route path='/sign-up' element={isUserLoggedIn ? <NotFound /> : <SignUp />} />
-            <Route path='/sign-in' element={isUserLoggedIn ? <NotFound /> : <SignIn />} />
-            <Route path='/change-password' element={isUserLoggedIn ? <NotFound /> : <ChangePassword />} />
-            <Route path='*' element={<NotFound />} />
+            <Route path='/sign-up' element={isUserLoggedIn ? <NotFound isBlur={isBlur} /> : <SignUp />} />
+            <Route path='/sign-in' element={isUserLoggedIn ? <NotFound isBlur={isBlur} /> : <SignIn />} />
+            <Route path='/change-password' element={isUserLoggedIn ? <NotFound isBlur={isBlur} /> : <ChangePassword />} />
+            <Route path='*' element={<NotFound isBlur={isBlur} />} />
           </Routes>
         </BrowserRouter>}
     </div>

@@ -5,6 +5,10 @@ module.exports = {
   ],
   theme: {
     extend: {
+      width: {
+        '600': '600px',
+        '1000': '1000px'
+      },
       minWidth: {
         '240': '240px',
         '250': '250px',

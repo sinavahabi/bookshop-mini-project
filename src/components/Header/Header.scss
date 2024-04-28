@@ -17,3 +17,12 @@
   opacity: 0;
   transition: transform .4s ease-in-out, opacity .8s ease-in-out 1.8s;
 }
+
+.cart-ping {
+  right: 122px;
+  bottom: 40px;
+
+  &-font-size {
+    font-size: .6rem;
+  }
+}

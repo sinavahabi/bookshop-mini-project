@@ -8,23 +8,34 @@ import { useDispatch } from 'react-redux';
 import { cartActions } from '../../store/cart-slice';
 import { useSelector } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUserEdit, faAddressBook, faMoneyBill, faStickyNote, faCalendarTimes, faCartPlus } from '@fortawesome/free-solid-svg-icons';
+import { faUserEdit, faAddressBook, faMoneyBill, faStickyNote, faCalendarTimes, faCartPlus, faPlus, faMinus } from '@fortawesome/free-solid-svg-icons';
 
 function ProductList({ isProducts, products, loading, error, isBlur, isCart }) {
   const dispatch = useDispatch();
-  const [isProductList, setIsProductList] = useState(false);
   const navigate = useNavigate();
   const currentCartItems = useSelector(state => state.cart.cartItems);
+  const isUserLoggedIn = useSelector(state => state.currentUser.loggedIn);
+  const [isProductList, setIsProductList] = useState(false);
 
   useEffect(() => {
     setIsProductList(isProducts);
   }, [isProducts]);
 
-  // Create a function to add cart items to user cart with API and Redux state management
-  const addItem = (product) => {
-    const { id, title, author, genre, price, image } = product;
-    dispatch(cartActions.addItem({ id, title, author, genre, price, image }));
+  // Create a function to add cart items to user cart
+  const addOneItem = (product) => {
+    const { id, title, author, genre, publishedDate, pages, price, image } = product;
+    dispatch(cartActions.increment({ id, title, author, genre, publishedDate, pages, price, image }));
   };
+
+  const removeOneItem = (product) => {
+    const { id } = product;
+    dispatch(cartActions.decrement({ id }));
+  };
+
+  const removeCartItem = (product) => {
+    const { id } = product
+    dispatch(cartActions.removeItem({ id }))
+  }
 
   return (
     <>
@@ -36,57 +47,69 @@ function ProductList({ isProducts, products, loading, error, isBlur, isCart }) {
           {loading
             ? Array.from({ length: 8 }, (_, index) => <Preview key={index} isProduct={false} />)
             : products.length === 0 ? isCart ? <Message text={'سبد خرید شما خالی است!'} size={'large'} /> : <Message type={'error'} text={'اطلاعاتی برای نمایش یافت نشد!'} size={'medium'} />
-              : products.map(product => (
-                <div className='product hover:rotate-3 transition shadow-2xl shadow-zinc-400 rounded-lg h-9/12 min-w-250 w-3/5 mx-auto sm:w-full' key={product.id} >
-                  <h2 className='large font-medium text-center text-white bg-gray-500 py-2 rounded-t-lg'>{product.title}</h2>
-                  <img src={product.image} className='h-40 mx-auto mt-2' alt='book-cover' />
-                  <div className='details p-2 flex flex-col space-y-3'>
-                    <div className='flex items-center'>
-                      <FontAwesomeIcon className='ml-1 text-slate-600' icon={faUserEdit} />
-                      <h4 className='medium'>نویسنده: {product.author}</h4>
-                    </div>
-                    <div className='flex items-center'>
-                      <FontAwesomeIcon className='ml-1 text-slate-600' icon={faAddressBook} />
-                      <h5 className='text-sm lg:text-lg md:text-base'>دسته‌بندی: {product.genre}</h5>
-                    </div>
-                    <div className='flex items-center'>
-                      <FontAwesomeIcon className='ml-1 text-slate-600' icon={faStickyNote} />
-                      <p className='smaller'>تعداد صفحات: {product.pages}</p>
-                    </div>
-                    <div className='flex items-center justify-between'>
-                      <div className='flex justify-center items-center flex-wrap'>
-                        <FontAwesomeIcon className='ml-1 text-slate-600' icon={faMoneyBill} />
-                        <p className='smaller'>قیمت: {product.price} تومان</p>
-                      </div>
-                      <button type='button' onClick={() => {
-                        addItem(product)
-                        console.log(
-                          currentCartItems?.map(item => {
-                            if (item.id === product.id) {
-                              return item.quantity
-                            }
+              : products.map(product => {
+                const isItemInCart = currentCartItems.some(item => item.id === product.id);
+                const itemQuantity = currentCartItems.find(item => item.id === product.id)?.quantity || 0;
 
-                            return item
-                          })
-                        );
-                      }}>
-                        <FontAwesomeIcon icon={faCartPlus}></FontAwesomeIcon>
-                      </button>
-                      {/* <button type="button">{}</button> */}
-                    </div>
-                    <div className='flex justify-between items-center'>
+                return (
+                  <div className={`product hover:rotate-3 transition shadow-2xl shadow-zinc-400 rounded-lg h-9/12 min-w-250 w-3/5 mx-auto sm:w-full ${isCart ? 'bg-white' : ''}`} key={product.id} >
+                    <h2 className='large font-medium text-center text-white bg-gray-500 py-2 rounded-t-lg'>{product.title}</h2>
+                    <img src={product.image} className='h-40 mx-auto mt-2' alt='book-cover' />
+                    <div className='details p-2 flex flex-col space-y-3'>
                       <div className='flex items-center'>
-                        <FontAwesomeIcon className='ml-1 text-slate-600' icon={faCalendarTimes} />
-                        <p className='smaller'>تاریخ انتشار: {product.publishedDate}</p>
+                        <FontAwesomeIcon className='ml-1 text-slate-600' icon={faUserEdit} />
+                        <h4 className='medium'>نویسنده: {product.author}</h4>
                       </div>
-                      {isCart ? <></> : isProductList
-                        ? <NavLink to={`products/${product.id}`} className='btn btn-primary small' >نمایش بیشتر</NavLink>
-                        : <span onClick={() => navigate(`/products/${product.id}`)} className='btn btn-primary small cursor-pointer' >نمایش بیشتر</span>
-                      }
+                      <div className='flex items-center'>
+                        <FontAwesomeIcon className='ml-1 text-slate-600' icon={faAddressBook} />
+                        <h5 className='text-sm lg:text-lg md:text-base'>دسته‌بندی: {product.genre}</h5>
+                      </div>
+                      <div className='flex items-center'>
+                        <FontAwesomeIcon className='ml-1 text-slate-600' icon={faStickyNote} />
+                        <p className='smaller'>تعداد صفحات: {product.pages}</p>
+                      </div>
+                      <div className='flex items-center justify-between'>
+                        <div className='flex justify-center items-center flex-wrap'>
+                          <FontAwesomeIcon className='ml-1 text-slate-600' icon={faMoneyBill} />
+                          <p className='smaller'>قیمت: {product.price} تومان</p>
+                        </div>
+                        {
+                          isUserLoggedIn ?
+                            isItemInCart ?
+                              <div className='flex justify-center items-center'>
+                                <button className='btn btn-circle hover:btn-primary focus:btn-primary w-7 h-7 ml-2' type='button' onClick={() => addOneItem(product)}>
+                                  <FontAwesomeIcon icon={faPlus}></FontAwesomeIcon>
+                                </button>
+                                <p>{itemQuantity}</p>
+                                <button className='btn btn-circle hover:btn-error focus:btn-error w-7 h-7 mr-2' type='button' onClick={() => removeOneItem(product)}>
+                                  <FontAwesomeIcon icon={faMinus}></FontAwesomeIcon>
+                                </button>
+                              </div> :
+                              <button className='btn btn-circle btn-success w-8 h-8' type='button' onClick={() => addOneItem(product)}>
+                                <FontAwesomeIcon className='mt-1' icon={faCartPlus}></FontAwesomeIcon>
+                              </button> :
+                            <NavLink className='btn btn-circle btn-success w-8 h-8 flex justify-center items-center' to='/sign-in'>
+                              <FontAwesomeIcon className='mt-1' icon={faCartPlus}></FontAwesomeIcon>
+                            </NavLink>
+                        }
+                      </div>
+                      <div className='flex justify-between items-center'>
+                        <div className='flex items-center'>
+                          <FontAwesomeIcon className='ml-1 text-slate-600' icon={faCalendarTimes} />
+                          <p className='smaller'>تاریخ انتشار: {product.publishedDate}</p>
+                        </div>
+                        {
+                          isCart
+                            ? <button className='btn btn-error font-semibold smaller' onClick={() => removeCartItem(product)}>{`حذف (${itemQuantity})`}</button>
+                            : isProductList
+                              ? <NavLink to={`products/${product.id}`} className='btn btn-primary small' >نمایش بیشتر</NavLink>
+                              : <span onClick={() => navigate(`/products/${product.id}`)} className='btn btn-primary small cursor-pointer' >نمایش بیشتر</span>
+                        }
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))}
+                );
+              })}
         </div>
       </main>}
     </>

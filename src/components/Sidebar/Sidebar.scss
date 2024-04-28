@@ -1,11 +1,23 @@
-.mini-modal {
-  right: 135px;
-  top: -45px;
+.navigate-icon {
+  transform: translate3d(-3px, 3px, 0);
+}
+
+.cart-ping-sidebar {
+  right: 76px;
+  bottom: 44px;
+
+  &-font-size {
+    font-size: .6rem;
+  }
 }
 
 @media screen and (max-width: 768px) {
-  .mini-modal {
-    right: 123px;
-    top: -40px;
+  .cart-ping-sidebar {
+    right: 67px;
+    bottom: 43px;
+
+    &-font-size {
+      font-size: .5rem;
+    }
   }
 }

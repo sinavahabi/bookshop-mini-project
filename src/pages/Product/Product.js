@@ -57,7 +57,7 @@ function Product({ isBlur }) {
               <div className="navigation-buttons flex justify-between items-center flex-wrap">
                 <button
                   disabled={Number(productId) === 1 ? true : false}
-                  className={`btn hover:bg-slate-500 hover:text-white focus:ring-0 focus:ring-offset-0 medium w-1/12 ${Number(productId) === 1 ? 'opacity-60 cursor-not-allowed' : 'opacity-100 cursor-pointer'}`}
+                  className={`btn hover:bg-slate-500 hover:text-white btn-circle w-8 h-8 medium ${Number(productId) === 1 ? 'opacity-60 cursor-not-allowed' : 'opacity-100 cursor-pointer'}`}
                   onClick={() => navigate(`${location.pathname.match(/\/(.*?)\//g)}${Number(productId) - 1}`)}
                 >
                   <FontAwesomeIcon icon={faArrowRight} />
@@ -67,7 +67,7 @@ function Product({ isBlur }) {
                 >خرید</button>
                 <button
                   disabled={Number(productId) === products?.length ? true : false}
-                  className={`btn hover:bg-slate-500 hover:text-white focus:ring-0 focus:ring-offset-0 medium w-1/12 ${Number(productId) === products?.length ? 'opacity-60 cursor-not-allowed' : 'opacity-100 cursor-pointer'}`}
+                  className={`btn hover:bg-slate-500 hover:text-white btn-circle w-8 h-8 medium ${Number(productId) === products?.length ? 'opacity-60 cursor-not-allowed' : 'opacity-100 cursor-pointer'}`}
                   onClick={() => navigate(`${location.pathname.match(/\/(.*?)\//g)}${Number(productId) + 1}`)}
                 >
                   <FontAwesomeIcon icon={faArrowLeft} />
