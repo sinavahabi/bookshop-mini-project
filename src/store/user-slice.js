@@ -1,14 +1,14 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { decryption } from "../token/token";
 
 const userSlice = createSlice({
   name: 'currentUser',
   initialState: {
-    id: Number(localStorage.getItem('userId')) || null,
+    id: Number(decryption('D4B7EF6F8553C18E', 'uid')) || null,
     name: null,
     lastName: null,
     phone: null,
     password: null,
-    loggedIn: localStorage.getItem('userLoggedIn')?.length === 4 ? true : false || false
   },
   reducers: {
     loggedIn(state, action) {
@@ -17,7 +17,6 @@ const userSlice = createSlice({
       state.lastName = action.payload.lastName;
       state.phone = action.payload.phone;
       state.password = action.payload.password;
-      state.loggedIn = action.payload.loggedIn;
     },
     loggedOut(state) {
       state.id = null;
@@ -25,7 +24,6 @@ const userSlice = createSlice({
       state.lastName = null;
       state.phone = null;
       state.password = null;
-      state.loggedIn = false;
     }
   }
 });

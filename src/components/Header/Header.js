@@ -9,6 +9,7 @@ import { blurActions } from '../../store/blur-slice';
 import { filterActions } from '../../store/filter-slice';
 import { userActions } from '../../store/user-slice';
 import { useFetch } from '../../hooks/useFetch';
+import { encryption } from '../../token/token';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHome, faFilter, faUserFriends, faUserCheck, faSignIn, faSignOut, faBars, faUserCircle, faShoppingCart, faShoppingBasket } from '@fortawesome/free-solid-svg-icons';
 
@@ -16,13 +17,14 @@ function Header() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const currentCartItems = useSelector(state => state.cart.cartItems);
+  const isUserLoggedIn = useSelector(state => state.currentUser.id ? state.currentUser.id : false);
+  const currentUserId = useSelector(state => state.currentUser.id);
   const userInfoRef = useRef(null);
   const [userLabelWidth, setUserLabelWidth] = useState(144);
   const [show, setShow] = useState(false);
   const [successLogout, setSuccessLogout] = useState(false);
   const [selectedFilter, setSelectedFilter] = useState(null);
-  const { data: userInfo, error: userError } = useFetch(localStorage.getItem('userId')?.length > 0 ? `http://localhost:5001/users/${localStorage.getItem('userId')}` : '', 'GET');
-  const { loading, error, saveInfo } = useFetch(userInfo?.id ? `http://localhost:5001/users/${userInfo?.id}` : '', 'PUT');
+  const { data: userInfo, error: userError } = useFetch(currentUserId ? `http://localhost:5001/users/${currentUserId}` : '', 'GET');
 
   useEffect(() => {
     const handleCheckbox = () => {
@@ -38,7 +40,7 @@ function Header() {
 
   const handleFilterChange = (filter) => {
     setSelectedFilter(filter === selectedFilter ? navigate('/') : filter);
-    localStorage.setItem('selectedFilter', filter);
+    encryption('1E633C454A2C5BD6', 'sf', filter);
   };
 
   const filters = [
@@ -61,20 +63,13 @@ function Header() {
 
   // Create a function to handle user logout
   const logOut = async () => {
-    saveInfo({
-      ...userInfo,
-      loggedIn: false
-    });
-
     if (!userError) {
       setSuccessLogout(true);
       dispatch(userActions.loggedOut());
 
       setTimeout(() => {
-        localStorage.setItem('userLoggedIn', JSON.stringify(false));
-        localStorage.setItem('userId', '');
-        localStorage.setItem('userPhone', '');
-        window.location.reload();
+        encryption('D4B7EF6F8553C18E', 'uid', '');
+        encryption('B7BE2BFB64C56BD3', 'umn', '');
         navigate('/');
       }, 2000);
     }
@@ -87,8 +82,6 @@ function Header() {
           <button type="button" className='expand-navbar btn rounded-none focus:ring-0 focus:ring-offset-0 lg:hidden block relative' onClick={showSidebar}>
             <FontAwesomeIcon icon={faBars} className={`${show ? 'rotate-90' : 'rotate-0'} transition-all duration-300`} />
           </button>
-          {error && <div className="absolute z-20 top-16 left-3 small animate-bounce bg-red-200 text-red-500 p-3 rounded-md">خطایی در خروج شما از حساب کاربری رخ داده است!</div>}
-          {loading && <div className="absolute z-20 top-16 right-3 medium animate-bounce bg-white p-3 rounded-md shadow-2xl shadow-zinc-400">لطفا صبر نمایید...</div>}
           {/* Larger screen sizes navbar view */}
           <ul className='lg:flex justify-center items-center hidden'>
             <li>
@@ -130,7 +123,7 @@ function Header() {
               </div>
             </li>
           </ul>
-          {localStorage.getItem('userLoggedIn')?.length === 4 ? <ul className='lg:flex justify-center items-center hidden'>
+          {isUserLoggedIn ? <ul className='lg:flex justify-center items-center hidden'>
             <li className='user-profile' ref={userInfoRef}>
               <button
                 className='btn hover:btn-dark focus:ring-0 focus:ring-offset-0 rounded-none'

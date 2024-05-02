@@ -5,6 +5,7 @@ import { faEye, faEyeSlash, faLock, faPhoneAlt, faArrowLeft } from '@fortawesome
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Message from '../../components/Message/Message';
 import { useForm } from '../../hooks/useForm';
+import { decryption, encryption } from '../../token/token';
 import { useFetch } from '../../hooks/useFetch';
 import { useDispatch } from 'react-redux';
 import { userActions } from '../../store/user-slice';
@@ -16,8 +17,7 @@ function SignIn() {
   const passwordInput = useRef(null);
   const submitBtn = useRef(null);
   const [passwordView, setPasswordView] = useState(false);
-  const [formStage, setFormStage] = useState(localStorage.getItem('userPhone')?.length > 0 ? true : false);
-  const [userId, setUserId] = useState(null);
+  const [formStage, setFormStage] = useState(decryption('B7BE2BFB64C56BD3', 'umn')?.length > 0 ? true : false);
   const [isHovered, setIsHovered] = useState(false);
 
   const [isFocused, setIsFocused] = useState({
@@ -33,7 +33,6 @@ function SignIn() {
 
   const { form, formValidation } = useForm();
   const { data: usersData, error: userError } = useFetch('http://localhost:5001/users', 'GET');
-  const { loading, error, saveInfo } = useFetch(userId ? `http://localhost:5001/users/${userId}` : '', 'PUT');
 
   // Create a function to move each label related to its relevant input smoothly when the input element is focused in
   const inputFocusIn = (inputName) => {
@@ -91,7 +90,7 @@ function SignIn() {
 
     if (form[2].isDone && currentUser) {
       // When a user is found based on inserted phone number
-      localStorage.setItem('userPhone', phoneInput?.current?.value);
+      encryption('B7BE2BFB64C56BD3', 'umn', phoneInput?.current?.value);
       setFormStage(true);
 
       setSubmitMessage(prevState => ({
@@ -113,19 +112,13 @@ function SignIn() {
     passwordInputFocus(passwordInput);
 
     // Find current user data if the number existed (saved number in the local storage after stage one is completed)!
-    const currentUser = usersData?.find(item => item?.phone === parseInt(localStorage.getItem('userPhone'), 10));
+    const currentUser = usersData?.find(item => item?.phone === parseInt(decryption('B7BE2BFB64C56BD3', 'umn'), 10));
 
     if (form[3].isDone && currentUser?.password === passwordInput?.current?.value) {
       // When password matches with the inserted phone number
-      saveInfo({
-        ...currentUser,
-        loggedIn: true
-      });
-
-      setUserId(currentUser?.id);
       submitBtn.current.disabled = true;
       // Redirect to home page after two second delay in successful submission
-      !loading && !userError && setTimeout(() => navigate("/"), 2000);
+      !userError && setTimeout(() => navigate("/"), 2000);
 
       setSubmitMessage(prevState => ({
         ...prevState,
@@ -135,11 +128,11 @@ function SignIn() {
 
       setTimeout(() => {
         if (!userError) {
-          localStorage.setItem('userLoggedIn', JSON.stringify(true));
-          localStorage.setItem('userId', JSON.stringify(currentUser?.id));
+          
+          encryption('D4B7EF6F8553C18E', 'uid', JSON.stringify(currentUser?.id));
 
           const { id, name, lastName, phone, password } = currentUser;
-          dispatch(userActions.loggedIn({ id, name, lastName, phone, password, loggedIn: true }));
+          dispatch(userActions.loggedIn({ id, name, lastName, phone, password }));
         }
       }, 2000);
     } else {
@@ -167,25 +160,25 @@ function SignIn() {
   // Create a function to go back to phone number stage
   const backBtn = () => {
     setFormStage(false);
-    localStorage.setItem('userPhone', '');
+    encryption('B7BE2BFB64C56BD3', 'umn', '');
   };
 
   return (
     <>
       <div className="relative flex justify-center items-center flex-wrap">
         <div className={`submit-success ${submitMessage.successMessage ? 'show' : ''}`}>
-          {(submitMessage.successMessage && !error && !userError) && <Message type={'success'} text={'ورود موفقیت آمیز بود!'} size={'small'} />}
+          {(submitMessage.successMessage && !userError) && <Message type={'success'} text={'ورود موفقیت آمیز بود!'} size={'small'} />}
         </div>
       </div>
       <div className="relative flex justify-center items-center flex-wrap">
-        <div className={`submit-err w-full ${submitMessage.errorMessage ? 'show' : submitMessage.UserNotFoundMessage ? 'show-alert' : error}`}>
+        <div className={`submit-err w-full ${submitMessage.errorMessage ? 'show' : submitMessage.UserNotFoundMessage ? 'show-alert' : null}`}>
           {submitMessage.errorMessage ?
             <Message type={'error'} text={'رمز عبور شما صحیح نمی‌باشد!'} size={'small'} /> :
             submitMessage.UserNotFoundMessage ?
               <Message type={'error'} text={'این شماره تماس ثبت نشده است!'} size={'medium'} /> :
               null}
         </div>
-        {(error || userError) && <p className='text-red-400 medium absolute top-28 text-center'>خطایی رخ داده است! درحال حاضر امکان ورود به حساب کاربری خود را ندارید!</p>}
+        {userError && <p className='text-red-400 medium absolute top-28 text-center'>خطایی رخ داده است! درحال حاضر امکان ورود به حساب کاربری خود را ندارید!</p>}
       </div>
       <section className='h-screen lg:w-96 md:w-80 sm:w-72 w-64 mx-auto flex flex-col justify-center items-center flex-wrap'>
         <div className='sign-up w-full'>
@@ -230,14 +223,12 @@ function SignIn() {
                 {form[3].errStatus ? <div className='text-red-400 mt-3 text-center smaller flex justify-center items-center flex-wrap'>{form[3].errorMessage}</div> : null}
               </div>}
               <div className='sign-up-btn-container flex justify-center items-center flex-wrap'>
-                <button type='submit' disabled={userError ? true : false} ref={submitBtn} className={`${form[2].isDone || localStorage.getItem('userPhone')?.length > 0 ? 'opacity-100' : 'opacity-60'} btn btn-primary smaller w-2/5 flex justify-center items-center`}>
-                  {loading ?
-                    <svg className="spinner" viewBox="0 0 50 50">
-                      <circle className="path" cx="25" cy="25" r="20" fill="none" strokeWidth="5"></circle>
-                    </svg> :
-                    formStage ?
-                      'ورود' :
-                      'بعدی'}
+                <button type='submit' disabled={userError ? true : false} ref={submitBtn} className={`${form[2].isDone || decryption('B7BE2BFB64C56BD3', 'umn')?.length > 0 ? 'opacity-100' : 'opacity-60'} btn btn-primary smaller w-2/5 flex justify-center items-center`}>
+                  {
+                    formStage
+                      ? 'ورود'
+                      : 'بعدی'
+                  }
                 </button>
               </div>
               {formStage && <div className="back-btn-container flex flex-wrap justify-around items-center min-w-240">

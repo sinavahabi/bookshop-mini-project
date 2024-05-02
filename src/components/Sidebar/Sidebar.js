@@ -6,6 +6,7 @@ import { blurActions } from '../../store/blur-slice';
 import { userActions } from '../../store/user-slice';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useFetch } from '../../hooks/useFetch';
+import { encryption } from '../../token/token';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHome, faFilter, faUserFriends, faUserCheck, faSignIn, faSignOut, faAngleDown, faAngleUp, faUserCircle, faShoppingCart, faShoppingBasket } from '@fortawesome/free-solid-svg-icons';
 
@@ -13,14 +14,15 @@ function Sidebar({ visibleSidebar, setVisibleSidebar }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const currentCartItems = useSelector(state => state.cart.cartItems);
+  const isUserLoggedIn = useSelector(state => state.currentUser.id ? state.currentUser.id : false);
+  const currentUserId = useSelector(state => state.currentUser.id);
   const [selectedFilter, setSelectedFilter] = useState(null);
   const [showUserInfo, setShowUserInfo] = useState(false);
-  const { data: userInfo, error: userError, loading } = useFetch(localStorage.getItem('userId')?.length > 0 ? `http://localhost:5001/users/${localStorage.getItem('userId')}` : '', 'GET');
-  const { saveInfo } = useFetch(userInfo?.id ? `http://localhost:5001/users/${userInfo?.id}` : '', 'PUT');
+  const { data: userInfo, error: userError } =  useFetch(currentUserId ? `http://localhost:5001/users/${currentUserId}` : '', 'GET');
 
   const handleFilterChange = (filter) => {
     setSelectedFilter(filter === selectedFilter ? null : filter);
-    localStorage.setItem('selectedFilter', filter);
+    encryption('1E633C454A2C5BD6', 'sf', filter);
   };
 
   const filters = [
@@ -38,8 +40,6 @@ function Sidebar({ visibleSidebar, setVisibleSidebar }) {
   return (
     <>
       {visibleSidebar && <nav className='sidebar lg:hidden py-6 flex justify-start items-start fixed z-10 top-10 md:top-11 h-screen w-1/2 min-w-250 shadow-2xl shadow-zinc-400 bg-slate-50'>
-        {userError && <div className='absolute z-20 top-72 left-1 right-1 small animate-bounce bg-red-200 text-red-500 p-3 rounded-md'>خطایی رخ داده است! ممکن است درحال حاضر اطلاعات به روز نشوند!</div>}
-        {loading && <div className='absolute z-20 top-72 right-1 medium animate-bounce bg-white p-3 rounded-md shadow-2xl shadow-zinc-400'>لطفا صبر نمایید...</div>}
         <ul className='w-full flex flex-col flex-wrap'>
           <li>
             <NavLink to='/' onClick={handleNavLinkClick} className='btn hover:btn-dark focus:ring-0 focus:ring-offset-0 rounded-none block w-full'>
@@ -82,7 +82,7 @@ function Sidebar({ visibleSidebar, setVisibleSidebar }) {
               </ul>
             </div>
           </li>
-          {localStorage.getItem('userLoggedIn')?.length === 4 && <li className='user-profile'>
+          {isUserLoggedIn && <li className='user-profile'>
             <div className="flex items-center">
               <button
                 className='text-right btn hover:btn-dark focus:ring-0 focus:ring-offset-0 rounded-none block w-full'
@@ -99,18 +99,12 @@ function Sidebar({ visibleSidebar, setVisibleSidebar }) {
                   </NavLink>
                 </li>
                 <li>
-                  <button type='button' className='text-right btn hover:btn-dark focus:ring-0 focus:ring-offset-0 rounded-none block w-full' onClick={async () => {
-                    // handle user logout process
-                    saveInfo({
-                      ...userInfo,
-                      loggedIn: false
-                    });
+                  <button type='button' className='text-right btn hover:btn-dark focus:ring-0 focus:ring-offset-0 rounded-none block w-full' onClick={() => {
                     dispatch(userActions.loggedOut());
 
                     if (!userError) {
-                      localStorage.setItem('userLoggedIn', JSON.stringify(false));
-                      localStorage.setItem('userId', '');
-                      localStorage.setItem('userPhone', '');
+                      encryption('D4B7EF6F8553C18E', 'uid', '');
+                      encryption('B7BE2BFB64C56BD3', 'umn', '');
                       navigate('/');
                     }
                   }}>
@@ -137,7 +131,7 @@ function Sidebar({ visibleSidebar, setVisibleSidebar }) {
             </section>}
           </li>}
           <hr className='h-1 bg-slate-600 w-full' />
-          {localStorage.getItem('userLoggedIn')?.length !== 4 && <ul className='w-full flex flex-col flex-wrap'>
+          {!isUserLoggedIn && <ul className='w-full flex flex-col flex-wrap'>
             <li>
               <NavLink to='/sign-up' onClick={handleNavLinkClick} className='btn hover:btn-dark focus:ring-0 focus:ring-offset-0 rounded-none block w-full'>
                 ثبت نام<FontAwesomeIcon className='mr-1 smaller' icon={faUserCheck} />

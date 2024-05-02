@@ -14,7 +14,7 @@ function ProductList({ isProducts, products, loading, error, isBlur, isCart }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const currentCartItems = useSelector(state => state.cart.cartItems);
-  const isUserLoggedIn = useSelector(state => state.currentUser.loggedIn);
+  const isUserLoggedIn = useSelector(state => state.currentUser.id ? state.currentUser.id : false);
   const [isProductList, setIsProductList] = useState(false);
 
   useEffect(() => {

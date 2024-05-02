@@ -20,7 +20,7 @@ import { useFetch } from './hooks/useFetch';
 function App() {
   const isBlur = useSelector(state => state.blur.isBlur);
   const filterType = useSelector(state => state.filter.filterType);
-  const isUserLoggedIn = useSelector(state => state.currentUser.loggedIn);
+  const isUserLoggedIn = useSelector(state => state.currentUser.id ? state.currentUser.id : false);
   const { error: productsErr } = useFetch('http://localhost:5000/products', 'GET');
   const { error: usersErr } = useFetch('http://localhost:5001/users', 'GET');
 

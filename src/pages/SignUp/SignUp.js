@@ -108,8 +108,7 @@ function SignUp() {
           lastName: lastNameInput.current.value,
           phone: Number(phoneInput.current.value),
           password: passwordInput.current.value,
-          loggedIn: false,
-          cartItems: [{}]
+          cartItems: []
         });
 
         submitBtn.current.disabled = true;
