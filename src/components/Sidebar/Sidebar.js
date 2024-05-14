@@ -3,12 +3,13 @@ import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { filterActions } from '../../store/filter-slice';
 import { blurActions } from '../../store/blur-slice';
-import { userActions } from '../../store/user-slice';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useFetch } from '../../hooks/useFetch';
 import { encryption } from '../../token/token';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHome, faFilter, faUserFriends, faUserCheck, faSignIn, faSignOut, faAngleDown, faAngleUp, faUserCircle, faShoppingCart, faShoppingBasket } from '@fortawesome/free-solid-svg-icons';
+import { userActions } from '../../store/user-slice';
+import { cartActions } from '../../store/cart-slice';
 
 function Sidebar({ visibleSidebar, setVisibleSidebar }) {
   const dispatch = useDispatch();
@@ -18,7 +19,7 @@ function Sidebar({ visibleSidebar, setVisibleSidebar }) {
   const currentUserId = useSelector(state => state.currentUser.id);
   const [selectedFilter, setSelectedFilter] = useState(null);
   const [showUserInfo, setShowUserInfo] = useState(false);
-  const { data: userInfo, error: userError } =  useFetch(currentUserId ? `http://localhost:5001/users/${currentUserId}` : '', 'GET');
+  const { data: userInfo, error: userError } = useFetch(currentUserId ? `http://localhost:5001/users/${currentUserId}` : '', 'GET');
 
   const handleFilterChange = (filter) => {
     setSelectedFilter(filter === selectedFilter ? null : filter);
@@ -100,11 +101,11 @@ function Sidebar({ visibleSidebar, setVisibleSidebar }) {
                 </li>
                 <li>
                   <button type='button' className='text-right btn hover:btn-dark focus:ring-0 focus:ring-offset-0 rounded-none block w-full' onClick={() => {
-                    dispatch(userActions.loggedOut());
-
                     if (!userError) {
+                      dispatch(userActions.loggedOut());
                       encryption('D4B7EF6F8553C18E', 'uid', '');
                       encryption('B7BE2BFB64C56BD3', 'umn', '');
+                      dispatch(cartActions.removeAll());
                       navigate('/');
                     }
                   }}>

@@ -1,25 +1,31 @@
 import './ProductList.scss';
-import { NavLink, useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate, useLocation } from 'react-router-dom';
 import Preview from '../Preview/Preview';
 import Error from '../Error/Error';
 import Message from '../Message/Message';
 import { useState, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { cartActions } from '../../store/cart-slice';
-import { useSelector } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUserEdit, faAddressBook, faMoneyBill, faStickyNote, faCalendarTimes, faCartPlus, faPlus, faMinus } from '@fortawesome/free-solid-svg-icons';
+import { decryption, encryption } from '../../token/token';
 
-function ProductList({ isProducts, products, loading, error, isBlur, isCart }) {
+function ProductList({ isProducts, products, loading, error, isBlur, isCart, page, limit }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const location = useLocation();
   const currentCartItems = useSelector(state => state.cart.cartItems);
   const isUserLoggedIn = useSelector(state => state.currentUser.id ? state.currentUser.id : false);
   const [isProductList, setIsProductList] = useState(false);
+  const [items, setItems] = useState([]);
 
   useEffect(() => {
     setIsProductList(isProducts);
   }, [isProducts]);
+
+  useEffect(() => {
+    setItems(page && limit ? products?.filter(item => item.id > (limit * page - limit) && item.id <= (limit * page)) : products);
+  }, [page, limit, products]);
 
   // Create a function to add cart items to user cart
   const addOneItem = (product) => {
@@ -35,24 +41,24 @@ function ProductList({ isProducts, products, loading, error, isBlur, isCart }) {
   const removeCartItem = (product) => {
     const { id } = product
     dispatch(cartActions.removeItem({ id }))
-  }
+  };
 
   return (
     <>
       {/* Show 'Error' component if an error occurred during API requests */}
       {error && <Error message={error} />}
       {!error && <main className={`main container mx-auto ${isBlur ? 'blur-sm' : 'blur-none'}`}>
-        <div className={products.length === 0 && !loading ? '' : 'grid xl:grid-cols-4 lg:grid-cols-3 sm:grid-cols-2 gap-8 mt-2'}>
+        <div className={items.length === 0 && !loading ? '' : 'grid xl:grid-cols-4 lg:grid-cols-3 sm:grid-cols-2 gap-8 mt-2'}>
           {/* Show 'Preview' component for the time products are loading */}
           {loading
-            ? Array.from({ length: 8 }, (_, index) => <Preview key={index} isProduct={false} />)
-            : products.length === 0 ? isCart ? <Message text={'سبد خرید شما خالی است!'} size={'large'} /> : <Message type={'error'} text={'اطلاعاتی برای نمایش یافت نشد!'} size={'medium'} />
-              : products.map(product => {
+            ? Array.from({ length: 8 }, (_, index) => <Preview key={index} isProduct={false} isBookshelf={false} />)
+            : items.length === 0 ? isCart ? <Message text={'سبد خرید شما خالی است!'} size={'large'} /> : <Message type={'error'} text={'اطلاعاتی برای نمایش یافت نشد!'} size={'medium'} />
+              : items.map(product => {
                 const isItemInCart = currentCartItems.some(item => item.id === product.id);
                 const itemQuantity = currentCartItems.find(item => item.id === product.id)?.quantity || 0;
 
                 return (
-                  <div className={`product hover:rotate-3 transition shadow-2xl shadow-zinc-400 rounded-lg h-9/12 min-w-250 w-3/5 mx-auto sm:w-full ${isCart ? 'bg-white' : ''}`} key={product.id} >
+                  <div className={`products hover:rotate-3 transition shadow-2xl shadow-zinc-400 rounded-lg h-9/12 min-w-250 w-3/5 mx-auto sm:w-full ${isCart ? 'bg-white' : ''}`} key={product.id} >
                     <h2 className='large font-medium text-center text-white bg-gray-500 py-2 rounded-t-lg'>{product.title}</h2>
                     <img src={product.image} className='h-40 mx-auto mt-2' alt='book-cover' />
                     <div className='details p-2 flex flex-col space-y-3'>
@@ -74,9 +80,9 @@ function ProductList({ isProducts, products, loading, error, isBlur, isCart }) {
                           <p className='smaller'>قیمت: {product.price} تومان</p>
                         </div>
                         {
-                          isUserLoggedIn ?
-                            isItemInCart ?
-                              <div className='flex justify-center items-center'>
+                          isUserLoggedIn
+                            ? isItemInCart
+                              ? <div className='flex justify-center items-center'>
                                 <button className='btn btn-circle hover:btn-primary focus:btn-primary w-7 h-7 ml-2' type='button' onClick={() => addOneItem(product)}>
                                   <FontAwesomeIcon icon={faPlus}></FontAwesomeIcon>
                                 </button>
@@ -84,11 +90,11 @@ function ProductList({ isProducts, products, loading, error, isBlur, isCart }) {
                                 <button className='btn btn-circle hover:btn-error focus:btn-error w-7 h-7 mr-2' type='button' onClick={() => removeOneItem(product)}>
                                   <FontAwesomeIcon icon={faMinus}></FontAwesomeIcon>
                                 </button>
-                              </div> :
-                              <button className='btn btn-circle btn-success w-8 h-8' type='button' onClick={() => addOneItem(product)}>
+                              </div>
+                              : <button className='btn btn-circle btn-success w-8 h-8' type='button' onClick={() => addOneItem(product)}>
                                 <FontAwesomeIcon className='mt-1' icon={faCartPlus}></FontAwesomeIcon>
-                              </button> :
-                            <NavLink className='btn btn-circle btn-success w-8 h-8 flex justify-center items-center' to='/sign-in'>
+                              </button>
+                            : <NavLink className='btn btn-circle btn-success w-8 h-8 flex justify-center items-center' to='/sign-in'>
                               <FontAwesomeIcon className='mt-1' icon={faCartPlus}></FontAwesomeIcon>
                             </NavLink>
                         }
@@ -102,8 +108,18 @@ function ProductList({ isProducts, products, loading, error, isBlur, isCart }) {
                           isCart
                             ? <button className='btn btn-error font-semibold smaller' onClick={() => removeCartItem(product)}>{`حذف (${itemQuantity})`}</button>
                             : isProductList
-                              ? <NavLink to={`products/${product.id}`} className='btn btn-primary small' >نمایش بیشتر</NavLink>
-                              : <span onClick={() => navigate(`/products/${product.id}`)} className='btn btn-primary small cursor-pointer' >نمایش بیشتر</span>
+                              ? <NavLink
+                                to={`products/${product.id}`} state={{ previousPath: location.pathname }}
+                                className='btn btn-primary small'
+                                onClick={() => location.pathname ? encryption('A1DBD3FBC2B9D5AC', 'pp', location.pathname) : encryption('A1DBD3FBC2B9D5AC', 'pp', decryption('A1DBD3FBC2B9D5AC', 'pp'))}
+                              >نمایش بیشتر</NavLink>
+                              : <span
+                                onClick={() => {
+                                  navigate(`/products/${product.id}`, { state: { previousPath: location.pathname } });
+                                  location.pathname ? encryption('A1DBD3FBC2B9D5AC', 'pp', location.pathname) : encryption('A1DBD3FBC2B9D5AC', 'pp', decryption('A1DBD3FBC2B9D5AC', 'pp'));
+                                }}
+                                className='btn btn-primary small cursor-pointer'
+                              >نمایش بیشتر</span>
                         }
                       </div>
                     </div>

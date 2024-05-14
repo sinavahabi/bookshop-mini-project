@@ -1,3 +1,5 @@
-.success-purchase-message {
-  transform: translateY(50px);
+@import "../SignUp/SignUp.scss";
+
+.hovered:hover .goto-shelf-icon {
+  opacity: 1;
 }

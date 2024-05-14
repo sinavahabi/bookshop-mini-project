@@ -20,6 +20,7 @@ function Searchbar() {
       navigate(`/search?q=${term}`);
       // Hide error message if exists on UI
       setEmptyValue(false);
+      setTerm('');
     } else {
       // Show error message on UI
       setEmptyValue(true);
@@ -41,7 +42,17 @@ function Searchbar() {
         <ProgressBar duration={2000} />
       </section>}
       <div className='search-form flex justify-around items-center'>
-        <input type='search' name='search' id='search' autoComplete='true' ref={inputRef} onChange={() => setTerm(inputRef.current?.value)} placeholder='جستجوی کتاب' className='small py-1 px-1 ml-1 input' />
+        <input
+          type='search'
+          name='search'
+          id='search'
+          autoComplete='true'
+          ref={inputRef}
+          value={term}
+          onChange={() => setTerm(inputRef.current?.value)}
+          placeholder='جستجوی کتاب'
+          className='small py-1 px-1 ml-1 input'
+        />
         <button type='submit' className='btn btn-dark py-1 ml-1 border-2 border-slate-700 hover:bg-slate-500 hover:border-slate-500 focus:ring-0 focus:ring-offset-0'>
           <FontAwesomeIcon icon={faSearch} />
         </button>

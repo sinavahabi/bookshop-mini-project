@@ -128,9 +128,7 @@ function SignIn() {
 
       setTimeout(() => {
         if (!userError) {
-          
           encryption('D4B7EF6F8553C18E', 'uid', JSON.stringify(currentUser?.id));
-
           const { id, name, lastName, phone, password } = currentUser;
           dispatch(userActions.loggedIn({ id, name, lastName, phone, password }));
         }

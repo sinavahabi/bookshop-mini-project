@@ -1,21 +1,32 @@
 import './Modal.scss';
 import { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faClose } from '@fortawesome/free-solid-svg-icons';
+import { faTimes } from '@fortawesome/free-solid-svg-icons';
+import { useDispatch } from 'react-redux';
+import { blurActions } from '../../store/blur-slice';
 
-function Modal({closeBtn, children }) {
+function Modal({ modalTitle, closeBtn, children }) {
+  const dispatch = useDispatch();
   const [showModal, setShowModal] = useState(true);
+
+  const closeModal = () => {
+    setShowModal(false);
+    dispatch(blurActions.blurOut());
+  };
+
   return (
-    <section className='main flex flex-col justify-center items-center'>
-      {showModal ? <div className='relative z-30 w-3/5 min-h-400 rounded-md shadow-2xl shadow-zinc-500 p-2'>
-        <div className='w-full'>
-          {closeBtn && <button type='button' className='btn focus:ring-0 focus:ring-offset-0 medium float-left' onClick={() => setShowModal(false)}>
-            <FontAwesomeIcon className='medium' icon={faClose} />
-          </button>}
-          <br/><br/>
-          <div className="content">{children}</div>
+    <section className={`fixed top-0 left-0 w-full h-full z-50 flex justify-center items-center ${showModal ? 'block' : 'hidden'}`} >
+      <div className="shadow-2xl shadow-zinc-500 bg-white rounded-lg">
+        <div className="flex justify-between items-center p-4 border-b-2">
+          <h2 className="text-lg font-semibold">{modalTitle}</h2>
+          {closeBtn && (
+            <button onClick={closeModal}>
+              <FontAwesomeIcon icon={faTimes} className="btn btn-circle text-slate-600 hover:btn-dark medium px-2 py-1" />
+            </button>
+          )}
         </div>
-      </div> : <></>}
+        <div className="p-4">{children}</div>
+      </div>
     </section>
   );
 }

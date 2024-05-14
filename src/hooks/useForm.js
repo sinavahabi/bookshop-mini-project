@@ -7,7 +7,7 @@ export function useForm() {
       name: 'fName',
       errorMessage: 'نام باید تنها شامل حروف فارسی بین 3 تا 20 حرف باشد!',
       errStatus: false,
-      validation: /^[\u0600-\u06FF\s]{3,20}$/,
+      validation: /^[\u0600-\u06FF\s]{3,15}$/,
       isDone: false
     },
     {
@@ -15,7 +15,7 @@ export function useForm() {
       name: 'lName',
       errorMessage: 'نام خانوادگی باید تنها شامل حروف فارسی بین 3 تا 30 حرف باشد!',
       errStatus: false,
-      validation: /^[\u0600-\u06FF\s]{3,30}$/,
+      validation: /^[\u0600-\u06FF\s]{3,20}$/,
       isDone: false
     },
     {

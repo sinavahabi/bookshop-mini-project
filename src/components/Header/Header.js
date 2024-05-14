@@ -7,11 +7,12 @@ import Message from '../../components/Message/Message';
 import { useDispatch, useSelector } from 'react-redux';
 import { blurActions } from '../../store/blur-slice';
 import { filterActions } from '../../store/filter-slice';
-import { userActions } from '../../store/user-slice';
 import { useFetch } from '../../hooks/useFetch';
 import { encryption } from '../../token/token';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHome, faFilter, faUserFriends, faUserCheck, faSignIn, faSignOut, faBars, faUserCircle, faShoppingCart, faShoppingBasket } from '@fortawesome/free-solid-svg-icons';
+import { userActions } from '../../store/user-slice';
+import { cartActions } from '../../store/cart-slice';
 
 function Header() {
   const dispatch = useDispatch();
@@ -65,11 +66,12 @@ function Header() {
   const logOut = async () => {
     if (!userError) {
       setSuccessLogout(true);
-      dispatch(userActions.loggedOut());
 
       setTimeout(() => {
+        dispatch(userActions.loggedOut());
         encryption('D4B7EF6F8553C18E', 'uid', '');
         encryption('B7BE2BFB64C56BD3', 'umn', '');
+        dispatch(cartActions.removeAll());
         navigate('/');
       }, 2000);
     }
@@ -124,7 +126,7 @@ function Header() {
             </li>
           </ul>
           {isUserLoggedIn ? <ul className='lg:flex justify-center items-center hidden'>
-            <li className='user-profile' ref={userInfoRef}>
+            <li className='user-profile text-center' ref={userInfoRef} style={{ minWidth: 144 }}>
               <button
                 className='btn hover:btn-dark focus:ring-0 focus:ring-offset-0 rounded-none'
                 onMouseOver={() => setUserLabelWidth(userInfoRef.current?.clientWidth)}
@@ -135,7 +137,7 @@ function Header() {
                 <section className='relative'>
                   <div
                     className='absolute top-0 -right-12 z-20 min-w-250 min-h-100 w-1/4 h-max bg-white shadow-2xl shadow-zinc-500 rounded-md'
-                    style={{ width: userLabelWidth + 100 }}
+                    style={{ width: userLabelWidth + 100, minWidth: 244 }}
                   >
                     <ul className='flex justify-center items-center flex-wrap'>
                       <li className='dropdown-item w-full text-center h-12'>
@@ -144,15 +146,15 @@ function Header() {
                         </NavLink>
                       </li>
                       <li className='dropdown-item w-full text-center h-12'>
-                        <NavLink to='/cart' className='cart-link btn focus:ring-0 focus:ring-offset-0'>
+                        <NavLink to='/cart' className='cart-link relative btn focus:ring-0 focus:ring-offset-0'>
                           سبد خرید<FontAwesomeIcon className='medium mr-1' icon={faShoppingCart} />
+                          {currentCartItems?.length === 0
+                            ? null
+                            : <span className="absolute flex h-5 w-5 cart-ping">
+                              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                              <span className="absolute inline-flex rounded-full h-5 w-5 bg-red-500 text-white font-bold justify-center items-center cart-ping-font-size">{currentCartItems?.length}</span>
+                            </span>}
                         </NavLink>
-                        {currentCartItems?.length === 0
-                          ? null
-                          : <span className="relative flex h-5 w-5 cart-ping">
-                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
-                            <span className="relative inline-flex rounded-full h-5 w-5 bg-red-500 text-white font-bold justify-center items-center cart-ping-font-size">{currentCartItems?.length}</span>
-                          </span>}
                       </li>
                       <li className='dropdown-item w-full text-center h-12'>
                         <NavLink to='/bookshelf' className='cart-link btn focus:ring-0 focus:ring-offset-0'>
