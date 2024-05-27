@@ -3,8 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import { useRef, useState } from 'react';
 import ProgressBar from '../ProgressBar/ProgressBar';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSearch } from '@fortawesome/free-solid-svg-icons';
-import closeIcon from '../../assets/icons/close-icon.svg';
+import { faClose, faSearch } from '@fortawesome/free-solid-svg-icons';
+// import closeIcon from '../../assets/icons/close-icon.svg';
 
 function Searchbar() {
   const navigate = useNavigate();
@@ -35,9 +35,9 @@ function Searchbar() {
   return (
     <form className='relative' onSubmit={handleSearch}>
       {emptyValue && <section className='absolute z-20 left-3 top-14 flex flex-wrap'>
-        <span className='text-red-600 bg-red-200 p-2 smaller'>ابتدا عنوان سرچ خود را وارد کنید!</span>
-        <button type='button' onClick={() => setEmptyValue(false)} className='btn btn-error focus:ring-0 focus:ring-offset-0 rounded-none bg-red-200'>
-          <img src={closeIcon} alt='close' />
+        <span className='p-2 smaller bg-white rounded-b-none rounded-l-none rounded-md'>ابتدا عنوان سرچ خود را وارد کنید!</span>
+        <button type='button' onClick={() => setEmptyValue(false)} className='btn btn-circle bg-white focus:ring-0 focus:ring-offset-0 rounded-r-none rounded-md'>
+          <FontAwesomeIcon icon={faClose} />
         </button>
         <ProgressBar duration={2000} />
       </section>}

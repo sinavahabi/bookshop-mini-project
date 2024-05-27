@@ -28,8 +28,8 @@ function Product({ isBlur }) {
 
   // Create a function to add cart items to user cart
   const addOneItem = (product) => {
-    const { id, title, author, genre, publishedDate, pages, price, image } = product;
-    dispatch(cartActions.increment({ id, title, author, genre, publishedDate, pages, price, image }));
+    const { id, title, author, genre, publishedDate, pages, price, image, productLink } = product;
+    dispatch(cartActions.increment({ id, title, author, genre, publishedDate, pages, price, image, productLink }));
   };
 
   const removeOneItem = (product) => {
@@ -48,11 +48,6 @@ function Product({ isBlur }) {
     };
   }, [isFromBookshelf]);
 
-  console.log('isFromBookshelf:', isFromBookshelf)
-  console.log('previousPath:', previousPath);
-  console.log('isHomePage:', isHomePage);
-  console.log('IsHomePage (in storage): ', decryption('126D9EB673FD4F19', 'hp'))
-
   return (
     <>
       {/* Show 'Error' component if an error occurred during API requests */}
@@ -65,14 +60,14 @@ function Product({ isBlur }) {
             <h2 className='larger font-medium text-center text-white bg-gray-500 py-2 rounded-t-lg'>{product.title}</h2>
             <img src={`http://localhost:3000/${product.image}`} className='h-48 md:h-64 lg:h-80 mx-auto mt-2' alt='book-cover' />
             <div className='details p-2 flex flex-col space-y-3 '>
-              <div className='flex justify-between items-center'>
-                <div className='flex items-center'>
+              <div className='flex md:justify-between md:items-center md:flex-row flex-col items-start'>
+                <div className='flex items-center order-2 md:order-1'>
                   <FontAwesomeIcon className='ml-1 text-slate-600' icon={faUserEdit} />
-                  <h4 className='large'>نویسنده: {product.author}</h4>
+                  <h4 className='medium'>نویسنده: {product.author}</h4>
                 </div>
                 <button
                   type='button'
-                  className='btn btn-dark hover:bg-slate-500 focus:ring-0 focus:ring-offset-0 small w-1/6'
+                  className='btn btn-dark mb-3 md:mb-0 order-1 md:order-2 hover:bg-slate-500 focus:ring-0 focus:ring-offset-0 smaller w-20 md:w-24'
                   onClick={() => !isFromBookshelf ? previousPath === '/' || isHomePage || decryption('126D9EB673FD4F19', 'hp')?.length === 4 ? navigate('/') : navigate(-1) : navigate(-1)}
                 >
                   بازگشت<FontAwesomeIcon icon={faAngleDoubleLeft} className='mr-2' />
@@ -116,7 +111,7 @@ function Product({ isBlur }) {
                   : null}
                 {isUserLoggedIn
                   ? isItemInCart
-                    ? <div className='flex justify-center items-center'>
+                    ? <div className='flex justify-center items-center mx-auto'>
                       <button className='btn btn-circle hover:btn-primary focus:btn-primary w-7 h-7 ml-2' type='button' onClick={() => addOneItem(product)}>
                         <FontAwesomeIcon icon={faPlus}></FontAwesomeIcon>
                       </button>
@@ -128,7 +123,7 @@ function Product({ isBlur }) {
                     : <button className={`btn btn-success medium w-1/4 ${previousPath === '/' || isHomePage ? '' : 'mx-auto'}`} type='button' onClick={() => addOneItem(product)}>
                       خرید<FontAwesomeIcon className='mt-1 mr-1' icon={faCartPlus}></FontAwesomeIcon>
                     </button>
-                  : <NavLink className={`btn btn-success medium w-1/4 ${previousPath === '/' || isHomePage ? '' : 'mx-auto'}`} to='/sign-in'>
+                  : <NavLink className={`btn btn-success medium w-1/4 min-w-90 text-center ${previousPath === '/' || isHomePage ? '' : 'mx-auto'}`} to='/sign-in'>
                     خرید<FontAwesomeIcon className='mt-1 mr-1' icon={faCartPlus}></FontAwesomeIcon>
                   </NavLink>}
                 {!isFromBookshelf

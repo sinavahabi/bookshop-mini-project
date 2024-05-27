@@ -7,7 +7,7 @@ import emptyShelfCover from '../../assets/images/empty-shelf.png';
 import Message from '../../components/Message/Message';
 import { NavLink } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCalendarDay, faCircleCheck } from '@fortawesome/free-solid-svg-icons';
+import { faCalendarDay, faCircleCheck, faDownload } from '@fortawesome/free-solid-svg-icons';
 
 function Bookshelf({ isBlur }) {
   const currentUserId = useSelector(state => state.currentUser.id);
@@ -37,16 +37,25 @@ function Bookshelf({ isBlur }) {
               <li>
                 <ul className='flex min-[480px]:flex-row min-[480px]:items-center min-[480px]:justify-normal max-[480px]:flex-col max-[480px]:items-center max-[480px]:justify-center flex-wrap border-b-4 py-3'>
                   {bp.items.map((row, i) => (
-                    <li className='mx-2 my-3' key={i}>
-                      <NavLink to={`/products/${row.id}`} state={{ isFromBookshelf: true }} className='flex flex-col justify-between items-center rounded-md shadow-2xl shadow-zinc-400 w-52 h-60 p-2'>
-                        <h2 className='small font-medium text-center text-gray-700'>{row.title}</h2>
-                        <img src={row.image} className='h-32 mx-auto mt-2' alt='book-cover' />
-                        <div className="w-full flex justify-between items-center flex-wrap mt-2">
-                          <h4 className='smaller font-medium text-gray-500'>{row.author}</h4>
-                          <p className='smaller text-gray-500'>{`${row.quantity} عدد`}</p>
-                        </div>
-                      </NavLink>
-                    </li>
+                    <div key={i}>
+                      <li className='mx-2 my-3'>
+                        <NavLink to={`/products/${row.id}`} state={{ isFromBookshelf: true }} className='flex flex-col justify-between items-center rounded-md shadow-2xl shadow-zinc-400 w-52 h-60 p-2'>
+                          <h2 className='small font-medium text-center text-gray-700'>{row.title}</h2>
+                          <img src={row.image} className='h-32 mx-auto mt-2' alt='book-cover' />
+                          <div className="w-full flex justify-between items-center flex-wrap mt-2">
+                            <h4 className='smaller font-medium text-gray-500'>{row.author}</h4>
+                            <p className='smaller text-gray-500'>{`${row.quantity} عدد`}</p>
+                          </div>
+                        </NavLink>
+                      </li>
+                      <a
+                        href={`${row.productLink}`}
+                        className='product-download-link inline-block text-center w-10/12 ml-4 mr-5 my-2 p-2 bg-white shadow-2xl shadow-zinc-400 rounded-lg text-blue-500 small'
+                        download
+                      >
+                        لینک دانلود <FontAwesomeIcon icon={faDownload} />
+                      </a>
+                    </div>
                   ))}
                 </ul>
               </li>

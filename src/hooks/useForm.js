@@ -5,7 +5,7 @@ export function useForm() {
     {
       id: 1,
       name: 'fName',
-      errorMessage: 'نام باید تنها شامل حروف فارسی بین 3 تا 20 حرف باشد!',
+      errorMessage: 'نام باید تنها شامل حروف فارسی بین 3 تا 15 حرف باشد!',
       errStatus: false,
       validation: /^[\u0600-\u06FF\s]{3,15}$/,
       isDone: false
@@ -13,7 +13,7 @@ export function useForm() {
     {
       id: 2,
       name: 'lName',
-      errorMessage: 'نام خانوادگی باید تنها شامل حروف فارسی بین 3 تا 30 حرف باشد!',
+      errorMessage: 'نام خانوادگی باید تنها شامل حروف فارسی بین 3 تا 25 حرف باشد!',
       errStatus: false,
       validation: /^[\u0600-\u06FF\s]{3,20}$/,
       isDone: false
@@ -33,8 +33,24 @@ export function useForm() {
       errStatus: false,
       validation: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,16}$/,
       isDone: false
+    },
+    {
+      id: 5,
+      name: 'confirmPass',
+      errorMessage: 'رمز کاربر باید بین 8 تا 16 حرف شامل حروف انگلیسی بزرگ و کوچک و عدد باشد!',
+      errStatus: false,
+      validation: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,16}$/,
+      isDone: false
     }
   ]);
+
+  const handleChangePassForm = () => {
+    form[2].isDone = false;
+    form[3].isDone = false;
+    form[3].errStatus = false;
+    form[4].isDone = false;
+    form[4].errStatus = false;
+  }
 
   const formValidation = (inputRef) => {
     const inputIndex = form.findIndex((item) => item.name === inputRef.current.name);
@@ -49,5 +65,5 @@ export function useForm() {
     setForm(updatedForm);
   };
 
-  return { form, formValidation }
+  return { form, formValidation, handleChangePassForm }
 }

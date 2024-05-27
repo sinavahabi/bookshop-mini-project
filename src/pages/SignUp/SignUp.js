@@ -1,13 +1,14 @@
 import './SignUp.scss';
 import { useState, useRef, useEffect } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
-import { faEye, faEyeSlash, faLock, faPhoneAlt } from '@fortawesome/free-solid-svg-icons';
+import { faEye, faEyeSlash, faLock, faPhoneAlt, faExclamationCircle, faSmile } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Message from '../../components/Message/Message';
 import { useForm } from '../../hooks/useForm';
 import { useFetch } from '../../hooks/useFetch';
+import Modal from '../../components/Modal/Modal';
 
-function SignUp() {
+function SignUp({ isBlur }) {
   const navigate = useNavigate();
   const firstNameInput = useRef(null);
   const lastNameInput = useRef(null);
@@ -15,6 +16,7 @@ function SignUp() {
   const passwordInput = useRef(null);
   const submitBtn = useRef(null);
   const [passwordView, setPasswordView] = useState(false);
+  const [showModal, setShowModal] = useState(false);
 
   const [submitMessage, setSubmitMessage] = useState({
     successMessage: false,
@@ -137,8 +139,46 @@ function SignUp() {
     }
   }
 
+  const modalChildren = (
+    <main className='smaller'>
+      <ul className='flex flex-col justify-between items-start space-y-4'>
+        <li className='flex items-center'>
+          <span className='inline-block bg-emerald-400 text-white rounded-full py-2 px-4 ml-2'>1</span>
+          <p>نام خود را به شکل صحیح و بدون استفاده از علائم و اعداد وارد کنید. توجه داشته باشید تعداد حروف نام شما باید بین 3 تا 15 حرف فارسی باشد!</p>
+        </li>
+        <li className='flex items-center'>
+          <span className='inline-block bg-emerald-400 text-white rounded-full py-2 px-4 ml-2'>2</span>
+          <p>نام خانوادگی خود را به شکل صحیح و بدون استفاده از علائم، کاراکترهای خاص و اعداد وارد کنید. توجه داشته باشید تعداد حروف نام خانوادگی شما باید بین 3 تا 25 حرف فارسی باشد!</p>
+        </li>
+        <li className='flex items-center'>
+          <span className='inline-block bg-emerald-400 text-white rounded-full py-2 px-4 ml-2'>3</span>
+          <p>شماره تماس خود را بدون استفاده از 0 و به شکل صحیح 10 رقمی تنها با استفاده از اعدادا وارد کنید!</p>
+        </li>
+        <li className='flex items-center'>
+          <span className='inline-block bg-emerald-400 text-white rounded-full py-2 px-4 ml-2'>4</span>
+          <p>رمز عبور شما باید بین 8 تا 16 حرف انگلیسی شامل حداقل یک عدد، یک حرف بزرگ و یک حرف کوچک باشد. توجه داشته باشید رمز عبور شما نباید شامل علائم و کاراکترهای خاص باشد!</p>
+        </li>
+        <li className='flex items-center'>
+          <span className='inline-block bg-emerald-400 text-white rounded-full py-2 px-4 ml-2'>5</span>
+          <p>در صورتی که قبلا با شماره تماس خود ثبت نام کرده‌اید روی گزینه "ورود" کلیک کرده و وارد اکانت کاربری خود شوید.</p>
+        </li>
+        <li className='flex items-center'>
+          <span className='inline-block bg-emerald-400 text-white rounded-full py-2 px-4 ml-2'>6</span>
+          <p>در صورت فراموشی رمز عبور می‌توانید با کلیک روی گزینه "بازیابی رمز عبور" وارد صفحه جدیدی شده و با وارد کردن شماره تماس خود اقدام به تغییر رمز عبور اکانت خود نمایید!</p>
+        </li>
+        <li className='flex items-center'>
+          <span className='inline-block bg-emerald-400 text-white rounded-full py-2 px-3 ml-2'>
+            <FontAwesomeIcon icon={faSmile} />
+          </span>
+          <p>در صورت نیاز به راهنمایی بیشتر می‌توانید با پشتیبانی سایت در ارتباط باشید.</p>
+        </li>
+      </ul>
+    </main>
+  );
+
   return (
-    <>
+    <main>
+      {showModal && <Modal modalTitle={'راهنمای ثبت نام!'} showModal={showModal} setShowModal={setShowModal} children={<div>{modalChildren}</div>} />}
       <div className="relative flex justify-center items-center flex-wrap">
         <div className={`submit-success ${submitMessage.successMessage ? 'show' : ''}`}>
           {(submitMessage.successMessage && !error && !userError) && <Message type={'success'} text={'ثبت نام موفقیت آمیز بود!'} size={'small'} />}
@@ -155,13 +195,13 @@ function SignUp() {
                 null}
         </div>
       </div>
-      <section className='h-screen lg:w-96 md:w-80 sm:w-72 w-64 mx-auto flex flex-col justify-center items-center flex-wrap'>
+      <section className={`h-screen lg:w-96 md:w-80 sm:w-72 w-64 mx-auto flex flex-col justify-center items-center flex-wrap ${isBlur ? 'blur-sm' : 'blur-none'}`}>
         <div className='sign-up w-full'>
           <form onSubmit={(event) => handleSubmit(event, firstNameInput, lastNameInput, phoneInput, passwordInput)}>
             <div className='form-container space-y-5 p-3 border-2 border-gray-400 rounded-md'>
               <div className='larger text-center font-extrabold'>ساخت حساب کاربری جدید</div>
               <div className='first-name-container'>
-                <div className='relative'>
+                <div className='relative z-10'>
                   <label htmlFor='first-name' className={`labels text-slate-600 absolute smaller bg-white lg:p-1 p-0 ${isFocused.firstName ? 'focused' : ''}`}>نام</label>
                 </div>
                 <input
@@ -176,7 +216,7 @@ function SignUp() {
                 {form[0].errStatus ? <div className='text-red-400 mt-3 text-center smaller flex justify-center items-center flex-wrap'>{form[0].errorMessage}</div> : null}
               </div>
               <div className='last-name-container'>
-                <div className='relative'>
+                <div className='relative z-10'>
                   <label htmlFor='last-name' className={`labels text-slate-600 absolute smaller bg-white lg:p-1 p-0 ${isFocused.lastName ? 'focused' : ''}`}>نام خانوادگی</label>
                 </div>
                 <input
@@ -191,7 +231,7 @@ function SignUp() {
                 {form[1].errStatus ? <div className='text-red-400 mt-3 text-center smaller flex justify-center items-center flex-wrap'>{form[1].errorMessage}</div> : null}
               </div>
               <div className='phone-container'>
-                <div className='relative'>
+                <div className='relative z-10'>
                   <label htmlFor='phone' className={`labels text-slate-600 absolute smaller bg-white lg:p-1 p-0 ${isFocused.phone ? 'focused' : ''}`}>شماره تماس</label>
                   <FontAwesomeIcon className={`phone-icon text-slate-600 absolute small bg-white p-1 ${isFocused.phone ? 'focused' : ''}`} icon={faPhoneAlt} />
                   <span className='absolute text-slate-400 lg:py-3 md:py-2 sm:py-2 pr-1 border-r-gray-400 border-r-2 pre-number small phone-elem'>98+</span>
@@ -209,7 +249,7 @@ function SignUp() {
                 {form[2].errStatus ? <div className='text-red-400 mt-3 text-center smaller flex justify-center items-center flex-wrap'>{form[2].errorMessage}</div> : null}
               </div>
               <div className='password-container'>
-                <div className='relative'>
+                <div className='relative z-10'>
                   <label htmlFor='password' className={`labels text-slate-600 absolute smaller bg-white lg:p-1 p-0 ${isFocused.password ? 'focused' : ''}`}>رمز عبور</label>
                   <FontAwesomeIcon className={`lock-icon text-slate-600 absolute small bg-white p-1 ${isFocused.password ? 'focused' : ''}`} icon={faLock} />
                 </div>
@@ -237,6 +277,12 @@ function SignUp() {
                 </button>
               </div>
               <div className="redirection-btn-container flex flex-wrap justify-around items-center min-w-240">
+                <p className='smaller'>نیاز به راهنمایی دارید؟</p>
+                <button type='button' className='smaller btn text-orange-300 hover:text-orange-500 focus:ring-0 focus:ring-offset-0' onClick={() => setShowModal(prevState => !prevState)}>
+                  مشاهده راهنما <FontAwesomeIcon icon={faExclamationCircle} />
+                </button>
+              </div>
+              <div className="redirection-btn-container flex flex-wrap justify-around items-center min-w-240">
                 <p className='smaller'>قبلا ثبت نام کردید؟</p>
                 <NavLink to='/sign-in' className='smaller btn text-blue-700 hover:text-blue-400 focus:ring-0 focus:ring-offset-0'>ورود</NavLink>
               </div>
@@ -248,7 +294,7 @@ function SignUp() {
           </form>
         </div>
       </section>
-    </>
+    </main>
   );
 }
 

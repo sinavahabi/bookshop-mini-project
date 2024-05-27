@@ -65,7 +65,6 @@ function Cart({ isBlur }) {
       setTimeout(() => {
         dispatch(cartActions.removeAll());
         setShowModal(true);
-        dispatch(blurActions.blurOn());
         setLoading(false);
       }, 2000);
     }
@@ -92,7 +91,7 @@ function Cart({ isBlur }) {
   return (
     <section className='mt-3 main'>
       {error && <Message type={'error'} text={'خرید شما با موفقیت انجام نشد!'} size={'small'} />}
-      {showModal && <Modal modalTitle={'خرید موفق!'} closeBtn={true} children={<div>{modalChildren}</div>} />}
+      {showModal && <Modal modalTitle={'خرید موفق!'} showModal={showModal} setShowModal={setShowModal} children={<div>{modalChildren}</div>} />}
       <div className={`relative flex justify-center items-start ${isBlur ? 'blur-sm' : 'blur-none'}`}>
         <img src={cartBackground} alt='cart-shop-img' className={`opacity-80 w-800 -z-10 absolute hidden md:block ${currentCartItems?.length > 0 ? 'h-700' : 'h-600'}`} />
       </div>

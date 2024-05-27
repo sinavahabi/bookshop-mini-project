@@ -74,10 +74,10 @@ function SignIn() {
   useEffect(() => {
     phoneInputFocus(phoneInput);
     passwordInputFocus(passwordInput);
+
     if (!formStage) {
       submitBtn.current.disabled = form[2].isDone ? false : true;
     }
-
   }, [phoneInput, passwordInput, form, formStage]);
 
   // Create a function to handle form first stage submit process
@@ -162,7 +162,7 @@ function SignIn() {
   };
 
   return (
-    <>
+    <main>
       <div className="relative flex justify-center items-center flex-wrap">
         <div className={`submit-success ${submitMessage.successMessage ? 'show' : ''}`}>
           {(submitMessage.successMessage && !userError) && <Message type={'success'} text={'ورود موفقیت آمیز بود!'} size={'small'} />}
@@ -179,12 +179,12 @@ function SignIn() {
         {userError && <p className='text-red-400 medium absolute top-28 text-center'>خطایی رخ داده است! درحال حاضر امکان ورود به حساب کاربری خود را ندارید!</p>}
       </div>
       <section className='h-screen lg:w-96 md:w-80 sm:w-72 w-64 mx-auto flex flex-col justify-center items-center flex-wrap'>
-        <div className='sign-up w-full'>
+        <div className='sign-in w-full'>
           <form onSubmit={(event) => !formStage ? handleStageOne(event, phoneInput) : handleStageTwo(event, passwordInput)}>
             <div className='form-container space-y-5 p-3 border-2 border-gray-400 rounded-md'>
               <div className='larger text-center font-extrabold'>ورود به حساب کاربری</div>
               {!formStage && <div className='phone-container'>
-                <div className='relative'>
+                <div className='relative z-10'>
                   <label htmlFor='phone' className={`labels text-slate-600 absolute smaller bg-white lg:p-1 p-0 ${isFocused.phone ? 'focused' : ''}`}>شماره تماس</label>
                   <FontAwesomeIcon className={`phone-icon text-slate-600 absolute small bg-white p-1 ${isFocused.phone ? 'focused' : ''}`} icon={faPhoneAlt} />
                   <span className='absolute text-slate-400 lg:py-3 md:py-2 sm:py-2 pr-1 border-r-gray-400 border-r-2 pre-number small phone-elem'>98+</span>
@@ -196,13 +196,14 @@ function SignIn() {
                   name='phone'
                   id='phone'
                   ref={phoneInput}
-                  onFocus={() => inputFocusIn('phone')} onBlur={() => inputFocusOut(phoneInput, 'phone')}
+                  onFocus={() => inputFocusIn('phone')}
+                  onBlur={() => inputFocusOut(phoneInput, 'phone')}
                   onChange={() => formValidation(phoneInput)}
                 />
                 {form[2].errStatus ? <div className='text-red-400 mt-3 text-center smaller flex justify-center items-center flex-wrap'>{form[2].errorMessage}</div> : null}
               </div>}
               {formStage && <div className='password-container'>
-                <div className='relative'>
+                <div className='relative z-10'>
                   <label htmlFor='password' className={`labels text-slate-600 absolute smaller bg-white lg:p-1 p-0 ${isFocused.password ? 'focused' : ''}`}>رمز عبور</label>
                   <FontAwesomeIcon className={`lock-icon text-slate-600 absolute small bg-white p-1 ${isFocused.password ? 'focused' : ''}`} icon={faLock} />
                 </div>
@@ -211,8 +212,10 @@ function SignIn() {
                   dir='ltr'
                   type={passwordView ? 'text' : 'password'}
                   name='pass'
-                  id='password' ref={passwordInput}
-                  onFocus={() => inputFocusIn('password')} onBlur={() => inputFocusOut(passwordInput, 'password')}
+                  id='password'
+                  ref={passwordInput}
+                  onFocus={() => inputFocusIn('password')}
+                  onBlur={() => inputFocusOut(passwordInput, 'password')}
                   onChange={() => formValidation(passwordInput)}
                 />
                 <div className='relative cursor-pointer' onClick={changeView}>
@@ -220,8 +223,8 @@ function SignIn() {
                 </div>
                 {form[3].errStatus ? <div className='text-red-400 mt-3 text-center smaller flex justify-center items-center flex-wrap'>{form[3].errorMessage}</div> : null}
               </div>}
-              <div className='sign-up-btn-container flex justify-center items-center flex-wrap'>
-                <button type='submit' disabled={userError ? true : false} ref={submitBtn} className={`${form[2].isDone || decryption('B7BE2BFB64C56BD3', 'umn')?.length > 0 ? 'opacity-100' : 'opacity-60'} btn btn-primary smaller w-2/5 flex justify-center items-center`}>
+              <div className='sign-in-btn-container flex justify-center items-center flex-wrap'>
+                <button type='submit' disabled={userError ? true : false} ref={submitBtn} className={`${form[2].isDone || decryption('B7BE2BFB64C56BD3', 'umn')?.length > 0 ? 'opacity-100' : 'opacity-60'} btn btn-primary smaller w-4/5 flex justify-center items-center`}>
                   {
                     formStage
                       ? 'ورود'
@@ -229,13 +232,24 @@ function SignIn() {
                   }
                 </button>
               </div>
-              {formStage && <div className="back-btn-container flex flex-wrap justify-around items-center min-w-240">
-                <p className='smaller'>شماره تماس را اشتباه وارد کرده‌اید؟</p>
-                <div className={`${isHovered ? 'hovered' : ''}`} onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)}>
-                  <button type="button" className='back-btn text-red-600 focus:ring-0 focus:ring-offset-0 smaller' onClick={backBtn}>بازگشت</button>
-                  <FontAwesomeIcon className='back-icon mr-1 opacity-0 transition-opacity small text-red-400' icon={faArrowLeft} />
-                </div>
-              </div>}
+              {formStage &&
+                <>
+                  <p className='w-4/5 mx-auto flex items-center justify-center bg-sky-300 text-white px-2 pb-1 pt-3 smaller rounded-md'>
+                    <span>شماره تماس</span>
+                    <span>:&nbsp;</span>
+                    <span>{decryption('B7BE2BFB64C56BD3', 'umn')}</span>
+                    <span>-</span>
+                    <span>98</span>
+                    <span>+</span>
+                  </p>
+                  <div className="back-btn-container flex flex-wrap justify-around items-center min-w-240">
+                    <p className='smaller'>شماره تماس را اشتباه وارد کرده‌اید؟</p>
+                    <div className={`${isHovered ? 'hovered' : ''}`} onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)}>
+                      <button type="button" className='back-btn text-red-600 focus:ring-0 focus:ring-offset-0 smaller' onClick={backBtn}>بازگشت</button>
+                      <FontAwesomeIcon className='back-icon mr-1 opacity-0 transition-opacity small text-red-400' icon={faArrowLeft} />
+                    </div>
+                  </div>
+                </>}
               <div className="redirection-btn-container flex flex-wrap justify-around items-center min-w-240">
                 <p className='smaller'>هنوز ثبت نام نکرده‌اید؟</p>
                 <NavLink to='/sign-up' className='smaller btn text-blue-700 hover:text-blue-400 focus:ring-0 focus:ring-offset-0'>ثبت نام</NavLink>
@@ -248,7 +262,7 @@ function SignIn() {
           </form>
         </div>
       </section>
-    </>
+    </main>
   );
 }
 

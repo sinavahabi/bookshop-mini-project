@@ -69,6 +69,7 @@ function Pagination({ totalCount, limit, pageNum, setPageNum }) {
           <FontAwesomeIcon className='visible sm:hidden' icon={faAngleDoubleDown} />
         </button>
       </div>
+      <div className='text-center mt-2'>محصولات: {totalCount} عدد</div>
     </footer>
   );
 }

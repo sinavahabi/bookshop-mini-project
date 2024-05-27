@@ -29,8 +29,8 @@ function ProductList({ isProducts, products, loading, error, isBlur, isCart, pag
 
   // Create a function to add cart items to user cart
   const addOneItem = (product) => {
-    const { id, title, author, genre, publishedDate, pages, price, image } = product;
-    dispatch(cartActions.increment({ id, title, author, genre, publishedDate, pages, price, image }));
+    const { id, title, author, genre, publishedDate, pages, price, image, productLink } = product;
+    dispatch(cartActions.increment({ id, title, author, genre, publishedDate, pages, price, image, productLink }));
   };
 
   const removeOneItem = (product) => {

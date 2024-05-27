@@ -1,0 +1,11 @@
+.product-download-link {
+  transition: transform .5s ease-in, box-shadow .5s ease-out, opacity .4s linear;
+}
+
+.product-download-link:hover {
+  transform: translateY(-4px);
+  color: rgb(82, 82, 249);
+  -webkit-box-shadow: 4px 14px 11px -15px rgba(0, 0, 0, 0.66);
+  -moz-box-shadow: 4px 14px 11px -15px rgba(0, 0, 0, 0.66);
+  box-shadow: 4px 14px 11px -15px rgba(0, 0, 0, 0.66);
+}
