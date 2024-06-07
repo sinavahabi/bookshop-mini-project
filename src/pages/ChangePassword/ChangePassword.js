@@ -3,13 +3,15 @@ import { useState, useRef, useEffect } from 'react';
 import { faPhoneAlt, faLock, faEdit, faUserPlus, faUser, faArrowLeft, faKey } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Message from '../../components/Message/Message';
-import { useNavigate, NavLink } from 'react-router-dom';
+import { useNavigate, NavLink, useLocation } from 'react-router-dom';
 import { useForm } from '../../hooks/useForm';
 import { useFetch } from '../../hooks/useFetch';
 import { decryption, encryption } from '../../token/token';
 
 function ChangePassword() {
   const navigate = useNavigate();
+  const location = useLocation();
+  const previousPath = location.state?.previousPath;
   const phoneInput = useRef(null);
   const passwordInput = useRef(null);
   const confirmPassInput = useRef(null);
@@ -118,7 +120,7 @@ function ChangePassword() {
           // Redirect to sign-in page after one second delay in successful submission
           if (!loading && !userError && !error) {
             setTimeout(() => {
-              navigate("/sign-in")
+              previousPath === '/dashboard' ? navigate("/dashboard") : navigate("/sign-in");
               submitBtn.current.disabled = false;
               encryption('62316183CE913CFA', 'chpmb', '');
             }, 2000);
@@ -255,18 +257,18 @@ function ChangePassword() {
                   </div>)}
               </div>
               <div className={`navigation-buttons flex items-center ${!foundUser ? 'justify-between' : 'justify-evenly'} flex-wrap`}>
-                <div className={`flex flex-wrap justify-center items-center ${isHovered ? 'login-icon-hovered' : ''}`} onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)}>
+                {previousPath !== '/dashboard' && <div className={`flex flex-wrap justify-center items-center ${isHovered ? 'login-icon-hovered' : ''}`} onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)}>
                   <NavLink to='/sign-in' className='smaller flex-grow text-center text-blue-700 focus:ring-0 focus:ring-offset-0'>ورود</NavLink>
                   <FontAwesomeIcon className='login-icon mr-1 opacity-0 transition-opacity small text-blue-400' icon={faUser} />
-                </div>
-                {!foundUser && (<div className={`flex flex-wrap justify-center items-center ${isHovered ? 'hovered' : ''}`} onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)}>
+                </div>}
+                {!foundUser && (<div className={`flex flex-wrap justify-center items-center ${previousPath === '/dashboard' ? 'w-full' : ''} ${isHovered ? 'hovered' : ''}`} onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)}>
                   <FontAwesomeIcon className='back-icon ml-1 opacity-0 transition-opacity small text-red-400' icon={faArrowLeft} />
                   <button type='button' onClick={() => navigate(-1)} className='smaller back-btn flex-grow text-center text-red-600 focus:ring-0 focus:ring-offset-0'>بازگشت</button>
                 </div>)}
-                <div className={`flex flex-wrap justify-center items-center ${isHovered ? 'register-icon-hovered' : ''}`} onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)}>
+                {previousPath !== '/dashboard' && <div className={`flex flex-wrap justify-center items-center ${isHovered ? 'register-icon-hovered' : ''}`} onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)}>
                   <FontAwesomeIcon className='register-icon ml-1 opacity-0 transition-opacity small text-blue-400' icon={faUserPlus} />
                   <NavLink to='/sign-up' className='smaller flex-grow text-center text-blue-700 focus:ring-0 focus:ring-offset-0'>ثبت نام</NavLink>
-                </div>
+                </div>}
               </div>
             </div>
           </form>

@@ -42,9 +42,9 @@ function App() {
               <Route path='/cart' element={isUserLoggedIn ? <Cart isBlur={isBlur} /> : <NotFound isBlur={isBlur} />} />
               <Route path='/bookshelf' element={isUserLoggedIn ? <Bookshelf isBlur={isBlur} /> : <NotFound isBlur={isBlur} />} />
             </Route>
+            <Route path='/change-password' element={<ChangePassword />} />
             <Route path='/sign-up' element={isUserLoggedIn ? <NotFound isBlur={isBlur} /> : <SignUp isBlur={isBlur} />} />
             <Route path='/sign-in' element={isUserLoggedIn ? <NotFound isBlur={isBlur} /> : <SignIn />} />
-            <Route path='/change-password' element={isUserLoggedIn ? <NotFound isBlur={isBlur} /> : <ChangePassword />} />
             <Route path='*' element={<NotFound isBlur={isBlur} />} />
           </Routes>
         </BrowserRouter>}

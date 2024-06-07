@@ -1,0 +1,47 @@
+@import "../SignIn/SignIn.scss";
+
+.dashboard-menu-images {
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.library-menu::before {
+  background-image: url('../../assets/images/library-menu.png');
+}
+
+.cart-menu::before {
+  background-image: url('../../assets/images/cart-menu.png');
+}
+
+.dashboard-menu-images::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  transition: transform .4s ease-in, filter .4s ease-in;
+}
+
+.dashboard-menu-images:hover::before {
+  transform: scale(0.9);
+  filter: blur(4px);
+}
+
+.library-text,
+.cart-text {
+  transition: opacity .4s ease-out;
+}
+
+.library-menu:hover .library-text {
+  opacity: 100%;
+
+}
+
+.cart-menu:hover .cart-text {
+  opacity: 100%;
+}

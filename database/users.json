@@ -5,7 +5,8 @@
       "name": "سینا",
       "lastName": "وهبی ذاتی",
       "phone": 9128999480,
-      "password": "Vahabi0606",
+      "password": "Sina2206",
+      "imageURL": "images/uploaded-profile.png",
       "cartItems": [
         {
           "id": 1,
@@ -139,6 +140,7 @@
       "lastName": "جودت",
       "phone": 9384453312,
       "password": "Jodat2023",
+      "imageURL": "",
       "cartItems": []
     },
     {
@@ -147,6 +149,7 @@
       "lastName": "سید مجیدی",
       "phone": 9366700670,
       "password": "Majidi2020",
+      "imageURL": "",
       "cartItems": [
         {
           "id": 1,
