@@ -1,0 +1,94 @@
+.profile-img {
+  background-image: url('../../assets/images/profile.JPEG');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+
+.about-us-container {
+  grid-template-rows: 485px;
+}
+
+// Responsive design
+@media screen and (max-width: 1440px) {
+
+  .introduction,
+  .technologies-logo {
+    grid-column: span 3;
+  }
+
+  .carousel {
+    grid-column: span 6;
+    order: -1;
+  }
+
+  .introduction,
+  .technologies-logo,
+  .carousel,
+  .project-desc {
+    grid-row: span 1;
+  }
+
+  .logo-list {
+    grid-template-columns: repeat(2, 1fr);
+    align-content: space-between;
+    justify-content: center;
+    min-height: 580px;
+
+    &-img {
+      width: 60px;
+      height: 60px;
+      margin: 0 auto;
+    }
+
+    &-title {
+      display: block;
+    }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .about-us-container {
+    grid-template-rows: repeat(4, 1fr);
+  }
+
+  .introduction {
+    grid-row: span 1;
+  }
+
+  .introduction,
+  .carousel,
+  .technologies-logo {
+    grid-column: span 6;
+  }
+
+  .about-us-container {
+    grid-template-rows: auto;
+  }
+
+
+  .introduction {
+    order: 1;
+  }
+
+  .project-desc {
+    order: 2;
+  }
+
+  .technologies-logo {
+    order: 3
+  }
+
+  .carousel {
+    order: 4;
+  }
+
+  .logo-list {
+    min-height: unset;
+
+    &-img {
+      width: 40px;
+      height: 40px;
+    }
+  }
+}
