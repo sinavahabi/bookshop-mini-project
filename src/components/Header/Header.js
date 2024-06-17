@@ -79,7 +79,7 @@ function Header() {
 
   return (
     <>
-      <header className='mb-6 shadow-2xl shadow-zinc-400 sticky bg-slate-50 top-0 z-20'>
+      <header className='mb-6 shadow-2xl shadow-zinc-400 dark:shadow-lg dark:shadow-zinc-800 sticky dark:bg-zinc-900 bg-slate-50 top-0 z-20'>
         <nav className='navbar flex justify-between items-center medium'>
           <button type="button" className='expand-navbar btn rounded-none focus:ring-0 focus:ring-offset-0 lg:hidden block relative' onClick={showSidebar}>
             <FontAwesomeIcon icon={faBars} className={`${show ? 'rotate-90' : 'rotate-0'} transition-all duration-300`} />
@@ -101,7 +101,7 @@ function Header() {
                 <button type='button' className='btn hover:btn-dark focus:ring-0 focus:ring-offset-0 rounded-none dropdown-btn'>
                   دسته‌بندی‌ها<FontAwesomeIcon className='mr-1 smaller' icon={faFilter} />
                 </button>
-                <ul className='dropdown-list absolute z-10 hidden bg-slate-50 shadow-2xl shadow-zinc-400 rounded-b-md'>
+                <ul className='dropdown-list absolute z-10 hidden dark:shadow-lg dark:shadow-zinc-700 dark:bg-zinc-800 bg-slate-50 shadow-2xl shadow-zinc-400 rounded-b-md'>
                   {filters.map((filter, index) => (
                     <li key={index} className='dropdown-item flex justify-start items-center'>
                       <label className='cursor-pointer small ml-1' htmlFor={filter.label}>
@@ -136,7 +136,7 @@ function Header() {
               <div className='user-profile-info hidden'>
                 <section className='relative'>
                   <div
-                    className='absolute top-0 -right-12 z-20 min-w-250 min-h-100 w-1/4 h-max bg-white shadow-2xl shadow-zinc-500 rounded-md'
+                    className='absolute dark:shadow-lg dark:shadow-zinc-700 dark:bg-zinc-800 top-0 -right-12 z-20 min-w-250 min-h-100 w-1/4 h-max bg-white shadow-2xl shadow-zinc-500 rounded-md'
                     style={{ width: userLabelWidth + 100, minWidth: 244 }}
                   >
                     <ul className='flex justify-center items-center flex-wrap'>

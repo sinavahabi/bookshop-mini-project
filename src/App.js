@@ -25,7 +25,7 @@ function App() {
   const { error: usersErr } = useFetch('http://localhost:5001/users', 'GET');
 
   return (
-    <div className='app'>
+    <div className='app dark:bg-zinc-800 dark:text-white'>
       {productsErr || usersErr ?
         <div className='flex justify-center items-center flex-warp h-screen'>
           <Error message={'خطایی رخ داده است! درحال حاضر استفاده از سایت امکان پذیر نمی‌باشد!'} />

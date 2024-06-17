@@ -74,13 +74,13 @@ function Cart({ isBlur }) {
     <main className='flex flex-col justify-center items-center space-y-3'>
       <img className='w-48 h-48 sm:w-80 sm:h-80' src={cartOrder} alt="success-purchase" />
       <button
-        className={`btn small block mx-auto text-gray-700 focus:ring-0 focus:ring-offset-0 ${isHovered ? 'hovered' : ''}`}
+        className={`btn small block mx-auto dark:text-gray-200 text-gray-700 focus:ring-0 focus:ring-offset-0 ${isHovered ? 'hovered' : ''}`}
         onClick={gotoBookshelf}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       >
         {`${isHovered ? 'برو به ' : ''}`}قفسه کتاب‌ها
-        <FontAwesomeIcon className='mr-2 mt-1 text-gray-700 goto-shelf-icon opacity-0 transition-opacity duration-300' icon={faHandPointLeft} />
+        <FontAwesomeIcon className='mr-2 mt-1 dark:text-gray-200 text-gray-700 goto-shelf-icon opacity-0 transition-opacity duration-300' icon={faHandPointLeft} />
       </button>
       <div className="success-purchase-message">
         <Message type={'success'} text={'خرید شما با موفقیت انجام شد!'} size={'small'} />
@@ -93,7 +93,7 @@ function Cart({ isBlur }) {
       {error && <Message type={'error'} text={'خرید شما با موفقیت انجام نشد!'} size={'small'} />}
       {showModal && <Modal modalTitle={'خرید موفق!'} showModal={showModal} setShowModal={setShowModal} children={<div>{modalChildren}</div>} />}
       <div className={`relative flex justify-center items-start ${isBlur ? 'blur-sm' : 'blur-none'}`}>
-        <img src={cartBackground} alt='cart-shop-img' className={`opacity-80 w-800 -z-10 absolute hidden md:block ${currentCartItems?.length > 0 ? 'h-700' : 'h-600'}`} />
+        <img src={cartBackground} alt='cart-shop-img' className={`opacity-80 w-800 -z-10 absolute hidden dark:hidden md:block ${currentCartItems?.length > 0 ? 'h-700' : 'h-600'}`} />
       </div>
       {currentCartItems?.length > 0 && <button
         type='button'
@@ -118,7 +118,7 @@ function Cart({ isBlur }) {
         {!loading && `${convertPriceFormat(finalPrice)} تومان`}
         {!loading && <FontAwesomeIcon className='mr-2' icon={faShoppingCart} />}
       </button>}
-      <img src={cartBackground} alt={'cart-shop-img'} className={`opacity-80 block md:hidden mx-auto ${isBlur ? 'blur-sm' : 'blur-none'} ${currentCartItems?.length > 0 ? '' : 'absolute top-40'}`} />
+      <img src={cartBackground} alt={'cart-shop-img'} className={`opacity-80 block dark:hidden md:hidden mx-auto ${isBlur ? 'blur-sm' : 'blur-none'} ${currentCartItems?.length > 0 ? '' : 'absolute top-40'}`} />
     </section>
   );
 }

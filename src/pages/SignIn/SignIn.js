@@ -185,8 +185,8 @@ function SignIn() {
               <div className='larger text-center font-extrabold'>ورود به حساب کاربری</div>
               {!formStage && <div className='phone-container'>
                 <div className='relative z-10'>
-                  <label htmlFor='phone' className={`labels text-slate-600 absolute smaller bg-white lg:p-1 p-0 ${isFocused.phone ? 'focused' : ''}`}>شماره تماس</label>
-                  <FontAwesomeIcon className={`phone-icon text-slate-600 absolute small bg-white p-1 ${isFocused.phone ? 'focused' : ''}`} icon={faPhoneAlt} />
+                  <label htmlFor='phone' className={`labels text-slate-600 bg-white absolute smaller dark:bg-zinc-800 dark:text-white lg:p-1 p-0 ${isFocused.phone ? 'focused' : ''}`}>شماره تماس</label>
+                  <FontAwesomeIcon className={`phone-icon text-slate-600 bg-white absolute small dark:bg-zinc-800 dark:text-white p-1 ${isFocused.phone ? 'focused' : ''}`} icon={faPhoneAlt} />
                   <span className='absolute text-slate-400 lg:py-3 md:py-2 sm:py-2 pr-1 border-r-gray-400 border-r-2 pre-number small phone-elem'>98+</span>
                 </div>
                 <input
@@ -204,8 +204,8 @@ function SignIn() {
               </div>}
               {formStage && <div className='password-container'>
                 <div className='relative z-10'>
-                  <label htmlFor='password' className={`labels text-slate-600 absolute smaller bg-white lg:p-1 p-0 ${isFocused.password ? 'focused' : ''}`}>رمز عبور</label>
-                  <FontAwesomeIcon className={`lock-icon text-slate-600 absolute small bg-white p-1 ${isFocused.password ? 'focused' : ''}`} icon={faLock} />
+                  <label htmlFor='password' className={`labels text-slate-600 bg-white absolute smaller dark:bg-zinc-800 dark:text-white lg:p-1 p-0 ${isFocused.password ? 'focused' : ''}`}>رمز عبور</label>
+                  <FontAwesomeIcon className={`lock-icon text-slate-600 bg-white absolute small dark:bg-zinc-800 dark:text-white p-1 ${isFocused.password ? 'focused' : ''}`} icon={faLock} />
                 </div>
                 <input
                   className={`input block m-auto lg:py-3 lg:pr:3 lg:pl-8 md:py-2 md:pr-2 md:pl-7 sm:py-2 sm:pr-2 sm:pl-6 py-1 pr-1 pl-6 w-5/6 smaller ${form[3].errStatus ? 'border-red-400 focus:border-red-400' : ''}`}
@@ -219,7 +219,7 @@ function SignIn() {
                   onChange={() => formValidation(passwordInput)}
                 />
                 <div className='relative cursor-pointer' onClick={changeView}>
-                  <FontAwesomeIcon className='eye-icon text-slate-600 absolute small' icon={passwordView ? faEyeSlash : faEye} />
+                  <FontAwesomeIcon className='eye-icon text-slate-600 bg-white absolute small' icon={passwordView ? faEyeSlash : faEye} />
                 </div>
                 {form[3].errStatus ? <div className='text-red-400 mt-3 text-center smaller flex justify-center items-center flex-wrap'>{form[3].errorMessage}</div> : null}
               </div>}
@@ -234,7 +234,7 @@ function SignIn() {
               </div>
               {formStage &&
                 <>
-                  <p className='w-4/5 mx-auto flex items-center justify-center bg-sky-300 text-white px-2 pb-1 pt-3 smaller rounded-md'>
+                  <p className='w-4/5 mx-auto flex items-center justify-center dark:bg-zinc-800 dark:text-violet-500 bg-sky-300 text-white px-2 pb-1 pt-3 smaller rounded-md'>
                     <span>شماره تماس</span>
                     <span>:&nbsp;</span>
                     <span>{decryption('B7BE2BFB64C56BD3', 'umn')}</span>

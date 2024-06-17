@@ -58,25 +58,25 @@ function ProductList({ isProducts, products, loading, error, isBlur, isCart, pag
                 const itemQuantity = currentCartItems.find(item => item.id === product.id)?.quantity || 0;
 
                 return (
-                  <div className={`products hover:rotate-3 transition shadow-2xl shadow-zinc-400 rounded-lg h-9/12 min-w-250 w-3/5 mx-auto sm:w-full ${isCart ? 'bg-white' : ''}`} key={product.id} >
+                  <div className={`products hover:rotate-3 transition dark:shadow-lg dark:shadow-zinc-700 shadow-2xl shadow-zinc-400 rounded-lg h-9/12 min-w-250 w-3/5 mx-auto sm:w-full ${isCart ? 'bg-white dark:bg-zinc-800' : ''}`} key={product.id} >
                     <h2 className='large font-medium text-center text-white bg-gray-500 py-2 rounded-t-lg'>{product.title}</h2>
                     <img src={product.image} className='h-40 mx-auto mt-2' alt='book-cover' />
                     <div className='details p-2 flex flex-col space-y-3'>
                       <div className='flex items-center'>
-                        <FontAwesomeIcon className='ml-1 text-slate-600' icon={faUserEdit} />
+                        <FontAwesomeIcon className='ml-1 text-slate-600 dark:text-gray-300' icon={faUserEdit} />
                         <h4 className='medium'>نویسنده: {product.author}</h4>
                       </div>
                       <div className='flex items-center'>
-                        <FontAwesomeIcon className='ml-1 text-slate-600' icon={faAddressBook} />
+                        <FontAwesomeIcon className='ml-1 text-slate-600 dark:text-gray-300' icon={faAddressBook} />
                         <h5 className='text-sm lg:text-lg md:text-base'>دسته‌بندی: {product.genre}</h5>
                       </div>
                       <div className='flex items-center'>
-                        <FontAwesomeIcon className='ml-1 text-slate-600' icon={faStickyNote} />
+                        <FontAwesomeIcon className='ml-1 text-slate-600 dark:text-gray-300' icon={faStickyNote} />
                         <p className='smaller'>تعداد صفحات: {product.pages}</p>
                       </div>
                       <div className='flex items-center justify-between'>
                         <div className='flex justify-center items-center flex-wrap'>
-                          <FontAwesomeIcon className='ml-1 text-slate-600' icon={faMoneyBill} />
+                          <FontAwesomeIcon className='ml-1 text-slate-600 dark:text-gray-300' icon={faMoneyBill} />
                           <p className='smaller'>قیمت: {product.price} تومان</p>
                         </div>
                         {
@@ -101,7 +101,7 @@ function ProductList({ isProducts, products, loading, error, isBlur, isCart, pag
                       </div>
                       <div className='flex justify-between items-center'>
                         <div className='flex items-center'>
-                          <FontAwesomeIcon className='ml-1 text-slate-600' icon={faCalendarTimes} />
+                          <FontAwesomeIcon className='ml-1 text-slate-600 dark:text-gray-300' icon={faCalendarTimes} />
                           <p className='smaller'>تاریخ انتشار: {product.publishedDate}</p>
                         </div>
                         {

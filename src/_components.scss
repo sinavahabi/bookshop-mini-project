@@ -5,7 +5,7 @@
 
   // List item components
   .dropdown-item {
-    @apply px-6 py-2 hover:bg-gray-300;
+    @apply px-6 py-2 hover:bg-gray-300 dark:hover:bg-zinc-600;
 
     &:last-child:hover {
       @apply rounded-b-md;
@@ -43,7 +43,7 @@
 
   // Input components
   .input {
-    @apply border-2 border-slate-600 rounded-md outline-none focus:border-blue-400;
+    @apply border-2 border-slate-600 dark:bg-zinc-800 rounded-md outline-none focus:border-blue-400;
   }
 
   // Defined for single component on a page

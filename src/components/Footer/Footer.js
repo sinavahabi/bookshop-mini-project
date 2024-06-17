@@ -10,7 +10,7 @@ function Footer({ isBlur }) {
   const [isHovered, setIsHovered] = useState(false);
 
   return (
-    <footer className={`footer min-h-300 min-w-250 flex flex-wrap justify-around items-center mt-6 py-3 px-2 bg-gray-800 text-white ${isBlur ? 'blur-sm' : 'blur-none'}`}>
+    <footer className={`footer min-h-300 min-w-250 flex flex-wrap justify-around items-center mt-6 py-3 px-2 dark:bg-gray-950 bg-gray-800 text-white ${isBlur ? 'blur-sm' : 'blur-none'}`}>
       <section className='footer-social-media order-3 w-full md:w-auto md:order-1 lg:order-1'>
         <ul className='medium flex flex-col space-y-2 justify-center items-center md:items-start' >
           <li className='border-b-2 border-slate-600 w-full text-center md:border-0 md:w-auto'>

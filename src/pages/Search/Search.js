@@ -34,7 +34,7 @@ function Search({ isBlur }) {
       <h3 className='large'>نتایج جستجو برای: "{query}"</h3>
       <br />
       <ProductList isProducts={false} products={searchedProducts} loading={loading} error={error} isBlur={isBlur} isCart={false} />
-      <Pagination totalCount={searchedProducts?.length} limit={pageLimit} pageNum={pageNum} setPageNum={setPageNum} />
+      <Pagination totalCount={searchedProducts?.length} limit={pageLimit} pageNum={pageNum} setPageNum={setPageNum} isBlur={isBlur} />
     </section>
   );
 }

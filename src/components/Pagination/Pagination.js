@@ -2,7 +2,7 @@ import './Pagination.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleDoubleDown, faAngleDoubleLeft, faAngleDoubleRight, faAngleDoubleUp } from '@fortawesome/free-solid-svg-icons';
 
-function Pagination({ totalCount, limit, pageNum, setPageNum }) {
+function Pagination({ totalCount, limit, pageNum, setPageNum, isBlur }) {
 
   // Calculate total number of pages
   const totalPages = Math.ceil(totalCount / limit);
@@ -35,8 +35,8 @@ function Pagination({ totalCount, limit, pageNum, setPageNum }) {
   };
 
   return (
-    <footer>
-      <div className="flex justify-center items-start sm:items-center shadow-2xl shadow-zinc-500 bg-white rounded-lg w-36 min-w-fit sm:min-w-400 mx-auto mt-8 sm:w-1/3">
+    <footer className={`${isBlur ? 'blur-sm' : 'blur-none'}`}>
+      <div className="flex justify-center items-start sm:items-center dark:shadow-lg dark:shadow-zinc-800 shadow-2xl shadow-zinc-500 dark:bg-zinc-900 bg-white rounded-lg w-36 min-w-fit sm:min-w-400 mx-auto mt-8 sm:w-1/3">
         <button
           type="button"
           disabled={pageNum === 1}

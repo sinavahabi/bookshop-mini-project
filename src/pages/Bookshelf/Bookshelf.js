@@ -26,7 +26,7 @@ function Bookshelf({ isBlur }) {
           // Display bought products if available
           boughtProducts.map((bp, index) => (
             <article key={index}>
-              <div className="titles bg-slate-100 py-2 px-1 flex flex-col sm:flex-row items-center mt-1 medium space-y-2 sm:space-y-0">
+              <div className="titles dark:bg-zinc-700 bg-slate-100 py-2 px-1 flex flex-col sm:flex-row items-center mt-1 medium space-y-2 sm:space-y-0">
                 <span className='hidden sm:inline bg-pink-400 text-white rounded-full py-2 px-4'>{index + 1}</span>
                 <p className='mr-0 sm:mr-2 bg-sky-400 text-white p-2 rounded-xl w-full text-center sm:w-auto'>{`تاریخ خرید: ${bp?.purchaseDate}`}<FontAwesomeIcon className='mr-1' icon={faCalendarDay} /></p>
                 <span className='hidden sm:inline' style={{ flexGrow: 15 }}></span>
@@ -35,22 +35,22 @@ function Bookshelf({ isBlur }) {
               </div>
               <span className='inline-block mt-2 sm:hidden sm:mt-0 bg-pink-400 text-white rounded-full py-2 px-4'>{index + 1}</span>
               <li>
-                <ul className='flex min-[480px]:flex-row min-[480px]:items-center min-[480px]:justify-normal max-[480px]:flex-col max-[480px]:items-center max-[480px]:justify-center flex-wrap border-b-4 py-3'>
+                <ul className='flex min-[480px]:flex-row min-[480px]:items-center min-[480px]:justify-normal max-[480px]:flex-col max-[480px]:items-center max-[480px]:justify-center flex-wrap dark:border-slate-600 border-b-4 py-3'>
                   {bp.items.map((row, i) => (
                     <div key={i}>
                       <li className='mx-2 my-3'>
-                        <NavLink to={`/products/${row.id}`} state={{ isFromBookshelf: true }} className='flex flex-col justify-between items-center rounded-md shadow-2xl shadow-zinc-400 w-52 h-60 p-2'>
-                          <h2 className='small font-medium text-center text-gray-700'>{row.title}</h2>
+                        <NavLink to={`/products/${row.id}`} state={{ isFromBookshelf: true }} className='flex flex-col justify-between items-center rounded-md dark:shadow-lg dark:shadow-zinc-700 dark:bg-zinc-800 shadow-2xl shadow-zinc-400 w-52 h-60 p-2'>
+                          <h2 className='small font-medium text-center dark:text-slate-200 text-gray-700'>{row.title}</h2>
                           <img src={row.image} className='h-32 mx-auto mt-2' alt='book-cover' />
                           <div className="w-full flex justify-between items-center flex-wrap mt-2">
-                            <h4 className='smaller font-medium text-gray-500'>{row.author}</h4>
-                            <p className='smaller text-gray-500'>{`${row.quantity} عدد`}</p>
+                            <h4 className='smaller font-medium dark:text-slate-100 text-gray-500'>{row.author}</h4>
+                            <p className='smaller dark:text-slate-100 text-gray-500'>{`${row.quantity} عدد`}</p>
                           </div>
                         </NavLink>
                       </li>
                       <a
                         href={`${row.productLink}`}
-                        className='product-download-link inline-block text-center w-10/12 ml-4 mr-5 my-2 p-2 bg-white shadow-2xl shadow-zinc-400 rounded-lg text-blue-500 small'
+                        className='product-download-link inline-block text-center w-10/12 ml-4 mr-5 my-2 p-2 bg-white shadow-2xl shadow-zinc-400 dark:shadow-lg dark:shadow-zinc-700 dark:bg-zinc-800 rounded-lg text-blue-500 small'
                         download
                       >
                         لینک دانلود <FontAwesomeIcon icon={faDownload} />

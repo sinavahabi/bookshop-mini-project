@@ -31,7 +31,7 @@ function Preview({ isProduct, isBookshelf }) {
   } else if (isSingleProduct) {
     return (
       // When rendering happens for a single product
-      <div className="product animate-pulse shadow-2xl shadow-zinc-400 rounded-lg min-h-max sm:min-h-400 md:min-h-500 lg:min-h-600 min-w-250 w-3/5 mx-auto" >
+      <div className="product animate-pulse dark:shadow-lg dark:shadow-zinc-700 shadow-2xl shadow-zinc-400 rounded-lg min-h-max sm:min-h-400 md:min-h-500 lg:min-h-600 min-w-250 w-3/5 mx-auto" >
         <div className='h-10 bg-slate-700 py-2 rounded-t-lg'></div>
         <div className='bg-slate-700 h-40 my-1'></div>
         <div className="details p-2 flex flex-col space-y-3 ">
@@ -50,7 +50,7 @@ function Preview({ isProduct, isBookshelf }) {
   } else {
     // When rendering happens for products list
     return (
-      <div className="products animate-pulse hover:rotate-3 transition shadow-2xl shadow-zinc-400 rounded-lg h-9/12 min-w-250 w-3/5 mx-auto sm:w-full" >
+      <div className="products animate-pulse hover:rotate-3 transition dark:shadow-lg dark:shadow-zinc-700 shadow-2xl shadow-zinc-400 rounded-lg h-9/12 min-w-250 w-3/5 mx-auto sm:w-full" >
         <div className='h-10 bg-slate-700 py-2 rounded-t-lg'></div>
         <div className='bg-slate-700 h-48 md:h-56 lg:h-68 mx-auto mt-2'></div>
         <div className="details p-2 flex flex-col space-y-3">

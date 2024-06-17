@@ -16,7 +16,7 @@ function Home({ isBlur }) {
   return (
     <section>
       <ProductList isProducts={true} products={products} loading={loading} error={error} isBlur={isBlur} isCart={false} page={pageNum} limit={pageLimit} />
-      <Pagination totalCount={products?.length} limit={pageLimit} pageNum={pageNum} setPageNum={setPageNum} />
+      <Pagination totalCount={products?.length} limit={pageLimit} pageNum={pageNum} setPageNum={setPageNum} isBlur={isBlur} />
     </section>
   );
 }

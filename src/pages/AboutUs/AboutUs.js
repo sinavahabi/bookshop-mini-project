@@ -20,7 +20,7 @@ import axiosIcon from '../../assets/icons/axios-icon.png';
 import mongoDBIcon from '../../assets/icons/mongodb-icon.png';
 import mariaDBIcon from '../../assets/icons/mariadb-icon.png';
 
-function AboutUs() {
+function AboutUs({ isBlur }) {
   const carouselSlides = [
     webImg,
     reactImg,
@@ -31,7 +31,7 @@ function AboutUs() {
   ];
 
   return (
-    <main className='main about-us-container larger grid grid-cols-6 grid-rows-3 gap-4 w-4/5 mx-auto'>
+    <main className={`${isBlur ? 'blur-sm' : 'blur-none'} main about-us-container larger grid grid-cols-6 grid-rows-3 gap-4 w-4/5 mx-auto`}>
       <section className='introduction col-span-2 row-span-2'>
         <div className="border-2 rounded-md">
           <div className="flex justify-between items-center p-2 border-b-2">

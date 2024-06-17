@@ -13,7 +13,7 @@ import { encryption } from '../../token/token';
 import { userActions } from '../../store/user-slice';
 import { cartActions } from '../../store/cart-slice';
 
-function Dashboard() {
+function Dashboard({ isBlur }) {
   const location = useLocation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -85,7 +85,7 @@ function Dashboard() {
   };
 
   return (
-    <main className='main larger'>
+    <main className={`${isBlur ? 'blur-sm' : 'blur-none'} main larger`}>
       <div className="relative flex justify-center items-center flex-wrap">
         <div className={`submit-success z-10 ${successMessage && !error && !loading && !profileErr && !profileLoading ? 'show' : ''}`}>
           {(successMessage && !error && !loading && !profileErr && !profileLoading) && <Message type={'success'} text={'عملیات با موفقیت انجام شد!'} size={'small'} />}
@@ -180,7 +180,7 @@ function Dashboard() {
                     readOnly={readOnly}
                     type='text'
                     ref={inputRef}
-                    className='small mt-1 px-2 md:w-32 w-24 text-center outline-none read-only:border-none border-b-2 border-blue-400'
+                    className='small input mt-1 px-2 md:w-32 w-24 text-center outline-none read-only:border-none border-b-2 border-blue-400'
                     defaultValue={data?.phone}
                     onChange={() => formValidation(inputRef)}
                   />
@@ -213,10 +213,10 @@ function Dashboard() {
               </div>
             )}
         <Link to='/bookshelf' className='dashboard-menu-images library-menu flex justify-center items-center border-4 rounded-md w-full xl:min-w-80 xl:w-full min-h-500 lg:min-h-600'>
-          <div className='library-text opacity-0 relative z-10 bg-white p-3 medium rounded-md'>کتابخانه</div>
+          <div className='library-text opacity-0 relative z-10 dark:bg-zinc-800 bg-white p-3 medium rounded-md'>کتابخانه</div>
         </Link>
         <Link to='/cart' className='dashboard-menu-images cart-menu flex justify-center items-center border-4 rounded-md w-full xl:min-w-80 xl:w-full min-h-500 lg:min-h-600'>
-          <div className='cart-text opacity-0 relative z-10 bg-white p-3 medium rounded-md'>سبد خرید</div>
+          <div className='cart-text opacity-0 relative z-10 dark:bg-zinc-800 bg-white p-3 medium rounded-md'>سبد خرید</div>
         </Link>
       </section>
     </main>

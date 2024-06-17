@@ -202,7 +202,7 @@ function SignUp({ isBlur }) {
               <div className='larger text-center font-extrabold'>ساخت حساب کاربری جدید</div>
               <div className='first-name-container'>
                 <div className='relative z-10'>
-                  <label htmlFor='first-name' className={`labels text-slate-600 absolute smaller bg-white lg:p-1 p-0 ${isFocused.firstName ? 'focused' : ''}`}>نام</label>
+                  <label htmlFor='first-name' className={`labels text-slate-600 absolute smaller bg-white dark:bg-zinc-800 dark:text-white lg:p-1 p-0 ${isFocused.firstName ? 'focused' : ''}`}>نام</label>
                 </div>
                 <input
                   className={`input block m-auto lg:p-3 md:p-2 sm:p-2 p-1 w-5/6 smaller ${form[0].errStatus ? 'border-red-400 focus:border-red-400' : ''}`}
@@ -217,7 +217,7 @@ function SignUp({ isBlur }) {
               </div>
               <div className='last-name-container'>
                 <div className='relative z-10'>
-                  <label htmlFor='last-name' className={`labels text-slate-600 absolute smaller bg-white lg:p-1 p-0 ${isFocused.lastName ? 'focused' : ''}`}>نام خانوادگی</label>
+                  <label htmlFor='last-name' className={`labels text-slate-600 absolute smaller bg-white dark:bg-zinc-800 dark:text-white lg:p-1 p-0 ${isFocused.lastName ? 'focused' : ''}`}>نام خانوادگی</label>
                 </div>
                 <input
                   className={`input block m-auto lg:p-3 md:p-2 sm:p-2 p-1 w-5/6 smaller ${form[1].errStatus ? 'border-red-400 focus:border-red-400' : ''}`}
@@ -232,8 +232,8 @@ function SignUp({ isBlur }) {
               </div>
               <div className='phone-container'>
                 <div className='relative z-10'>
-                  <label htmlFor='phone' className={`labels text-slate-600 absolute smaller bg-white lg:p-1 p-0 ${isFocused.phone ? 'focused' : ''}`}>شماره تماس</label>
-                  <FontAwesomeIcon className={`phone-icon text-slate-600 absolute small bg-white p-1 ${isFocused.phone ? 'focused' : ''}`} icon={faPhoneAlt} />
+                  <label htmlFor='phone' className={`labels text-slate-600 absolute smaller bg-white dark:bg-zinc-800 dark:text-white lg:p-1 p-0 ${isFocused.phone ? 'focused' : ''}`}>شماره تماس</label>
+                  <FontAwesomeIcon className={`phone-icon text-slate-600 absolute small bg-white dark:bg-zinc-800 dark:text-white p-1 ${isFocused.phone ? 'focused' : ''}`} icon={faPhoneAlt} />
                   <span className='absolute text-slate-400 lg:py-3 md:py-2 sm:py-2 pr-1 border-r-gray-400 border-r-2 pre-number small phone-elem'>98+</span>
                 </div>
                 <input
@@ -250,8 +250,8 @@ function SignUp({ isBlur }) {
               </div>
               <div className='password-container'>
                 <div className='relative z-10'>
-                  <label htmlFor='password' className={`labels text-slate-600 absolute smaller bg-white lg:p-1 p-0 ${isFocused.password ? 'focused' : ''}`}>رمز عبور</label>
-                  <FontAwesomeIcon className={`lock-icon text-slate-600 absolute small bg-white p-1 ${isFocused.password ? 'focused' : ''}`} icon={faLock} />
+                  <label htmlFor='password' className={`labels text-slate-600 absolute smaller bg-white dark:bg-zinc-800 dark:text-white lg:p-1 p-0 ${isFocused.password ? 'focused' : ''}`}>رمز عبور</label>
+                  <FontAwesomeIcon className={`lock-icon text-slate-600 absolute small bg-white dark:bg-zinc-800 dark:text-white p-1 ${isFocused.password ? 'focused' : ''}`} icon={faLock} />
                 </div>
                 <input
                   className={`input block m-auto lg:py-3 lg:pr:3 lg:pl-8 md:py-2 md:pr-2 md:pl-7 sm:py-2 sm:pr-2 sm:pl-6 py-1 pr-1 pl-6 w-5/6 smaller ${form[3].errStatus ? 'border-red-400 focus:border-red-400' : ''}`}

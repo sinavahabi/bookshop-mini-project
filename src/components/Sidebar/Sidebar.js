@@ -40,7 +40,8 @@ function Sidebar({ visibleSidebar, setVisibleSidebar }) {
 
   return (
     <>
-      {visibleSidebar && <nav className='sidebar lg:hidden py-6 flex justify-start items-start fixed z-10 top-10 md:top-11 h-screen w-1/2 min-w-250 shadow-2xl shadow-zinc-400 bg-slate-50'>
+      {visibleSidebar && <nav className='sidebar lg:hidden py-6 flex justify-start items-start fixed z-10 top-10 md:top-11 h-screen w-1/2 min-w-250 shadow-2xl shadow-zinc-400 bg-slate-50 dark:shadow-lg dark:shadow-zinc-800
+dark:bg-zinc-900'>
         <ul className='w-full flex flex-col flex-wrap'>
           <li>
             <NavLink to='/' onClick={handleNavLinkClick} className='btn hover:btn-dark focus:ring-0 focus:ring-offset-0 rounded-none block w-full'>
@@ -57,7 +58,7 @@ function Sidebar({ visibleSidebar, setVisibleSidebar }) {
               <button type='button' className='btn hover:btn-dark focus:ring-0 focus:ring-offset-0 rounded-none block w-full dropdown-btn'>
                 دسته‌بندی‌ها<FontAwesomeIcon className='mr-1 smaller' icon={faFilter} />
               </button>
-              <ul className='dropdown-list absolute z-10 right-28 top-0 md:right-32 hidden bg-slate-50 shadow-2xl shadow-zinc-400 rounded-l-md rounded-b-md lg:rounded-l-none'>
+              <ul className='dropdown-list absolute z-10 right-28 top-0 md:right-32 hidden dark:shadow-lg dark:shadow-zinc-700 dark:bg-zinc-800 bg-slate-50 shadow-2xl shadow-zinc-400 rounded-l-md rounded-b-md lg:rounded-l-none'>
                 {filters.map((filter, index) => (
                   <li key={index} className='dropdown-item flex justify-start items-center'>
                     <label className='small ml-1'>
@@ -107,13 +108,15 @@ function Sidebar({ visibleSidebar, setVisibleSidebar }) {
                       encryption('B7BE2BFB64C56BD3', 'umn', '');
                       dispatch(cartActions.removeAll());
                       navigate('/');
+                      dispatch(blurActions.blurOut());
+                      setVisibleSidebar(false);
                     }
                   }}>
                     خروج از حساب<FontAwesomeIcon className='small mr-1' icon={faSignOut} />
                   </button>
                 </li>
                 <li>
-                  <NavLink to='/bookshelf' className='btn hover:btn-dark focus:ring-0 focus:ring-offset-0 rounded-none block w-full'>
+                  <NavLink to='/bookshelf' onClick={handleNavLinkClick} className='btn hover:btn-dark focus:ring-0 focus:ring-offset-0 rounded-none block w-full'>
                     قفسه کتاب<FontAwesomeIcon className='medium mr-1' icon={faShoppingBasket} />
                   </NavLink>
                 </li>

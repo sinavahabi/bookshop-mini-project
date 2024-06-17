@@ -22,7 +22,7 @@ function Filters({ isBlur, filterType }) {
       {filterType || decryption('1E633C454A2C5BD6', 'sf')
         ? <section>
           <ProductList isProducts={false} products={filteredProducts} loading={loading} error={error} isBlur={isBlur} isCart={false} />
-          <Pagination totalCount={filteredProducts?.length} limit={pageLimit} pageNum={pageNum} setPageNum={setPageNum} />
+          <Pagination totalCount={filteredProducts?.length} limit={pageLimit} pageNum={pageNum} setPageNum={setPageNum} isBlur={isBlur} />
         </section>
         : <div className='main flex flex-col justify-center items-center space-y-4'>
           <p className='medium text-red-400'>دسته بندی مورد نظر خود را وارد کنید!</p>

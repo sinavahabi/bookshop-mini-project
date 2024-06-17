@@ -180,12 +180,12 @@ function ChangePassword() {
               <div className='larger text-center font-extrabold'>بازیابی رمز عبور</div>
               <div className={`phone-container ${foundUser ? 'opacity-50 cursor-default' : 'opacity-100 cursor-text'}`}>
                 <div className='relative z-10'>
-                  <label htmlFor='phone' className={`labels text-slate-600 absolute smaller bg-white lg:p-1 p-0 ${isFocused.phone ? 'focused' : ''}`}>شماره تماس</label>
-                  <FontAwesomeIcon className={`phone-icon text-slate-600 absolute small bg-white p-1 ${isFocused.phone ? 'focused' : ''}`} icon={faPhoneAlt} />
-                  <span className='absolute text-slate-400 lg:py-3 md:py-2 sm:py-2 pr-1 border-r-gray-400 border-r-2 pre-number small phone-elem'>98+</span>
+                  <label htmlFor='phone' className={`labels text-slate-600 absolute smaller bg-white dark:bg-zinc-800 dark:text-white lg:p-1 p-0 ${isFocused.phone ? 'focused' : ''}`}>شماره تماس</label>
+                  <FontAwesomeIcon className={`phone-icon text-slate-600 absolute small bg-white dark:bg-zinc-800 dark:text-white p-1 ${isFocused.phone ? 'focused' : ''}`} icon={faPhoneAlt} />
+                  <span className='absolute dark:text-white text-slate-400 lg:py-3 md:py-2 sm:py-2 pr-1 border-r-gray-400 border-r-2 pre-number small phone-elem'>98+</span>
                 </div>
                 <input
-                  className={`input phone-elem block m-auto lg:py-3 lg:pr-3 lg:pl-10 md:py-2 md:pr-2 md:pl-9 sm:py-2 sm:pr-2 sm:pl-9 py-1 pr-1 pl-9 w-5/6 smaller ${foundUser ? 'opacity-60 cursor-default' : 'opacity-100 cursor-text'} ${form[2].errStatus ? 'border-red-400 focus:border-red-400' : ''}`}
+                  className={`input phone-elem block m-auto lg:py-3 lg:pr-3 lg:pl-10 md:py-2 md:pr-2 md:pl-9 sm:py-2 sm:pr-2 sm:pl-9 py-1 pr-1 pl-9 w-5/6 smaller ${foundUser ? 'dark:opacity-80 opacity-60 cursor-default' : 'opacity-100 cursor-text'} ${form[2].errStatus ? 'border-red-400 focus:border-red-400' : ''}`}
                   dir='ltr'
                   type='text'
                   name='phone'
@@ -202,8 +202,8 @@ function ChangePassword() {
               {foundUser && <>
                 <div className='password-container'>
                   <div className='relative z-10'>
-                    <label htmlFor='password' className={`labels text-slate-600 absolute smaller bg-white lg:p-1 p-0 ${isFocused.password ? 'focused' : ''}`}>رمز عبور</label>
-                    <FontAwesomeIcon className={`lock-icon text-slate-600 absolute small bg-white p-1 ${isFocused.password ? 'focused' : ''}`} icon={faLock} />
+                    <label htmlFor='password' className={`labels text-slate-600 absolute smaller bg-white dark:bg-zinc-800 dark:text-white lg:p-1 p-0 ${isFocused.password ? 'focused' : ''}`}>رمز عبور</label>
+                    <FontAwesomeIcon className={`lock-icon text-slate-600 absolute small bg-white dark:bg-zinc-800 dark:text-white p-1 ${isFocused.password ? 'focused' : ''}`} icon={faLock} />
                   </div>
                   <input
                     className={`input block m-auto lg:py-3 lg:pr-20 md:py-2 md:pr-16 sm:py-2 sm:pr-16 py-1 pr-16 pl-1 w-5/6 smaller ${form[3].errStatus ? 'border-red-400 focus:border-red-400' : ''}`}
@@ -220,8 +220,8 @@ function ChangePassword() {
                 </div>
                 <div className='password-container'>
                   <div className='relative z-10'>
-                    <label htmlFor='password' className={`labels text-slate-600 absolute smaller bg-white lg:p-1 p-0 ${isFocused.confirmPassword ? 'focused' : ''}`}>تکرار رمز عبور</label>
-                    <FontAwesomeIcon className={`key-icon text-slate-600 absolute small bg-white p-1 ${isFocused.confirmPassword ? 'focused' : ''}`} icon={faKey} />
+                    <label htmlFor='password' className={`labels text-slate-600 absolute smaller bg-white dark:bg-zinc-800 dark:text-white lg:p-1 p-0 ${isFocused.confirmPassword ? 'focused' : ''}`}>تکرار رمز عبور</label>
+                    <FontAwesomeIcon className={`key-icon text-slate-600 absolute small bg-white dark:bg-zinc-800 dark:text-white p-1 ${isFocused.confirmPassword ? 'focused' : ''}`} icon={faKey} />
                   </div>
                   <input
                     className={`input block m-auto lg:py-3 lg:pr-28 md:py-2 md:pr-24 sm:py-2 sm:pr-24 py-1 pr-24 pl-1 w-5/6 smaller ${form[4].errStatus ? 'border-red-400 focus:border-red-400' : ''}`}
