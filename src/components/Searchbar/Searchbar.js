@@ -4,21 +4,30 @@ import { useEffect, useRef, useState } from 'react';
 import ProgressBar from '../ProgressBar/ProgressBar';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faClose, faSearch, faSun, faMoon } from '@fortawesome/free-solid-svg-icons';
+import { decryption, encryption } from '../../token/token';
 
 function Searchbar() {
   const navigate = useNavigate();
   const inputRef = useRef(null);
-  const [darkMode, setDarkMode] = useState(true);
+  const [darkMode, setDarkMode] = useState(undefined);
   const [term, setTerm] = useState('');
   const [emptyValue, setEmptyValue] = useState(false);
 
+  const toggleThemeMode = () => {
+    setDarkMode(prevState => !prevState);
+  };
+
   useEffect(() => {
-    const htmlElem = window.document.getElementsByTagName('HTML')[0];
+    const bookshopApp = document.querySelector('.bookshop-app');
 
     if (darkMode) {
-      htmlElem.classList.remove('dark');
+      bookshopApp.classList.add('dark');
+      encryption('D8DC79B5A6C63C89', 'dm', 'true');
+    } else if (darkMode === false) {
+      bookshopApp.classList.remove('dark');
+      encryption('D8DC79B5A6C63C89', 'dm', 'false');
     } else {
-      htmlElem.classList.add('dark');
+      setDarkMode(decryption('D8DC79B5A6C63C89', 'dm') === 'true');
     }
   }, [darkMode]);
 
@@ -40,10 +49,6 @@ function Searchbar() {
         setEmptyValue(false);
       }, 2000);
     }
-  };
-
-  const toggleThemeMode = () => {
-    setDarkMode(prevState => !prevState);
   };
 
   return (

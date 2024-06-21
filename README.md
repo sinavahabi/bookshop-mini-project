@@ -1,12 +1,12 @@
 ## Bookshop Application
 ***Technologies***: React JS, JavaScript, HTML5, CSS3, Tailwind, Sass, Axios, JSON-Server
 
-***Topics***: react, javascript, git, sass, html5, css3, react-components, flexbox, form-validation, axios, error-handling, grid-layout, webapi, responsive-design, json-server, react-router-dom, responsive-website, tailwind, fontawesome5, react-hooks
+***Topics***: react, javascript, git, sass, html5, css3, react-components, flexbox, form-validation, axios, error-handling, grid-layout, webapi, responsive-design, json-server, react-router-dom, responsive-website, tailwind, fontawesome5, react-hooks, user-management, jalali-date, cryptojs
 
 ## Instructions
 **Create React App**
 
-    npx create-react-app my-app
+    npx create-react-app bookshop-app
 
 **Run Development Server**
 
@@ -26,6 +26,7 @@
     
 *package.json*
 > "server-products": "json-server --watch database/products.json --port 5000"
+
 > "server-users": "json-server --watch database/users.json --port 5001"
 
 **Install uuid**
