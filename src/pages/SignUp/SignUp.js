@@ -86,7 +86,10 @@ function SignUp({ isBlur }) {
     event.preventDefault();
     inputAutoFocus(firstNameInput, lastNameInput, phoneInput, passwordInput);
 
-    if (form.every(item => item.isDone === true)) {
+    // Change form validation behavior for sign-up page
+    const signUpForm = form.filter(item => item.name !== 'confirmPass');
+
+    if (signUpForm.every(item => item.isDone === true)) {
       // When all form inputs values are valid! 
       if (usersData && usersData.length > 0 && usersData.some(item => item.phone === Number(phoneInput.current.value))) {
         // When phone number is already registered!
